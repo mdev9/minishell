@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/02 22:04:52 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/05 01:10:13 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -50,7 +50,8 @@ SRCS =			ft_atoi.c\
 				ft_toupper.c\
 				ft_split_set.c\
 				ft_free_str_arr.c\
-				ft_set_color.c
+				ft_set_color.c\
+				ft_isspace.c
 
 SRCS_BONUS =	ft_lstnew.c\
 				ft_lstadd_front.c\
@@ -65,7 +66,7 @@ SRCS_BONUS =	ft_lstnew.c\
 OBJS = $(SRCS:.c=.o)
 OBJS_BONUS = $(SRCS_BONUS:.c=.o)
 
-FLAGS = -Wall -Wextra -Werror
+FLAGS = -Wall -Wextra -Werror -g
 
 all: $(NAME)
 
