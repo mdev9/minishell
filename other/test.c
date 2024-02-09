@@ -6,20 +6,22 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:30:08 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/07 14:29:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/09 16:41:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include <stdlib.h>
 #include <stdio.h>
 
-int main(int argc, char **argv)
+int	main(int argc, char **argv)
 {
-	int i = 0;
-	while(i < argc)
+	int	i;
+
+	i = 0;
+	while (i < argc)
 	{
-		printf("\"%s\"\n",argv[i]);
+		printf("\"%s\"\n", argv[i]);
 		i++;
 	}
-	return(0);
+	return (0);
 }

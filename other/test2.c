@@ -6,14 +6,15 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 13:30:04 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/07 13:34:55 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/09 16:42:59 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include <stdlib.h>
 #include <stdio.h>
-int main(int argc,char **argv)
+
+int	main(int argc, char **argv)
 {
-	if(argc == 2)
-		return(atoi(argv[1]));
-	return(0);
+	if (argc == 2)
+		return (atoi(argv[1]));
+	return (0);
 }
