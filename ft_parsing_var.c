@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 15:24:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/09 18:22:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,3 +62,37 @@ int	ft_get_token_len(char *command, t_env *env)
 			res++;
 		else if ((*command == '\'' && in_dquote)
 			|| (*command == '"' && in_quote))
+			res++;
+		command++;
+	}
+	return (res);
+}
+
+int	ft_add_var_to_str(char *res, char **command, t_env *env)
+{
+	char	*var_name;
+	char	*var;
+	int		i;
+
+	i = -1;
+	if (!ft_isalnum(**command) && **command != '_' && **command != '?')
+	{
+		*res = '$';
+		return (1);
+	}
+	if (**command == '?')
+	{
+		var = ft_itoa(g_return_code);
+		while (var && var[++i])
+			res[i] = var[i];
+		free(var);
+		return (i + 1);
+	}
+	var_name = get_var_name(*command);
+	var = ft_getenv(env, var_name);
+	free(var_name);
+	while (var && var[++i])
+		res[i] = var[i];
+	*command += get_var_name_len(*command) - 1;
+	return (i + !var);
+}

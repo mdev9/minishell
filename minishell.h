@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 14:58:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/09 18:17:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,4 +40,9 @@ void	ft_exit(t_cmd *args, t_env *env);
 t_env	*ft_env_add_back(t_env *env, char *name, char *value);
 void	ft_free_env(t_env *env);
 int		ft_print_env(t_env *env);
+t_cmd	*ft_parse_command(char *command, t_env *env);
+int		ft_get_token_len(char *cmd, t_env *env);
+int		ft_add_var_to_str(char *res, char **command, t_env *env);
+int		get_var_name_len(char *command);
+char	*ft_getenv(t_env *env, char *var_name);
 #endif

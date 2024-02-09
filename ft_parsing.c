@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 16:40:07 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/09 18:15:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,7 +32,7 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 			i += ft_add_var_to_str(res + i, cmd, env);
 		}
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
-			|| (**cmd != '\'' && **command != '"'))
+			|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
 	}

@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/08 16:18:42 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/09 18:13:02 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -17,7 +17,9 @@ SRCS =	main.c\
 		ft_lst_env.c\
 		ft_exec.c\
 		ft_exit.c\
-		ft_echo.c
+		ft_echo.c\
+		ft_parsing.c\
+		ft_parsing_var.c
 
 OBJS = $(SRCS:.c=.o)
 
