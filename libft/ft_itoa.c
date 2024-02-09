@@ -6,13 +6,13 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/01 02:36:12 by tomoron           #+#    #+#             */
-/*   Updated: 2023/11/02 10:16:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/08 13:56:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "libft.h"
 
-static int	get_number_len(long int n)
+int	get_number_len(long int n)
 {
 	int			res;
 

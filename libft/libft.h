@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:55:48 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/06 22:15:58 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/08 18:44:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ char	*ft_strdup(const char *src);
 void	ft_bzero(void *s, size_t n);
 void	ft_putnbr_fd(int n, int fd);
 void	ft_free_str_arr(char **arr);
+int		get_number_len(long int n);
 size_t	ft_strlen(const char *str);
 void	ft_swap(int *n1, int *n2);
 t_list	*ft_lstnew(void *content);

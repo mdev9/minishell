@@ -1,22 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_strlen.c                                        :+:      :+:    :+:   */
+/*   test.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2023/10/30 12:34:41 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/08 17:54:36 by tomoron          ###   ########.fr       */
+/*   Created: 2024/02/04 17:30:08 by tomoron           #+#    #+#             */
+/*   Updated: 2024/02/07 14:29:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-#include "libft.h"
 
-size_t	ft_strlen(const char *str)
+#include <stdlib.h>
+#include <stdio.h>
+
+int main(int argc, char **argv)
 {
-	unsigned int	n;
-
-	n = 0;
-	while (str && str[n])
-		n++;
-	return (n);
+	int i = 0;
+	while(i < argc)
+	{
+		printf("\"%s\"\n",argv[i]);
+		i++;
+	}
+	return(0);
 }

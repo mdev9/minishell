@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/06 22:09:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/08 16:58:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,21 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-t_cmd *ft_cmd_add_back(t_cmd *res, char *token);
+typedef struct s_env
+{
+	char			*name;
+	char			*value;
+	struct s_env	*next;
+}	t_env;
 
+extern int g_return_code;
+
+t_cmd *ft_cmd_add_back(t_cmd *res, char *token);
+void	ft_free_cmd(t_cmd *cmd);
+void	ft_exec_command(t_cmd *cmd, t_env *env);
+int		ft_echo(t_cmd *args);
+void	ft_exit(t_cmd *args);
+t_env	*ft_env_add_back(t_env *env, char *name, char *value);
+void	ft_free_env(t_env *env);
+int		ft_print_env(t_env *env);
 #endif

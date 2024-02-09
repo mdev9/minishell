@@ -1,25 +1,35 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   test.c                                             :+:      :+:    :+:   */
+/*   ft_echo.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/04 17:30:08 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/06 12:41:57 by tomoron          ###   ########.fr       */
+/*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
+/*   Updated: 2024/02/07 23:15:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include <stdlib.h>
-#include <stdio.h>
+#include "minishell.h"
 
-int main(int argc, char **argv)
+int	ft_echo(t_cmd *args)
 {
-	int i = 0;
-	while(i < argc)
+	int put_nl;
+
+	put_nl = 1;
+	while(args && !strcmp(args->token,"-n"))
 	{
-		printf("%s\n",argv[i]);
-		i++;
+		put_nl = 0;
+		args = args->next;
 	}
+	while(args)
+	{
+		ft_putstr_fd(args->token, STDOUT_FILENO);
+		if(args->next)
+			ft_putchar_fd(' ',STDOUT_FILENO);
+		args = args->next;
+	}
+	if(put_nl)
+		ft_putchar_fd('\n',STDOUT_FILENO);
 	return(0);
 }
