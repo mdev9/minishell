@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 16:28:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/12 14:53:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,12 +17,17 @@ int	g_return_code = 0;
 char	*get_prompt(void)
 {
 	char	*res;
+	char	cwd_buffer[100];
 
-	res = ft_strjoin_free("\001", ft_get_color(0, 255, 0), 2);
+	res = ft_strjoin_free("\001", ft_get_color(10, 255, 80), 2);
 	res = ft_strjoin_free(res, "\002", 1);
 	res = ft_strjoin_free(res, getenv("USER"), 1);
 	res = ft_strjoin_free(res, "@", 1);
-	res = ft_strjoin_free(res, "minishell \001\033[0m\002$>", 1);
+	res = ft_strjoin_free(res, "minishell\001\033[0m\002:\001", 1);
+	res = ft_strjoin_free(res, ft_get_color(80, 80, 255), 3);
+	res = ft_strjoin_free(res, "\002", 1);
+	res = ft_strjoin_free(res, getcwd(cwd_buffer, 99), 1);
+	res = ft_strjoin_free(res, "\001\033[0m\002$ ", 1);
 	return (res);
 }
 

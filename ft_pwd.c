@@ -1,35 +1,25 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_echo.c                                          :+:      :+:    :+:   */
+/*   ft_pwd.c                                           :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 14:56:57 by tomoron          ###   ########.fr       */
+/*   Created: 2024/02/09 18:31:21 by tomoron           #+#    #+#             */
+/*   Updated: 2024/02/12 14:53:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
-
 #include "minishell.h"
 
-int	ft_echo(t_cmd *args)
+int	ft_pwd(void)
 {
-	int	put_nl;
+	char	*buffer;
 
-	put_nl = 1;
-	while (args && !strcmp(args->token, "-n"))
-	{
-		put_nl = 0;
-		args = args->next;
-	}
-	while (args)
-	{
-		ft_putstr_fd(args->token, STDOUT_FILENO);
-		if (args->next)
-			ft_putchar_fd(' ', STDOUT_FILENO);
-		args = args->next;
-	}
-	if (put_nl)
-		ft_putchar_fd('\n', STDOUT_FILENO);
+	buffer = malloc(1024 * 1024);
+	if (!buffer)
+		return (1);
+	getcwd(buffer, 1024 * 1024);
+	ft_printf("%s\n", buffer);
+	free(buffer);
 	return (0);
 }

@@ -6,13 +6,13 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 15:09:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/11 22:54:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*ft_cmd_add_back(t_cmd *cmd, char *token)
+t_cmd	*ft_cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
 {
 	t_cmd	*res;
 	t_cmd	*current;
@@ -21,6 +21,7 @@ t_cmd	*ft_cmd_add_back(t_cmd *cmd, char *token)
 	if (!res)
 		return (cmd);
 	res->token = token;
+	res->type = type;
 	if (!cmd)
 		return (res);
 	current = cmd;

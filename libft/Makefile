@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/05 01:10:13 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/11 17:41:50 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -44,6 +44,7 @@ SRCS =			ft_atoi.c\
 				ft_strcmp.c\
 				ft_strnstr.c\
 				ft_strrchr.c\
+				ft_strisnbr.c\
 				ft_strtrim.c\
 				ft_substr.c\
 				ft_tolower.c\

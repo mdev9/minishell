@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:55:48 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/08 18:44:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/11 17:41:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,6 +67,7 @@ t_list	*ft_lstnew(void *content);
 int		ft_atoi(const char *str);
 t_list	*ft_lstlast(t_list *lst);
 int		ft_lstsize(t_list *lst);
+int		ft_strisnbr(char *str);
 void	ft_reset_color(void);
 int		ft_isspace(char c);
 int		ft_isalnum(int c);

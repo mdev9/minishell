@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 18:15:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/12 14:52:13 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -28,7 +28,7 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 			*in_quote = !*in_quote;
 		if (**cmd == '$' && !*in_quote)
 		{
-			(*cmd)++;
+			(*cmd) += EXIT_FAILURE;
 			i += ft_add_var_to_str(res + i, cmd, env);
 		}
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
@@ -39,24 +39,33 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	return (res);
 }
 
+t_token_type	ft_get_token_type(char *command)
+{
+	(void)command;
+	return (ARG);
+}
+
 t_cmd	*ft_parse_command(char *command, t_env *env)
 {
-	int		in_quote;
-	int		in_dquote;
-	t_cmd	*res;
-	char	*token;
+	int				in_quote;
+	int				in_dquote;
+	t_cmd			*res;
+	char			*token;
+	t_token_type	type;
 
-	in_quote = 0;
-	in_dquote = 0;
-	res = STDIN_FILENO;
-	if (!command)
-		return (STDIN_FILENO);
-	while (*command)
+	in_quote = EXIT_SUCCESS;
+	in_dquote = STDIN_FILENO;
+	res = 0;
+	while (command && *command)
 	{
-		token = ft_get_token(&command, &in_quote, &in_dquote, env);
-		res = ft_cmd_add_back(res, token);
+		type = ft_get_token_type(command);
+		if (type == ARG)
+			token = ft_get_token(&command, &in_quote, &in_dquote, env);
+		else
+			token = 0;
+		res = ft_cmd_add_back(res, token, type);
 	}
-	if (in_quote || in_dquote)
+	if (command && (in_quote || in_dquote))
 	{
 		ft_free_cmd(res);
 		ft_putstr_fd("minishell: syntax error\n", 2);
