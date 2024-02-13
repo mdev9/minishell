@@ -6,10 +6,15 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/12 14:52:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:50:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
+
+int	ft_is_cmd_char(char c)
+{
+	return(!ft_isspace(c) && c != '|' && c != '&');
+}
 
 char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 {
@@ -20,7 +25,7 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	while (ft_isspace(**cmd))
 		(*cmd)++;
 	res = ft_calloc(ft_get_token_len(*cmd, env) + 1, 1);
-	while (res && **cmd && (!ft_isspace(**cmd) || *in_quote || *in_dquote))
+	while (res && **cmd && (ft_is_cmd_char(**cmd) || *in_quote || *in_dquote))
 	{
 		if (**cmd == '"' && !*in_quote)
 			*in_dquote = !*in_dquote;
@@ -41,7 +46,14 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 
 t_token_type	ft_get_token_type(char *command)
 {
-	(void)command;
+	while (ft_isspace(*command))
+		command++;
+	if(command[0] == '|' && command[1] == '|')
+		return(OR);
+	if(command[0] == '&' && command[1] == '&')
+		return(AND);
+	if(command[0] == '|')
+		return(PIPE);
 	return (ARG);
 }
 

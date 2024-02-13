@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/12 20:11:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:47:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ int	ft_get_token_len(char *command, t_env *env)
 	in_quote = 0;
 	in_dquote = 0;
 	res = 0;
-	while (*command && (!ft_isspace(*command) || in_quote || in_dquote))
+	while (*command && (ft_is_cmd_char(*command) || in_quote || in_dquote))
 	{
 		if (*command == '"' && !in_quote)
 			in_dquote = !in_dquote;

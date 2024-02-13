@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/11 22:54:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 15:49:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,4 +56,5 @@ int		ft_add_var_to_str(char *res, char **command, t_env *env);
 int		get_var_name_len(char *command);
 char	*ft_getenv(t_env *env, char *var_name);
 int		ft_pwd(void);
+int		ft_is_cmd_char(char c);
 #endif
