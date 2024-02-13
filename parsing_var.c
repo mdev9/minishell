@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing_var.c                                   :+:      :+:    :+:   */
+/*   parsing_var.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 15:47:33 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:25:37 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ char	*get_var_name(char *command)
 	return (res);
 }
 
-int	ft_get_var_len(char **command, t_env *env)
+int	get_var_len(char **command, t_env *env)
 {
 	char	*var_name;
 	char	*env_var;
@@ -33,7 +33,7 @@ int	ft_get_var_len(char **command, t_env *env)
 	if (**command == '?')
 		return (get_number_len(g_return_code));
 	var_name = get_var_name(*command);
-	env_var = ft_getenv(env, var_name);
+	env_var = ft_get_env(env, var_name);
 	free(var_name);
 	if (!env_var)
 		return (0);
@@ -41,7 +41,7 @@ int	ft_get_var_len(char **command, t_env *env)
 	return (ft_strlen(env_var));
 }
 
-int	ft_get_token_len(char *command, t_env *env)
+int	get_token_len(char *command, t_env *env)
 {
 	int	in_quote;
 	int	in_dquote;
@@ -50,14 +50,14 @@ int	ft_get_token_len(char *command, t_env *env)
 	in_quote = 0;
 	in_dquote = 0;
 	res = 0;
-	while (*command && (ft_is_cmd_char(*command) || in_quote || in_dquote))
+	while (*command && (is_cmd_char(*command) || in_quote || in_dquote))
 	{
 		if (*command == '"' && !in_quote)
 			in_dquote = !in_dquote;
 		if (*command == '\'' && !in_dquote)
 			in_quote = !in_quote;
 		if (*command == '$' && !in_quote)
-			res += ft_get_var_len(&command, env);
+			res += get_var_len(&command, env);
 		else if (*command != '\'' && *command != '"')
 			res++;
 		else if ((*command == '\'' && in_dquote)
@@ -68,7 +68,7 @@ int	ft_get_token_len(char *command, t_env *env)
 	return (res);
 }
 
-int	ft_add_return_code_to_str(char *res)
+int	add_return_code_to_str(char *res)
 {
 	char	*var;
 	int		i;	
@@ -84,7 +84,7 @@ int	ft_add_return_code_to_str(char *res)
 	return (i);
 }
 
-int	ft_add_var_to_str(char *res, char **command, t_env *env)
+int	add_var_to_str(char *res, char **command, t_env *env)
 {
 	char	*var_name;
 	char	*var;
@@ -98,9 +98,9 @@ int	ft_add_var_to_str(char *res, char **command, t_env *env)
 		return (2);
 	}
 	if (**command == '?')
-		return (ft_add_return_code_to_str(res));
+		return (add_return_code_to_str(res));
 	var_name = get_var_name(*command);
-	var = ft_getenv(env, var_name);
+	var = ft_get_env(env, var_name);
 	free(var_name);
 	while (var && var[i])
 	{

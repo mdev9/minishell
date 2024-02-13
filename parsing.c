@@ -1,22 +1,22 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_parsing.c                                       :+:      :+:    :+:   */
+/*   parsing.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 15:50:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:25:15 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int	ft_is_cmd_char(char c)
+int	is_cmd_char(char c)
 {
 	return(!ft_isspace(c) && c != '|' && c != '&');
 }
 
-char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
+char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 {
 	char	*res;
 	int		i;
@@ -24,8 +24,8 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	i = 0;
 	while (ft_isspace(**cmd))
 		(*cmd)++;
-	res = ft_calloc(ft_get_token_len(*cmd, env) + 1, 1);
-	while (res && **cmd && (ft_is_cmd_char(**cmd) || *in_quote || *in_dquote))
+	res = ft_calloc(get_token_len(*cmd, env) + 1, 1);
+	while (res && **cmd && (is_cmd_char(**cmd) || *in_quote || *in_dquote))
 	{
 		if (**cmd == '"' && !*in_quote)
 			*in_dquote = !*in_dquote;
@@ -34,7 +34,7 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 		if (**cmd == '$' && !*in_quote)
 		{
 			(*cmd) += EXIT_FAILURE;
-			i += ft_add_var_to_str(res + i, cmd, env);
+			i += add_var_to_str(res + i, cmd, env);
 		}
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
 			|| (**cmd != '\'' && **cmd != '"'))
@@ -44,7 +44,7 @@ char	*ft_get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	return (res);
 }
 
-t_token_type	ft_get_token_type(char *command)
+t_token_type	get_token_type(char *command)
 {
 	while (ft_isspace(*command))
 		command++;
@@ -57,7 +57,7 @@ t_token_type	ft_get_token_type(char *command)
 	return (ARG);
 }
 
-t_cmd	*ft_parse_command(char *command, t_env *env)
+t_cmd	*parse_command(char *command, t_env *env)
 {
 	int				in_quote;
 	int				in_dquote;
@@ -70,16 +70,16 @@ t_cmd	*ft_parse_command(char *command, t_env *env)
 	res = 0;
 	while (command && *command)
 	{
-		type = ft_get_token_type(command);
+		type = get_token_type(command);
 		if (type == ARG)
-			token = ft_get_token(&command, &in_quote, &in_dquote, env);
+			token = get_token(&command, &in_quote, &in_dquote, env);
 		else
 			token = 0;
-		res = ft_cmd_add_back(res, token, type);
+		res = cmd_add_back(res, token, type);
 	}
 	if (command && (in_quote || in_dquote))
 	{
-		ft_free_cmd(res);
+		free_cmd(res);
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
 	}

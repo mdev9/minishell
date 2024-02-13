@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_env.c                                       :+:      :+:    :+:   */
+/*   lst_env.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/09 15:24:59 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:21:41 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*ft_env_add_back(t_env *env, char *name, char *value)
+t_env	*env_add_back(t_env *env, char *name, char *value)
 {
 	t_env	*res;
 	t_env	*current;
@@ -31,10 +31,10 @@ t_env	*ft_env_add_back(t_env *env, char *name, char *value)
 	return (env);
 }
 
-void	ft_free_env(t_env *env)
+void	free_env(t_env *env)
 {
 	if (env && env->next)
-		ft_free_env(env->next);
+		free_env(env->next);
 	if (env)
 	{
 		free(env->name);
@@ -43,7 +43,7 @@ void	ft_free_env(t_env *env)
 	free(env);
 }
 
-int	ft_print_env(t_env *env)
+int	print_env(t_env *env)
 {
 	while (env)
 	{
@@ -53,7 +53,7 @@ int	ft_print_env(t_env *env)
 	return (0);
 }
 
-char	*ft_getenv(t_env *env, char *name)
+char	*ft_get_env(t_env *env, char *name)
 {
 	while (env)
 	{

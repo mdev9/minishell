@@ -3,24 +3,24 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/09 18:32:31 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/13 16:22:36 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
 CC = cc
 
 SRCS =	main.c\
-		ft_lst_cmd.c\
-		ft_lst_env.c\
-		ft_exec.c\
-		ft_exit.c\
-		ft_echo.c\
-		ft_pwd.c\
-		ft_parsing.c\
-		ft_parsing_var.c
+		lst_cmd.c\
+		lst_env.c\
+		exec.c\
+		exit.c\
+		echo.c\
+		pwd.c\
+		parsing.c\
+		parsing_var.c
 
 OBJS = $(SRCS:.c=.o)
 

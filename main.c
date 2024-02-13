@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   main.c                                             :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/12 14:53:26 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:16:46 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,7 @@ char	*get_prompt(void)
 	return (res);
 }
 
-t_env	*ft_get_env(char **envp)
+t_env	*get_env(char **envp)
 {
 	t_env	*env;
 	char	*name;
@@ -50,9 +50,9 @@ t_env	*ft_get_env(char **envp)
 			j++;
 		name = ft_substr(*envp, 0, i);
 		value = ft_substr(*envp, i + 1, j);
-		env = ft_env_add_back(env, name, value);
+		env = env_add_back(env, name, value);
 		if (!name || !value)
-			ft_free_env(env);
+			free_env(env);
 		if (!name || !value)
 			return (0);
 		envp++;
@@ -70,7 +70,7 @@ int	main(int argc, char **argv, char **envp)
 	command = (char *)STDOUT_FILENO;
 	(void)argc;
 	(void)argv;
-	env = ft_get_env(envp);
+	env = get_env(envp);
 	while (env && command)
 	{
 		prompt = get_prompt();
@@ -79,12 +79,12 @@ int	main(int argc, char **argv, char **envp)
 		command = readline(prompt);
 		free(prompt);
 		add_history(command);
-		parsed_cmd = ft_parse_command(command, env);
+		parsed_cmd = parse_command(command, env);
 		free(command);
-		ft_exec_command(parsed_cmd, env);
-		ft_free_cmd(parsed_cmd);
+		exec_command(parsed_cmd, env);
+		free_cmd(parsed_cmd);
 	}
 	rl_clear_history();
-	ft_free_env(env);
+	free_env(env);
 	return (g_return_code);
 }

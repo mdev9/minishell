@@ -1,18 +1,18 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   ft_lst_cmd.c                                       :+:      :+:    :+:   */
+/*   lst_cmd.c                                          :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/11 22:54:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/13 16:13:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*ft_cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
+t_cmd	*cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
 {
 	t_cmd	*res;
 	t_cmd	*current;
@@ -31,10 +31,10 @@ t_cmd	*ft_cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
 	return (cmd);
 }
 
-void	ft_free_cmd(t_cmd *cmd)
+void	free_cmd(t_cmd *cmd)
 {
 	if (cmd && cmd->next)
-		ft_free_cmd(cmd->next);
+		free_cmd(cmd->next);
 	if (cmd)
 		free(cmd->token);
 	free(cmd);
