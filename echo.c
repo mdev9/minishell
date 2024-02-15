@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 16:11:20 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:36:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	echo(t_cmd *args)
 		put_nl = 0;
 		args = args->next;
 	}
-	while (args)
+	while (args && args->type == ARG)
 	{
 		ft_putstr_fd(args->token, STDOUT_FILENO);
 		if (args->next)

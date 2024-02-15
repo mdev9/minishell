@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 16:24:18 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/14 12:44:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,15 +27,16 @@ void	ft_exit(t_cmd *args, t_env *env)
 	start = args;
 	args = args->next;
 	ft_printf("exit\n");
-	if (args && args->next && ft_strisnbr(args->token))
+	if (args && args->next && args->next->type == ARG
+		&& ft_strisnbr(args->token))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else
 	{
-		if (args && !ft_strisnbr(args->token))
+		if (args && args->type == ARG && !ft_strisnbr(args->token))
 			print_numeric_arg_err(args->token);
-		if (args)
+		if (args && args->type == ARG)
 			exit_code = (unsigned char)ft_atoi(args->token);
-		else if (args && !ft_strisnbr(args->token))
+		else if (args && args->type == ARG && !ft_strisnbr(args->token))
 			exit_code = 2;
 		else
 			exit_code = g_return_code;

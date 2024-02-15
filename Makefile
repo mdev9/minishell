@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/13 16:22:36 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/02/15 14:44:14 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -20,6 +20,7 @@ SRCS =	main.c\
 		echo.c\
 		pwd.c\
 		parsing.c\
+		debug.c\
 		parsing_var.c
 
 OBJS = $(SRCS:.c=.o)

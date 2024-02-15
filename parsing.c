@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 16:25:15 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/13 18:22:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -44,16 +44,25 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	return (res);
 }
 
-t_token_type	get_token_type(char *command)
+t_token_type	get_token_type(char **command)
 {
-	while (ft_isspace(*command))
-		command++;
-	if(command[0] == '|' && command[1] == '|')
+	while (ft_isspace(**command))
+		(*command)++;
+	if((*command)[0] == '|' && (*command)[1] == '|')
+	{
+		(*command) += 2;
 		return(OR);
-	if(command[0] == '&' && command[1] == '&')
+	}
+	if((*command)[0] == '&' && (*command)[1] == '&')
+	{
+		(*command) += 2;
 		return(AND);
-	if(command[0] == '|')
+	}
+	if((*command)[0] == '|')
+	{
+		(*command) += 1;
 		return(PIPE);
+	}
 	return (ARG);
 }
 
@@ -70,7 +79,7 @@ t_cmd	*parse_command(char *command, t_env *env)
 	res = 0;
 	while (command && *command)
 	{
-		type = get_token_type(command);
+		type = get_token_type(&command);
 		if (type == ARG)
 			token = get_token(&command, &in_quote, &in_dquote, env);
 		else
