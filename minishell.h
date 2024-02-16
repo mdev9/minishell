@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 16:21:55 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 12:48:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,10 @@ typedef enum e_token_type
 {
 	ARG,
 	PIPE,
+	RED_O,
+	RED_I,
+	RED_I_APP,
+	HERE_DOC,
 	OR,
 	AND
 }	t_token_type;
