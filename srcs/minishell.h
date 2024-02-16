@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 22:22:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 22:25:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,6 @@ void	print_parsed_cmd(t_cmd *cmd);//debug
 void	ft_exit(t_cmd *cmd, t_env *env, int error_code);
 char	**env_to_char_tab(t_env *env);
 void	handle_minishellrc(t_env *env);
-int		cd(t_cmd *cmd);
+int		cd(t_cmd *args);
 
 #endif
