@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 16:11:50 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 17:26:04 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -147,13 +147,14 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 	if (!cmd_args)
 		ft_exit(parsed_cmd, env, 1);
 	i = 0;
+	get_cmd_path(parsed_cmd, env);
 	while (i < args_count)
 	{
 		cmd_args[i] = cur_cmd->token;
 		cur_cmd = cur_cmd->next;
 		i++;
 	}
-	get_cmd_path(parsed_cmd, env);
+	cmd_args[i] = 0;
 	
 	pid_t	pid;
 	pid = fork();
@@ -168,5 +169,6 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		rl_redisplay();
 	if (waitpid(pid, 0, 0) < 0)
 		ft_exit(parsed_cmd, env, 1);
-
+	//if (cur_cmd->type == PIPE)
+	//	exec_command(cur_cmd->next, env);
 }
