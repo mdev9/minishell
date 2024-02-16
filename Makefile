@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 16:28:16 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 21:24:47 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,9 +22,12 @@ SRCS =	main.c\
 		parsing.c\
 		debug.c\
 		env_to_char_tab.c\
-		parsing_var.c
+		parsing_var.c\
+		minishellrc.c
 
 OBJS = $(SRCS:.c=.o)
+
+OBJS_DIR = objs
 
 FLAGS = -Wall -Wextra -Werror -g
 
@@ -35,6 +38,7 @@ NAME = minishell
 all: $(NAME) 
 
 $(NAME) : $(LIBFT) $(OBJS)
+	mkdir $(OBJS_DIR)
 	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
 $(LIBFT):
