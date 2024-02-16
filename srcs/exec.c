@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 22:22:37 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/17 00:08:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		return ;
 	cur_cmd = parsed_cmd;
 	args_count = get_args_count(parsed_cmd);
-	cmd_args = calloc(args_count, sizeof(char *));
+	cmd_args = calloc(args_count + 1, sizeof(char *));
 	if (!cmd_args)
 		ft_exit(parsed_cmd, env, 1);
 	i = 0;
