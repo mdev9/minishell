@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   ft_printf.h                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/11/02 23:42:00 by tomoron           #+#    #+#             */
-/*   Updated: 2023/11/15 14:31:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:27:27 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,5 +42,17 @@ size_t	ft_print_hex(unsigned int nb, t_flags flags, char mode);
 size_t	ft_print_ptr(void *ptr, t_flags flags);
 size_t	ft_print_str(char *s, t_flags flags);
 void	ft_put_lu_nbr(long unsigned int nb);
+
+//PRINTF_FD
+
+int		putchar_fd(int fd, const char c);
+int		putstr_fd(int fd, const char *s);
+int		putptr_fd(int fd, long unsigned int ptr);
+int		putnbr_fd(int fd, long nbr);
+int		puthexa_fd(int fd, unsigned int nbr, char c);
+int		puthexa_ptr_fd(int fd, long unsigned int ptr);
+
+int		ft_printf_fd(int fd, const char *s, ...);
+int		ft_print_arg(int fd, va_list args_lst, char c);
 
 #endif
