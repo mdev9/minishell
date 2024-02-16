@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 14:11:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 14:41:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ char	**split_paths_from_env(t_env *env)
 	}
 	if (!path_in_envp)
 	{
-		// error: PATH not found
+		ft_printf_fd(2, "pipex: error: PATH not found\n");
 		return (0);
 	}
 	return (ft_split(cur_env_var->value, ':'));
@@ -123,7 +123,7 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	}
 	if (!found)
 	{
-		// error message: cmd->token command not found
+		ft_printf_fd(2, "%s: command not found\n", cmd->token);
 		free(cmd->token);
 		cmd->token = 0;
 	}

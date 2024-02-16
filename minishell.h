@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 13:15:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:36:19 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
 void	free_cmd(t_cmd *cmd);
 void	exec_command(t_cmd *cmd, t_env *env);
 int		echo(t_cmd *args);
-void	ft_exit(t_cmd *args, t_env *env);
+void	exit_bt(t_cmd *args, t_env *env);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 int		print_env(t_env *env);
@@ -62,4 +62,7 @@ char	*ft_get_env(t_env *env, char *var_name);
 int		pwd(void);
 int		is_cmd_char(char c);
 void	print_parsed_cmd(t_cmd *cmd);//debug
+void	ft_exit(t_cmd *cmd, t_env *env, int error_code);
+char	**env_to_char_tab(t_env *env);
+
 #endif
