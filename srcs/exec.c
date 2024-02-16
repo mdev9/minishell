@@ -6,13 +6,11 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 21:20:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:56:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
-#include "libft/libft.h"
 #include "minishell.h"
-#include <readline/readline.h>
 
 int	exec_builtin(t_cmd *parsed_cmd, t_env *env)
 {
