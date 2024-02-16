@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/14 12:44:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 13:07:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ void	print_numeric_arg_err(char *arg)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void	ft_exit(t_cmd *args, t_env *env)
+void	exit_bt(t_cmd *args, t_env *env)
 {
 	t_cmd	*start;	
 	int		exit_code;
