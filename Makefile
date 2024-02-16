@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 14:26:43 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 16:28:16 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -37,7 +37,7 @@ all: $(NAME)
 $(NAME) : $(LIBFT) $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 
-$(LIBFT) :
+$(LIBFT):
 	make --no-print-directory -j -C ./libft
 
 .c.o:

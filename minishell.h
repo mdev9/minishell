@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 16:11:48 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:32:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,8 +27,6 @@ typedef enum e_token_type
 	RED_O_APP,
 	RED_I,
 	HERE_DOC,
-	OR,
-	AND
 }	t_token_type;
 
 typedef struct s_cmd

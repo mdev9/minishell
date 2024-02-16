@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 15:09:25 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:34:13 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,11 +50,7 @@ t_token_type	get_token_type(char **command)
 
 	while (ft_isspace(**command))
 		(*command)++;
-	if ((*command)[0] == '|' && (*command)[1] == '|')
-		res = OR;
-	else if ((*command)[0] == '&' && (*command)[1] == '&')
-		res = AND;
-	else if ((*command)[0] == '>' && (*command)[1] == '>')
+	if ((*command)[0] == '>' && (*command)[1] == '>')
 		res = RED_O_APP;
 	else if ((*command)[0] == '<' && (*command)[1] == '<')
 		res = HERE_DOC;
@@ -66,7 +62,7 @@ t_token_type	get_token_type(char **command)
 		res = PIPE;
 	else
 		res = ARG;
-	if (res == OR || res == AND || res == RED_O_APP || res == HERE_DOC)
+	if (res == RED_O_APP || res == HERE_DOC)
 		(*command) += 2;
 	if (res == RED_O || res == RED_I || res == PIPE)
 		(*command)++;
