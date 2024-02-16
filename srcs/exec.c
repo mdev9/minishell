@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 00:08:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/17 00:26:16 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,7 +143,7 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		return ;
 	cur_cmd = parsed_cmd;
 	args_count = get_args_count(parsed_cmd);
-	cmd_args = calloc(args_count + 1, sizeof(char *));
+	cmd_args = ft_calloc(args_count + 1, sizeof(char *));
 	if (!cmd_args)
 		ft_exit(parsed_cmd, env, 1);
 	i = 0;
@@ -154,8 +154,6 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		cur_cmd = cur_cmd->next;
 		i++;
 	}
-	cmd_args[i] = 0;
-	
 	pid_t	pid;
 	pid = fork();
 	if (pid == -1)
@@ -164,11 +162,17 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		ft_exit(parsed_cmd, env, 1);
 	}
 	if (pid == 0)
-		execve(parsed_cmd->token, cmd_args, env_to_char_tab(env));
-	else
-		rl_redisplay();
-	if (waitpid(pid, 0, 0) < 0)
+	{
+		if (parsed_cmd->token)
+			execve(parsed_cmd->token, cmd_args, env_to_char_tab(env));
 		ft_exit(parsed_cmd, env, 1);
+	}
+	else
+	{
+		rl_redisplay();
+		if (waitpid(pid, 0, 0) < 0)
+			ft_exit(parsed_cmd, env, 1);
+	}
 	//if (cur_cmd->type == PIPE)
 	//	exec_command(cur_cmd->next, env);
 }
