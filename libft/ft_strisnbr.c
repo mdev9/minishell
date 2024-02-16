@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:14:58 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 15:07:30 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:13:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@ int	ft_strisnbr(char *str)
 {
 	if (!str)
 		return (0);
+	if (*str == '+' || *str == '-')
+		str++;
 	while (*str)
 	{
 		if (*str < '0' || *str > '9')
