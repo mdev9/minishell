@@ -6,7 +6,7 @@
 #    By: tomoron <tomoron@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 21:56:22 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 22:15:40 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -51,6 +51,9 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c | $(OBJS_DIR)
 clean:
 	rm -rf $(OBJS_DIR)
 	make --no-print-directory -C ./libft clean
+
+install: $(NAME)
+	cp $(NAME) ~/.local/bin/msh
 
 fclean: clean
 	rm -f $(NAME)
