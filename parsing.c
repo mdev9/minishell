@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 14:25:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:52:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -64,8 +64,13 @@ t_token_type	get_token_type(char **command)
 		res = RED_I;
 	else if((*command)[0] == '|')
 		res = PIPE;
-	
-	return (ARG);
+	else
+		res = ARG;
+	if(res == OR || res == AND || res == RED_O_APP || res == HERE_DOC)
+		(*command) += 2;
+	if (res == RED_O || res == RED_I || res == PIPE)
+		(*command)++;
+	return (res);
 }
 
 t_cmd	*parse_command(char *command, t_env *env)
@@ -87,6 +92,8 @@ t_cmd	*parse_command(char *command, t_env *env)
 		else
 			token = 0;
 		res = cmd_add_back(res, token, type);
+		while (ft_isspace(*command))
+			command++;
 	}
 	if (command && (in_quote || in_dquote))
 	{
