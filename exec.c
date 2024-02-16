@@ -6,14 +6,17 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 15:10:43 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 16:11:50 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+#include "libft/libft.h"
 #include "minishell.h"
+#include <readline/readline.h>
 
 int	exec_builtin(t_cmd *parsed_cmd, t_env *env)
 {
+
 	if (!ft_strcmp(parsed_cmd->token, "echo"))
 		g_return_code = echo(parsed_cmd->next);
 	else if (!ft_strcmp(parsed_cmd->token, "ret"))
@@ -112,7 +115,7 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	int		found;
 
 	found = 0;
-	if (access(cmd->token, X_OK) != -1)
+	if (ft_strchr(cmd->token, '/') && access(cmd->token, X_OK) != -1)
 		found = 1;
 	else
 	{
@@ -151,5 +154,19 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env)
 		i++;
 	}
 	get_cmd_path(parsed_cmd, env);
-	execve(parsed_cmd->token, cmd_args, env_to_char_tab(env));
+	
+	pid_t	pid;
+	pid = fork();
+	if (pid == -1)
+	{
+		perror("fork");
+		ft_exit(parsed_cmd, env, 1);
+	}
+	if (pid == 0)
+		execve(parsed_cmd->token, cmd_args, env_to_char_tab(env));
+	else
+		rl_redisplay();
+	if (waitpid(pid, 0, 0) < 0)
+		ft_exit(parsed_cmd, env, 1);
+
 }
