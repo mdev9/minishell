@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/15 14:13:57 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 18:21:27 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_return_code = 0;
+int		g_return_code = 0;
 
 char	*get_prompt(void)
 {
@@ -71,6 +71,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	env = get_env(envp);
+	if (env)
+		handle_minishellrc(env);
 	while (env && command)
 	{
 		prompt = get_prompt();
@@ -81,7 +83,7 @@ int	main(int argc, char **argv, char **envp)
 		add_history(command);
 		parsed_cmd = parse_command(command, env);
 		free(command);
-		print_parsed_cmd(parsed_cmd);//debug
+		print_parsed_cmd(parsed_cmd); //debug
 		exec_command(parsed_cmd, env);
 		free_cmd(parsed_cmd);
 	}
