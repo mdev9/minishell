@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
+#    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/04 08:03:00 by tomoron           #+#    #+#              #
-#    Updated: 2023/11/15 14:42:45 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 14:22:14 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -25,7 +25,9 @@ SRCS =	ft_protected_atoi.c\
 		ft_putchar.c\
 		ft_putstr.c\
 		ft_strlen.c\
-		ft_write_str_part.c
+		ft_write_str_part.c\
+		ft_printf_fd.c\
+		ft_printf_fd_utils.c
 		
 OBJS = $(SRCS:.c=.o)
 
