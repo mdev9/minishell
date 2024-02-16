@@ -1,6 +1,19 @@
+# **************************************************************************** #
+#                                                                              #
+#                                                         :::      ::::::::    #
+#    Makefile                                           :+:      :+:    :+:    #
+#                                                     +:+ +:+         +:+      #
+#    By: tomoron <tomoron@student.42angouleme.fr>   +#+  +:+       +#+         #
+#                                                 +#+#+#+#+#+   +#+            #
+#    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
+#    Updated: 2024/02/16 21:56:22 by tomoron          ###   ########.fr        #
+#                                                                              #
+# **************************************************************************** #
+
 CC = cc
 SRCS_RAW =	main.c\
 			lst_cmd.c\
+			cd.c\
 			lst_env.c\
 			exec.c\
 			exit.c\
@@ -16,6 +29,7 @@ OBJS_DIR = objs/
 SRCS_DIR = srcs/
 SRCS = $(addprefix $(SRCS_DIR), $(SRCS_RAW))
 OBJS = $(addprefix $(OBJS_DIR), $(SRCS_RAW:.c=.o))
+
 FLAGS = -Wall -Wextra -Werror -g
 LIBFT = libft/libft.a
 NAME = minishell
@@ -45,4 +59,3 @@ fclean: clean
 re: fclean all
 
 .PHONY: all clean fclean re
-
