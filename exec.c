@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 14:41:43 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 15:10:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -112,7 +112,7 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	int		found;
 
 	found = 0;
-	if (access(cmd->token, X_OK != -1))
+	if (access(cmd->token, X_OK) != -1)
 		found = 1;
 	else
 	{

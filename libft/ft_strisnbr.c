@@ -3,22 +3,22 @@
 /*                                                        :::      ::::::::   */
 /*   ft_strisnbr.c                                      :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/11 17:14:58 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/12 03:21:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:07:30 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 int	ft_strisnbr(char *str)
 {
-	if(!str)
-		return(0);
-	while(*str)
+	if (!str)
+		return (0);
+	while (*str)
 	{
-		if(*str < '0' || *str > '9')
-			return(0);
+		if (*str < '0' || *str > '9')
+			return (0);
 		str++;
 	}
-	return(1);
+	return (1);
 }

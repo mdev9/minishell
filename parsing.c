@@ -6,14 +6,14 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 14:52:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 15:09:25 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 int	is_cmd_char(char c)
 {
-	return(!ft_isspace(c) && c != '|' && c != '&' && c != '<' && c != '>');
+	return (!ft_isspace(c) && c != '|' && c != '&' && c != '<' && c != '>');
 }
 
 char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
@@ -37,7 +37,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 			i += add_var_to_str(res + i, cmd, env);
 		}
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
-			|| (**cmd != '\'' && **cmd != '"'))
+						|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
 	}
@@ -46,27 +46,27 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 
 t_token_type	get_token_type(char **command)
 {
-	t_token_type res;
+	t_token_type	res;
 
 	while (ft_isspace(**command))
 		(*command)++;
-	if((*command)[0] == '|' && (*command)[1] == '|')
+	if ((*command)[0] == '|' && (*command)[1] == '|')
 		res = OR;
-	else if((*command)[0] == '&' && (*command)[1] == '&')
+	else if ((*command)[0] == '&' && (*command)[1] == '&')
 		res = AND;
 	else if ((*command)[0] == '>' && (*command)[1] == '>')
 		res = RED_O_APP;
-	else if((*command)[0] == '<' && (*command)[1] == '<')
+	else if ((*command)[0] == '<' && (*command)[1] == '<')
 		res = HERE_DOC;
-	else if((*command)[0] == '>')
+	else if ((*command)[0] == '>')
 		res = RED_O;
-	else if((*command)[0] == '<')
+	else if ((*command)[0] == '<')
 		res = RED_I;
-	else if((*command)[0] == '|')
+	else if ((*command)[0] == '|')
 		res = PIPE;
 	else
 		res = ARG;
-	if(res == OR || res == AND || res == RED_O_APP || res == HERE_DOC)
+	if (res == OR || res == AND || res == RED_O_APP || res == HERE_DOC)
 		(*command) += 2;
 	if (res == RED_O || res == RED_I || res == PIPE)
 		(*command)++;
