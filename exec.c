@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 17:26:04 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 21:20:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,6 +27,8 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env *env)
 		exit_bt(parsed_cmd, env);
 	else if (!ft_strcmp(parsed_cmd->token, "pwd"))
 		g_return_code = pwd();
+	else if (!ft_strcmp(parsed_cmd->token, "cd"))
+		g_return_code = cd(parsed_cmd);
 	else
 		return (STDIN_FILENO);
 	return (STDOUT_FILENO);
