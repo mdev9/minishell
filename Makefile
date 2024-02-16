@@ -6,7 +6,7 @@
 #    By: tomoron <tomoron@student.42angouleme.fr>   +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 22:15:40 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 22:26:51 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -54,6 +54,7 @@ clean:
 
 install: $(NAME)
 	cp $(NAME) ~/.local/bin/msh
+	cp $(NAME) ~/.local/bin/minishell
 
 fclean: clean
 	rm -f $(NAME)
