@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/16 21:51:28 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/16 22:06:55 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_cmd *args, t_env *env)
+int	cd(t_cmd *args)
 {
 	char	*cwd;
 	char	*new_wd;
@@ -24,14 +24,12 @@ int	cd(t_cmd *args, t_env *env)
 		return (1);
 	}
 	if (!args->next || args->next->type != ARG)
-		new_wd = ft_get_env(env, "HOME");
+		new_wd = getenv("HOME");
 	else
 	{
 		new_wd = args->next->token;
 		if (chdir(new_wd) == -1)
-			perror("chdir");
+			perror("minishell: cd");
 	}
-	ft_putstr(cwd);
-	(void)args;
 	return (0);
 }
