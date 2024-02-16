@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 16:34:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/17 00:29:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -14,6 +14,21 @@
 int	is_cmd_char(char c)
 {
 	return (!ft_isspace(c) && c != '|' && c != '&' && c != '<' && c != '>');
+}
+
+int	add_home_to_str(char *res)
+{
+	int i;
+	char *str;
+
+	i = 0;
+	str = getenv("HOME");
+	while(str[i])
+	{
+		res[i] = str[i];
+		i++;
+	}
+	return(i);
 }
 
 char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
@@ -33,9 +48,11 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 			*in_quote = !*in_quote;
 		if (**cmd == '$' && !*in_quote)
 		{
-			(*cmd) += EXIT_FAILURE;
+			(*cmd)++;
 			i += add_var_to_str(res + i, cmd, env);
 		}
+		if(**cmd == '~' && !*in_quote && !*in_dquote)
+			i+= add_home_to_str(res + i);
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
 						|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
