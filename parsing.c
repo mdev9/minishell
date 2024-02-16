@@ -6,14 +6,14 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 18:22:38 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 14:25:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
 int	is_cmd_char(char c)
 {
-	return(!ft_isspace(c) && c != '|' && c != '&');
+	return(!ft_isspace(c) && c != '|' && c != '&' && c != '<' && c != '>');
 }
 
 char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
@@ -46,23 +46,25 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 
 t_token_type	get_token_type(char **command)
 {
+	t_token_type res;
+
 	while (ft_isspace(**command))
 		(*command)++;
 	if((*command)[0] == '|' && (*command)[1] == '|')
-	{
-		(*command) += 2;
-		return(OR);
-	}
-	if((*command)[0] == '&' && (*command)[1] == '&')
-	{
-		(*command) += 2;
-		return(AND);
-	}
-	if((*command)[0] == '|')
-	{
-		(*command) += 1;
-		return(PIPE);
-	}
+		res = OR;
+	else if((*command)[0] == '&' && (*command)[1] == '&')
+		res = AND;
+	else if ((*command)[0] == '>' && (*command)[1] == '>')
+		res = RED_O_APP;
+	else if((*command)[0] == '<' && (*command)[1] == '<')
+		res = HERE_DOC;
+	else if((*command)[0] == '>')
+		res = RED_O;
+	else if((*command)[0] == '<')
+		res = RED_I;
+	else if((*command)[0] == '|')
+		res = PIPE;
+	
 	return (ARG);
 }
 

@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/15 14:44:14 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/16 14:26:43 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -21,6 +21,7 @@ SRCS =	main.c\
 		pwd.c\
 		parsing.c\
 		debug.c\
+		env_to_char_tab.c\
 		parsing_var.c
 
 OBJS = $(SRCS:.c=.o)
