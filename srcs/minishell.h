@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 21:25:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/16 21:51:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@
 # include <limits.h>
 # include <stdio.h>//debug	
 # include <sys/wait.h>
-# include "libft/libft.h"
+# include "../libft/libft.h"
 # include "fcntl.h"
 
 typedef enum e_token_type
