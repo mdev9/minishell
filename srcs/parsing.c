@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 00:29:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/17 04:25:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -86,7 +86,7 @@ t_token_type	get_token_type(char **command)
 	return (res);
 }
 
-t_cmd	*parse_command(char *command, t_env *env, t_alis *aliases)
+t_cmd	*parse_command(char *command, t_env *env)
 {
 	int				in_quote;
 	int				in_dquote;
@@ -114,6 +114,5 @@ t_cmd	*parse_command(char *command, t_env *env, t_alis *aliases)
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
 	}
-	parsed_cmd = handle_alias(parsed_cmd, env, aliases);
 	return (res);
 }

@@ -6,11 +6,11 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/17 02:24:43 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/02/17 04:34:37 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
-CC = clang
+CC = cc
 SRCS_RAW =	main.c\
 			lst_cmd.c\
 			cd.c\
@@ -24,6 +24,8 @@ SRCS_RAW =	main.c\
 			debug.c\
 			env_to_char_tab.c\
 			parsing_var.c\
+			handle_alias.c\
+			lst_alias.c\
 			minishellrc.c
 
 OBJS_DIR = objs/

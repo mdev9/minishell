@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 02:21:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/17 04:18:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_cmd *parsed_cmd, t_env *env)
+int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 {
 
 	if (!ft_strcmp(parsed_cmd->token, "echo"))
@@ -22,13 +22,13 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env *env)
 	else if (!ft_strcmp(parsed_cmd->token, "env"))
 		g_return_code = print_env(env);
 	else if (!ft_strcmp(parsed_cmd->token, "exit"))
-		exit_bt(parsed_cmd, env);
+		exit_bt(parsed_cmd, env, aliases);
 	else if (!ft_strcmp(parsed_cmd->token, "pwd"))
 		g_return_code = pwd();
 	else if (!ft_strcmp(parsed_cmd->token, "cd"))
 		g_return_code = cd(parsed_cmd);
 	else if (!ft_strcmp(parsed_cmd->token, "alias"))
-		g_return_code = alias(parsed_cmd);
+		g_return_code = alias(parsed_cmd, aliases);
 	else
 		return (STDIN_FILENO);
 	return (STDOUT_FILENO);
@@ -134,14 +134,14 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	}
 }
 
-void	exec_command(t_cmd *parsed_cmd, t_env *env)
+void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 {
 	t_cmd	*cur_cmd;
 	int		args_count;
 	char	**cmd_args;
 	int		i;
 
-	if (!parsed_cmd || exec_builtin(parsed_cmd, env))
+	if (!parsed_cmd || exec_builtin(parsed_cmd, env, aliases))
 		return ;
 	cur_cmd = parsed_cmd;
 	args_count = get_args_count(parsed_cmd);

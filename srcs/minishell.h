@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 02:29:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/17 04:30:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,9 @@ extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
 void	free_cmd(t_cmd *cmd);
-void	exec_command(t_cmd *cmd, t_env *env);
+void	exec_command(t_cmd *cmd, t_env *env, t_alias *alias);
 int		echo(t_cmd *args);
-void	exit_bt(t_cmd *args, t_env *env);
+void	exit_bt(t_cmd *args, t_env *env, t_alias *aliases);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 int		print_env(t_env *env);
@@ -72,9 +72,11 @@ int		is_cmd_char(char c);
 void	print_parsed_cmd(t_cmd *cmd);//debug
 void	ft_exit(t_cmd *cmd, t_env *env, int error_code);
 char	**env_to_char_tab(t_env *env);
-void	handle_minishellrc(t_env *env);
+void	handle_minishellrc(t_env *env, t_alias *aliases);
 t_cmd	*handle_alias(t_cmd *cmd, t_env *env, t_alias *alias);	
 int		cd(t_cmd *args);
-int		alias(t_cmd *args);
+int		alias(t_cmd *args, t_alias *aliases);
+void	free_alias(t_alias *alias);
+char	*ft_get_alias(t_alias *alias, char *var_name);
 
 #endif

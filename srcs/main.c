@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 21:57:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/17 04:30:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,14 +65,16 @@ int	main(int argc, char **argv, char **envp)
 	char	*command;
 	t_cmd	*parsed_cmd;
 	t_env	*env;
+	t_alias	*aliases;
 	char	*prompt;
 
-	command = (char *)STDOUT_FILENO;
+	command = (char *)1;
 	(void)argc;
 	(void)argv;
 	env = get_env(envp);
+	aliases = 0;
 	if (env)
-		handle_minishellrc(env);
+		handle_minishellrc(env, aliases);
 	while (env && command)
 	{
 		prompt = get_prompt();
@@ -82,12 +84,14 @@ int	main(int argc, char **argv, char **envp)
 		free(prompt);
 		add_history(command);
 		parsed_cmd = parse_command(command, env);
+		parsed_cmd = handle_alias(parsed_cmd, env, aliases);
 		free(command);
 		//print_parsed_cmd(parsed_cmd);//debug
-		exec_command(parsed_cmd, env);
+		exec_command(parsed_cmd, env, aliases);
 		free_cmd(parsed_cmd);
 	}
 	rl_clear_history();
 	free_env(env);
+	free_alias(aliases);
 	return (g_return_code);
 }
