@@ -14,10 +14,8 @@
 
 int	cd(t_cmd *args)
 {
-	char	*cwd;
 	char	*new_wd;
 
-	cwd = getcwd(0, 0);
 	if (args->next && args->next->next && args->next->next->type == ARG)
 	{
 		ft_printf_fd(2, "minishell: cd: too many arguments\n");
