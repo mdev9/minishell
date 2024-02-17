@@ -3,10 +3,10 @@
 #                                                         :::      ::::::::    #
 #    Makefile                                           :+:      :+:    :+:    #
 #                                                     +:+ +:+         +:+      #
-#    By: tomoron <tomoron@student.42angouleme.fr>   +#+  +:+       +#+         #
+#    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 22:26:51 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/17 02:24:43 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,6 +18,7 @@ SRCS_RAW =	main.c\
 			exec.c\
 			exit.c\
 			echo.c\
+			alias.c\
 			pwd.c\
 			parsing.c\
 			debug.c\
