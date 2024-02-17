@@ -45,6 +45,13 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
+typedef struct s_alias
+{
+	char *name;
+	char *value;
+	struct s_alias *next;
+}	t_alias;
+
 extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
