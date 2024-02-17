@@ -86,7 +86,7 @@ t_token_type	get_token_type(char **command)
 	return (res);
 }
 
-t_cmd	*parse_command(char *command, t_env *env)
+t_cmd	*parse_command(char *command, t_env *env, t_alis *aliases)
 {
 	int				in_quote;
 	int				in_dquote;
@@ -114,5 +114,6 @@ t_cmd	*parse_command(char *command, t_env *env)
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return (0);
 	}
+	parsed_cmd = handle_alias(parsed_cmd, env, aliases);
 	return (res);
 }

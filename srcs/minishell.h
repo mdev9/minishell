@@ -73,6 +73,7 @@ void	print_parsed_cmd(t_cmd *cmd);//debug
 void	ft_exit(t_cmd *cmd, t_env *env, int error_code);
 char	**env_to_char_tab(t_env *env);
 void	handle_minishellrc(t_env *env);
+t_cmd	*handle_alias(t_cmd *cmd, t_env *env, t_alias *alias);	
 int		cd(t_cmd *args);
 
 #endif
