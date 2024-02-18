@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 04:18:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:36:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
+int	exec_builtin(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 {
 
 	if (!ft_strcmp(parsed_cmd->token, "echo"))
@@ -20,9 +20,9 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 	else if (!ft_strcmp(parsed_cmd->token, "ret"))
 		g_return_code = ft_atoi(parsed_cmd->next->token);
 	else if (!ft_strcmp(parsed_cmd->token, "env"))
-		g_return_code = print_env(env);
+		g_return_code = print_env(*env);
 	else if (!ft_strcmp(parsed_cmd->token, "exit"))
-		exit_bt(parsed_cmd, env, aliases);
+		exit_bt(parsed_cmd, *env, *aliases);
 	else if (!ft_strcmp(parsed_cmd->token, "pwd"))
 		g_return_code = pwd();
 	else if (!ft_strcmp(parsed_cmd->token, "cd"))
@@ -134,7 +134,7 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	}
 }
 
-void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
+void	exec_command(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 {
 	t_cmd	*cur_cmd;
 	int		args_count;
@@ -147,9 +147,9 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 	args_count = get_args_count(parsed_cmd);
 	cmd_args = ft_calloc(args_count + 1, sizeof(char *));
 	if (!cmd_args)
-		ft_exit(parsed_cmd, env, 1);
+		ft_exit(parsed_cmd, *env, 1);
 	i = 0;
-	get_cmd_path(parsed_cmd, env);
+	get_cmd_path(parsed_cmd, *env);
 	while (i < args_count)
 	{
 		cmd_args[i] = cur_cmd->token;
@@ -161,19 +161,19 @@ void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 	if (pid == -1)
 	{
 		perror("fork");
-		ft_exit(parsed_cmd, env, 1);
+		ft_exit(parsed_cmd, *env, 1);
 	}
 	if (pid == 0)
 	{
 		if (parsed_cmd->token)
-			execve(parsed_cmd->token, cmd_args, env_to_char_tab(env));
-		ft_exit(parsed_cmd, env, 1);
+			execve(parsed_cmd->token, cmd_args, env_to_char_tab(*env));
+		ft_exit(parsed_cmd, *env, 1);
 	}
 	else
 	{
 		rl_redisplay();
 		if (waitpid(pid, 0, 0) < 0)
-			ft_exit(parsed_cmd, env, 1);
+			ft_exit(parsed_cmd, *env, 1);
 	}
 	//if (cur_cmd->type == PIPE)
 	//	exec_command(cur_cmd->next, env);
