@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 04:30:26 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 13:50:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,7 @@ char	*get_prompt(void)
 {
 	char	*res;
 	char	cwd_buffer[100];
+	char	*cwd;
 
 	res = ft_strjoin_free("\001", ft_get_color(10, 255, 80), 2);
 	res = ft_strjoin_free(res, "\002", 1);
@@ -26,7 +27,13 @@ char	*get_prompt(void)
 	res = ft_strjoin_free(res, "minishell\001\033[0m\002:\001", 1);
 	res = ft_strjoin_free(res, ft_get_color(80, 80, 255), 3);
 	res = ft_strjoin_free(res, "\002", 1);
-	res = ft_strjoin_free(res, getcwd(cwd_buffer, 99), 1);
+	cwd = getcwd(cwd_buffer, 99);
+	if(!ft_strncmp(cwd_buffer, getenv("HOME"), ft_strlen(getenv("HOME"))))
+	{
+		cwd += ft_strlen(getenv("HOME")) - 1;
+		cwd[0] = '~';
+	}
+	res = ft_strjoin_free(res, cwd, 1);
 	res = ft_strjoin_free(res, "\001\033[0m\002$ ", 1);
 	return (res);
 }
@@ -73,6 +80,7 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = get_env(envp);
 	aliases = 0;
+	aliases = alias_add_back(0, ft_strdup("test"), ft_strdup("echo test")); // debug
 	if (env)
 		handle_minishellrc(env, aliases);
 	while (env && command)
@@ -84,9 +92,10 @@ int	main(int argc, char **argv, char **envp)
 		free(prompt);
 		add_history(command);
 		parsed_cmd = parse_command(command, env);
+		print_parsed_cmd(parsed_cmd);//debug
 		parsed_cmd = handle_alias(parsed_cmd, env, aliases);
 		free(command);
-		//print_parsed_cmd(parsed_cmd);//debug
+		print_parsed_cmd(parsed_cmd);//debug
 		exec_command(parsed_cmd, env, aliases);
 		free_cmd(parsed_cmd);
 	}

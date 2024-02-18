@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/17 04:34:37 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/18 15:45:58 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,7 +53,9 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c | $(OBJS_DIR)
 
 clean:
 	rm -rf $(OBJS_DIR)
-	make --no-print-directory -C ./libft clean
+	make --no-print-directory -C ./libft fclean
+
+bonus: all
 
 install: $(NAME)
 	cp $(NAME) ~/.local/bin/msh
@@ -61,8 +63,7 @@ install: $(NAME)
 
 fclean: clean
 	rm -f $(NAME)
-	make --no-print-directory -C ./libft fclean
 
 re: fclean all
 
-.PHONY: all clean fclean re
+.PHONY: all clean fclean re install bonus

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 04:30:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 13:19:19 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,5 +78,6 @@ int		cd(t_cmd *args);
 int		alias(t_cmd *args, t_alias *aliases);
 void	free_alias(t_alias *alias);
 char	*ft_get_alias(t_alias *alias, char *var_name);
+t_alias	*alias_add_back(t_alias *alias, char *name, char *value);
 
 #endif
