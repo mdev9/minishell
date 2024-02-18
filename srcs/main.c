@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 13:50:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:19:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,11 +92,11 @@ int	main(int argc, char **argv, char **envp)
 		free(prompt);
 		add_history(command);
 		parsed_cmd = parse_command(command, env);
-		print_parsed_cmd(parsed_cmd);//debug
+		//print_parsed_cmd(parsed_cmd);//debug
 		parsed_cmd = handle_alias(parsed_cmd, env, aliases);
 		free(command);
-		print_parsed_cmd(parsed_cmd);//debug
-		exec_command(parsed_cmd, env, aliases);
+		//print_parsed_cmd(parsed_cmd);//debug
+		exec_command(parsed_cmd, env, &aliases);
 		free_cmd(parsed_cmd);
 	}
 	rl_clear_history();

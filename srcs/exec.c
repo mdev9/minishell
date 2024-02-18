@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 04:18:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:22:58 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
+int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias **aliases)
 {
 
 	if (!ft_strcmp(parsed_cmd->token, "echo"))
@@ -22,7 +22,7 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
 	else if (!ft_strcmp(parsed_cmd->token, "env"))
 		g_return_code = print_env(env);
 	else if (!ft_strcmp(parsed_cmd->token, "exit"))
-		exit_bt(parsed_cmd, env, aliases);
+		exit_bt(parsed_cmd, env, *aliases);
 	else if (!ft_strcmp(parsed_cmd->token, "pwd"))
 		g_return_code = pwd();
 	else if (!ft_strcmp(parsed_cmd->token, "cd"))
@@ -134,7 +134,7 @@ void	get_cmd_path(t_cmd *cmd, t_env *env)
 	}
 }
 
-void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias *aliases)
+void	exec_command(t_cmd *parsed_cmd, t_env *env, t_alias **aliases)
 {
 	t_cmd	*cur_cmd;
 	int		args_count;
