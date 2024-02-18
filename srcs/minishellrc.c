@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:40:16 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/17 04:30:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 16:58:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	handle_minishellrc(t_env *env, t_alias *aliases)
+void	handle_minishellrc(t_env &env, t_alias *aliases)
 {
 	char	*home;
 	char	*rc_path;
@@ -20,7 +20,7 @@ void	handle_minishellrc(t_env *env, t_alias *aliases)
 	char	*line;
 	t_cmd	*parsed_cmd;
 
-	home = ft_get_env(env, "HOME");
+	home = ft_get_env(*env, "HOME");
 	rc_path = ft_strjoin(home, "/.minishellrc");
 	if (access(rc_path, R_OK) != -1)
 	{
