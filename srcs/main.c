@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 17:06:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 17:26:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ int	main(int argc, char **argv, char **envp)
 	env = get_env(envp);
 	aliases = 0;
 	aliases = alias_add_back(0, ft_strdup("test"), ft_strdup("echo test")); // debug
-	handle_minishellrc(&env, aliases);
+	handle_minishellrc(&env, &aliases);
 	while (env && command)
 	{
 		prompt = get_prompt();
