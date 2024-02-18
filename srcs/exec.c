@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 16:36:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/18 18:32:33 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,6 @@
 
 int	exec_builtin(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 {
-
 	if (!ft_strcmp(parsed_cmd->token, "echo"))
 		g_return_code = echo(parsed_cmd->next);
 	else if (!ft_strcmp(parsed_cmd->token, "ret"))
@@ -27,8 +26,12 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 		g_return_code = pwd();
 	else if (!ft_strcmp(parsed_cmd->token, "cd"))
 		g_return_code = cd(parsed_cmd);
+	else if (!ft_strcmp(parsed_cmd->token, "export"))
+		g_return_code = ft_export(parsed_cmd, env);
 	else if (!ft_strcmp(parsed_cmd->token, "alias"))
 		g_return_code = alias(parsed_cmd, aliases);
+	else if (!ft_strcmp(parsed_cmd->token, "unalias"))
+		g_return_code = unalias(parsed_cmd, aliases);
 	else
 		return (STDIN_FILENO);
 	return (STDOUT_FILENO);

@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/18 15:45:58 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/18 18:33:00 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -26,7 +26,8 @@ SRCS_RAW =	main.c\
 			parsing_var.c\
 			handle_alias.c\
 			lst_alias.c\
-			minishellrc.c
+			minishellrc.c\
+			export.c
 
 OBJS_DIR = objs/
 SRCS_DIR = srcs/

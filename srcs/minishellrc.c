@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:40:16 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/18 17:10:16 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/18 18:01:11 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,9 +34,12 @@ void	handle_minishellrc(t_env **env, t_alias **aliases)
 		line = get_next_line(fd);
 		while (line)
 		{
-			parsed_cmd = parse_command(line, *env);
-			exec_command(parsed_cmd, env, aliases);
-			free(parsed_cmd);
+			if (line[0] != '#')
+			{
+				parsed_cmd = parse_command(line, *env);
+				exec_command(parsed_cmd, env, aliases);
+				free_cmd(parsed_cmd);
+			}
 			free(line);
 			line = get_next_line(fd);
 		}
