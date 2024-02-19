@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 17:26:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/19 22:51:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,21 +14,22 @@
 
 int		g_return_code = 0;
 
-char	*get_prompt(void)
+char	*get_prompt(t_env *env)
 {
 	char	*res;
 	char	cwd_buffer[100];
 	char	*cwd;
 
 	res = ft_strjoin_free("\001", ft_get_color(10, 255, 80), 2);
-	res = ft_strjoin_free(res, "\002", 1);
+	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	res = ft_strjoin_free(res, getenv("USER"), 1);
 	res = ft_strjoin_free(res, "@", 1);
 	res = ft_strjoin_free(res, "minishell\001\033[0m\002:\001", 1);
 	res = ft_strjoin_free(res, ft_get_color(80, 80, 255), 3);
-	res = ft_strjoin_free(res, "\002", 1);
+	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	cwd = getcwd(cwd_buffer, 99);
-	if(!ft_strncmp(cwd_buffer, getenv("HOME"), ft_strlen(getenv("HOME"))))
+	if(ft_get_env(env, "HOME") && !ft_strncmp(cwd_buffer, ft_get_env(env, 
+			"HOME"), ft_strlen(ft_get_env(env, "HOME"))))
 	{
 		cwd += ft_strlen(getenv("HOME")) - 1;
 		cwd[0] = '~';
@@ -84,7 +85,7 @@ int	main(int argc, char **argv, char **envp)
 	handle_minishellrc(&env, &aliases);
 	while (env && command)
 	{
-		prompt = get_prompt();
+		prompt = get_prompt(env);
 		if (!prompt)
 			exit(STDIN_FILENO);
 		command = readline(prompt);
