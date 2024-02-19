@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/18 18:33:00 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/02/19 22:56:25 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -38,7 +38,8 @@ FLAGS = -Wall -Wextra -Werror -g
 LIBFT = libft/libft.a
 NAME = minishell
 
-all: $(NAME)
+all: 
+	@$(MAKE) --no-print-directory -j $(NAME)
 
 $(NAME) : $(LIBFT) $(OBJS)
 	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
