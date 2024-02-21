@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 13:09:11 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:46:50 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,6 +52,13 @@ typedef struct s_alias
 	struct s_alias	*next;
 }	t_alias;
 
+typedef struct s_msh
+{
+	struct s_alias	*aliases;
+	struct s_env	*env;
+	struct s_cmd	*cmds;
+}	t_msh;
+
 extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
@@ -70,7 +77,7 @@ char	*ft_get_env(t_env *env, char *var_name);
 int		pwd(void);
 int		is_cmd_char(char c);
 void	print_parsed_cmd(t_cmd *cmd);//debug
-void	ft_exit(t_cmd *cmd, t_env *env, int error_code);
+void	ft_exit(t_msh *msh, int error_code);
 char	**env_to_char_tab(t_env *env);
 void	handle_minishellrc(t_env **env, t_alias **aliases);
 t_cmd	*handle_alias(t_cmd *cmd, t_env *env, t_alias *alias);	

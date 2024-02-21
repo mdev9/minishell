@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 12:50:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:54:56 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,10 +37,23 @@ int	exec_builtin(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 	return (STDOUT_FILENO);
 }
 
-void	ft_exit(t_cmd *parsed_cmd, t_env *env, int exit_code)
+void	free_msh(t_msh *msh)
 {
-	free_cmd(parsed_cmd);
-	free_env(env);
+	if (msh)
+	{
+		if (msh->cmds)
+			free_cmd(msh->cmds);
+		if (msh->env)
+			free_env(msh->env);
+		if (msh->aliases)
+			free_alias(msh->aliases);
+		free(msh);
+	}
+}
+
+void	ft_exit(t_msh *msh, int exit_code)
+{
+	free_msh(msh);
 	exit(exit_code);
 }
 
@@ -85,7 +98,7 @@ char	**split_paths_from_env(t_env *env)
 	return (ft_split(cur_env_var->value, ':'));
 }
 
-void	find_cmd_path(t_cmd *cmd, t_env *env, char **paths, int *found)
+void	find_cmd_path(t_msh *msh, char **paths, int *found)
 {
 	char	*tmp;
 	char	*path;
@@ -97,7 +110,7 @@ void	find_cmd_path(t_cmd *cmd, t_env *env, char **paths, int *found)
 		path = paths[i];
 		tmp = ft_strjoin(path, "/");
 		if (!tmp)
-			ft_exit(cmd, env, 1);
+			ft_exit(msh, 1);
 		path = ft_strjoin(tmp, cmd->token);
 		if (!path)
 			ft_exit(cmd, env, 1);

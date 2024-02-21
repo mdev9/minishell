@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 12:56:33 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 15:53:24 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,40 +68,44 @@ t_env	*get_env(char **envp)
 	return (env);
 }
 
-int	main(int argc, char **argv, char **envp)
+int	init_minishell(t_msh **msh, int argc, char **envp)
+{	
+	*msh = ft_calloc(1, sizeof(t_msh));
+	if (!*msh)
+		//
+	(void)argc;
+	(*msh)->env = get_env(envp);
+	(*msh)->aliases = 0;
+	return (0);
+}
+
+int	main(int argc, char **envp)
 {
 	char	*command;
 	t_cmd	*parsed_cmd;
-	t_env	*env;
-	t_alias	*aliases;
 	char	*prompt;
-
+	t_msh	*msh;
+	
 	command = (char *)1;
-	(void)argc;
-	(void)argv;
-	env = get_env(envp);
-	aliases = 0;
-	aliases = alias_add_back(0, ft_strdup("test"), ft_strdup("echo test"));
-		// debug
+	init_minishell(&msh, argc, envp);
 	handle_minishellrc(&env, &aliases);
-	while (env && command)
+	while (msh->env && command)
 	{
-		prompt = get_prompt(env);
+		prompt = get_prompt(msh->env);
 		if (!prompt)
 			exit(STDIN_FILENO);
 		command = readline(prompt);
 		free(prompt);
 		add_history(command);
-		parsed_cmd = parse_command(command, env);
+		msh->cmd = parse_command(command, msh->env);
 		//print_parsed_cmd(parsed_cmd);//debug
-		parsed_cmd = handle_alias(parsed_cmd, env, aliases);
+		msh->cmd = handle_alias(msh->cmd, msh->env, msh->aliases);
 		free(command);
 		//print_parsed_cmd(parsed_cmd);//debug
-		exec_command(parsed_cmd, &env, &aliases);
+		exec_command(msh->cmd, &env, &aliases);
 		free_cmd(parsed_cmd);
 	}
 	rl_clear_history();
-	free_env(env);
-	free_alias(aliases);
+	free(msh);
 	return (g_return_code);
 }
