@@ -6,32 +6,32 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 15:54:56 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:46:47 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	exec_builtin(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
+int	exec_builtin(t_msh *msh)
 {
-	if (!ft_strcmp(parsed_cmd->token, "echo"))
-		g_return_code = echo(parsed_cmd->next);
-	else if (!ft_strcmp(parsed_cmd->token, "ret"))
-		g_return_code = ft_atoi(parsed_cmd->next->token);
-	else if (!ft_strcmp(parsed_cmd->token, "env"))
-		g_return_code = print_env(*env);
-	else if (!ft_strcmp(parsed_cmd->token, "exit"))
-		exit_bt(parsed_cmd, *env, *aliases);
-	else if (!ft_strcmp(parsed_cmd->token, "pwd"))
+	if (!ft_strcmp(msh->cmds->token, "echo"))
+		g_return_code = echo(msh->cmds->next);
+	else if (!ft_strcmp(msh->cmds->token, "ret"))
+		g_return_code = ft_atoi(msh->cmds->next->token);
+	else if (!ft_strcmp(msh->cmds->token, "env"))
+		g_return_code = print_env(msh->env);
+	else if (!ft_strcmp(msh->cmds->token, "exit"))
+		exit_bt(msh);
+	else if (!ft_strcmp(msh->cmds->token, "pwd"))
 		g_return_code = pwd();
-	else if (!ft_strcmp(parsed_cmd->token, "cd"))
-		g_return_code = cd(parsed_cmd);
-	else if (!ft_strcmp(parsed_cmd->token, "export"))
-		g_return_code = ft_export(parsed_cmd, env);
-	else if (!ft_strcmp(parsed_cmd->token, "alias"))
-		g_return_code = alias(parsed_cmd, aliases);
-	else if (!ft_strcmp(parsed_cmd->token, "unalias"))
-		g_return_code = unalias(parsed_cmd, aliases);
+	else if (!ft_strcmp(msh->cmds->token, "cd"))
+		g_return_code = cd(msh->cmds);
+	else if (!ft_strcmp(msh->cmds->token, "export"))
+		g_return_code = ft_export(msh);
+	else if (!ft_strcmp(msh->cmds->token, "alias"))
+		g_return_code = alias(msh);
+	else if (!ft_strcmp(msh->cmds->token, "unalias"))
+		g_return_code = unalias(msh);
 	else
 		return (STDIN_FILENO);
 	return (STDOUT_FILENO);
@@ -57,13 +57,13 @@ void	ft_exit(t_msh *msh, int exit_code)
 	exit(exit_code);
 }
 
-int	get_args_count(t_cmd *parsed_cmd)
+int	get_args_count(t_cmd *cmds)
 {
 	int		count;
 	t_cmd	*cur_cmd;
 
 	count = 0;
-	cur_cmd = parsed_cmd;
+	cur_cmd = cmds;
 	while (cur_cmd->next != 0 && cur_cmd->type == ARG)
 	{
 		cur_cmd = cur_cmd->next;
@@ -111,15 +111,15 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found)
 		tmp = ft_strjoin(path, "/");
 		if (!tmp)
 			ft_exit(msh, 1);
-		path = ft_strjoin(tmp, cmd->token);
+		path = ft_strjoin(tmp, msh->cmds->token);
 		if (!path)
-			ft_exit(cmd, env, 1);
+			ft_exit(msh, 1);
 		free(tmp);
 		if (access(path, X_OK) != -1)
 		{
 			*found = 1;
-			free(cmd->token);
-			cmd->token = path;
+			free(msh->cmds->token);
+			msh->cmds->token = path;
 			break ;
 		}
 		free(path);
@@ -127,30 +127,31 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found)
 	}
 }
 
-void	get_cmd_path(t_cmd *cmd, t_env *env)
+void	get_cmd_path(t_msh *msh)
 {
 	char	**paths;
 	int		found;
 
 	found = 0;
-	if (ft_strchr(cmd->token, '/') && access(cmd->token, X_OK) != -1)
+	if (ft_strchr(msh->cmds->token, '/')
+		&& access(msh->cmds->token, X_OK) != -1)
 		found = 1;
 	else
 	{
-		paths = split_paths_from_env(env);
+		paths = split_paths_from_env(msh->env);
 		if (!paths)
-			ft_exit(cmd, env, 1);
-		find_cmd_path(cmd, env, paths, &found);
+			ft_exit(msh, 1);
+		find_cmd_path(msh, paths, &found);
 	}
 	if (!found)
 	{
-		ft_printf_fd(2, "%s: command not found\n", cmd->token);
-		free(cmd->token);
-		cmd->token = 0;
+		ft_printf_fd(2, "%s: command not found\n", msh->cmds->token);
+		free(msh->cmds->token);
+		msh->cmds->token = 0;
 	}
 }
 
-void	exec_command(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
+void	exec_command(t_msh *msh)
 {
 	t_cmd	*cur_cmd;
 	int		args_count;
@@ -158,15 +159,15 @@ void	exec_command(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 	int		i;
 	pid_t	pid;
 
-	if (!parsed_cmd || exec_builtin(parsed_cmd, env, aliases))
+	if (!msh->cmds || exec_builtin(msh))
 		return ;
-	cur_cmd = parsed_cmd;
-	args_count = get_args_count(parsed_cmd);
+	cur_cmd = msh->cmds;
+	args_count = get_args_count(msh->cmds);
 	cmd_args = ft_calloc(args_count + 1, sizeof(char *));
 	if (!cmd_args)
-		ft_exit(parsed_cmd, *env, 1);
+		ft_exit(msh, 1);
 	i = 0;
-	get_cmd_path(parsed_cmd, *env);
+	get_cmd_path(msh);
 	while (i < args_count)
 	{
 		cmd_args[i] = cur_cmd->token;
@@ -177,19 +178,19 @@ void	exec_command(t_cmd *parsed_cmd, t_env **env, t_alias **aliases)
 	if (pid == -1)
 	{
 		perror("fork");
-		ft_exit(parsed_cmd, *env, 1);
+		ft_exit(msh, 1);
 	}
 	if (pid == 0)
 	{
-		if (parsed_cmd->token)
-			execve(parsed_cmd->token, cmd_args, env_to_char_tab(*env));
-		ft_exit(parsed_cmd, *env, 1);
+		if (msh->cmds->token)
+			execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
+		ft_exit(msh, 1);
 	}
 	else
 	{
 		rl_redisplay();
 		if (waitpid(pid, 0, 0) < 0)
-			ft_exit(parsed_cmd, *env, 1);
+			ft_exit(msh, 1);
 	}
 	//if (cur_cmd->type == PIPE)
 	//	exec_command(cur_cmd->next, env);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 15:53:24 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:45:16 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,27 +68,27 @@ t_env	*get_env(char **envp)
 	return (env);
 }
 
-int	init_minishell(t_msh **msh, int argc, char **envp)
-{	
+int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
+{
 	*msh = ft_calloc(1, sizeof(t_msh));
 	if (!*msh)
-		//
+		ft_exit(*msh, 1);
 	(void)argc;
+	(void)argv;
 	(*msh)->env = get_env(envp);
 	(*msh)->aliases = 0;
 	return (0);
 }
 
-int	main(int argc, char **envp)
+int	main(int argc, char **argv, char **envp)
 {
 	char	*command;
-	t_cmd	*parsed_cmd;
 	char	*prompt;
 	t_msh	*msh;
-	
+
 	command = (char *)1;
-	init_minishell(&msh, argc, envp);
-	handle_minishellrc(&env, &aliases);
+	init_minishell(&msh, argc, argv, envp);
+	handle_minishellrc(msh);
 	while (msh->env && command)
 	{
 		prompt = get_prompt(msh->env);
@@ -97,13 +97,13 @@ int	main(int argc, char **envp)
 		command = readline(prompt);
 		free(prompt);
 		add_history(command);
-		msh->cmd = parse_command(command, msh->env);
+		msh->cmds = parse_command(command, msh->env);
 		//print_parsed_cmd(parsed_cmd);//debug
-		msh->cmd = handle_alias(msh->cmd, msh->env, msh->aliases);
+		msh->cmds = handle_alias(msh);
 		free(command);
 		//print_parsed_cmd(parsed_cmd);//debug
-		exec_command(msh->cmd, &env, &aliases);
-		free_cmd(parsed_cmd);
+		exec_command(msh);
+		free_cmd(msh->cmds);
 	}
 	rl_clear_history();
 	free(msh);

@@ -6,21 +6,21 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 13:11:45 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/21 13:11:59 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 17:44:30 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	remove_alias(t_cmd *args, t_alias **aliases)
+int	remove_alias(t_msh *msh)
 {
 	t_alias	*alias;
 
-	alias = *aliases;
+	alias = msh->aliases;
 	while (alias)
 	{
-		if (alias->next && args->next
-			&& !ft_strcmp(alias->next->name, args->next->token))
+		if (alias->next && msh->cmds->next
+			&& !ft_strcmp(alias->next->name, msh->cmds->next->token))
 		{
 			if (alias->next->next)
 				alias->next = alias->next->next;
@@ -38,18 +38,19 @@ int	remove_alias(t_cmd *args, t_alias **aliases)
 	return (0);
 }
 
-int	unalias(t_cmd *args, t_alias **aliases)
+int	unalias(t_msh *msh)
 {
-	if (args->next && !ft_strcmp(args->next->token, "-a"))
+	if (msh->cmds->next && !ft_strcmp(msh->cmds->next->token, "-a"))
 	{
-		free_alias(*aliases);
-		*aliases = 0;
+		free_alias(msh->aliases);
+		msh->aliases = 0;
 		return (0);
 	}
-	if (remove_alias(args, aliases))
+	if (remove_alias(msh))
 		return (1);
-	if (args->next && args->next->type == ARG)
-		ft_printf("minishell: unalias: %s: not found\n", args->next->token);
+	if (msh->cmds->next && msh->cmds->next->type == ARG)
+		ft_printf("minishell: unalias: %s: not found\n",
+			msh->cmds->next->token);
 	else
 		ft_printf("unalias: usage: unalias name\n");
 	return (1);

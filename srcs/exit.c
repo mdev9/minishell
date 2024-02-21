@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/17 04:11:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/21 17:43:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,30 +19,31 @@ void	print_numeric_arg_err(char *arg)
 	ft_putstr_fd(": numeric argument required\n", 2);
 }
 
-void	exit_bt(t_cmd *args, t_env *env, t_alias *aliases)
+void	exit_bt(t_msh *msh)
 {
 	t_cmd	*start;	
 	int		exit_code;
 
-	start = args;
-	args = args->next;
+	start = msh->cmds;
+	msh->cmds = msh->cmds->next;
 	ft_printf("exit\n");
-	if (args && args->next && args->next->type == ARG
-		&& ft_strisnbr(args->token))
+	if (msh->cmds && msh->cmds->next && msh->cmds->next->type == ARG
+		&& ft_strisnbr(msh->cmds->token))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else
 	{
-		if (args && args->type == ARG && !ft_strisnbr(args->token))
-			print_numeric_arg_err(args->token);
-		if (args && args->type == ARG)
-			exit_code = (unsigned char)ft_atoi(args->token);
-		else if (args && args->type == ARG && !ft_strisnbr(args->token))
+		if (msh->cmds && msh->cmds->type == ARG
+			&& !ft_strisnbr(msh->cmds->token))
+			print_numeric_arg_err(msh->cmds->token);
+		if (msh->cmds && msh->cmds->type == ARG)
+			exit_code = (unsigned char)ft_atoi(msh->cmds->token);
+		else if (msh->cmds && msh->cmds->type == ARG
+			&& !ft_strisnbr(msh->cmds->token))
 			exit_code = 2;
 		else
 			exit_code = g_return_code;
 		free_cmd(start);
-		free_alias(aliases);
-		free_env(env);
+		free_msh(msh);
 		exit(exit_code);
 	}
 }
