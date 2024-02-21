@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 19:13:47 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 21:48:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,5 +90,8 @@ t_alias	*alias_add_back(t_alias *alias, char *name, char *value);
 int		unalias(t_msh *msh);
 int		ft_export(t_msh *msh);
 void	free_msh(t_msh *msh);
+char	**split_paths_from_env(t_env *env);
+void	find_cmd_path(t_msh *msh, char **paths, int *found);
+void	get_cmd_path(t_msh *msh);
 
 #endif

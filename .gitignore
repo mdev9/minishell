@@ -2,6 +2,8 @@
 *.d
 
 minishell
+.minishellrc
+objs/
 
 # Object files
 *.o

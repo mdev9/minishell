@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/13 16:13:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:12:34 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,9 +33,12 @@ t_cmd	*cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
 
 void	free_cmd(t_cmd *cmd)
 {
-	if (cmd && cmd->next)
-		free_cmd(cmd->next);
 	if (cmd)
-		free(cmd->token);
-	free(cmd);
+	{
+		if (cmd && cmd->token)
+			free(cmd->token);
+		if (cmd && cmd->next)
+			free_cmd(cmd->next);
+		free(cmd);
+	}
 }
