@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 23:17:20 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 23:25:10 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -96,7 +96,8 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 	
 	//close(msh->fds[0]);
 	//close(msh->fds[1]);
-	execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
+	if (msh->cmds->token)
+		execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
 	close(0);
 	close(1);
 	close(2);
