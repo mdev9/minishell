@@ -3,10 +3,10 @@
 /*                                                        :::      ::::::::   */
 /*   debug.c                                            :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
-/*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
+/*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 15:46:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:59:08 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	print_parsed_cmd(t_cmd *cmd)
 			printf("RED_O");
 		else if (cmd->type == RED_O_APP)
 			printf("RED_O_APP");
-		else if(cmd->type == RED_I)
+		else if (cmd->type == RED_I)
 			printf("RED_I");
-		else if(cmd->type == HERE_DOC)
+		else if (cmd->type == HERE_DOC)
 			printf("HERE_DOC");
 		printf("] ");
 		cmd = cmd->next;

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 18:32:24 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:09:11 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -47,9 +47,9 @@ typedef struct s_env
 
 typedef struct s_alias
 {
-	char *name;
-	char *value;
-	struct s_alias *next;
+	char			*name;
+	char			*value;
+	struct s_alias	*next;
 }	t_alias;
 
 extern int	g_return_code;
@@ -77,7 +77,7 @@ t_cmd	*handle_alias(t_cmd *cmd, t_env *env, t_alias *alias);
 int		cd(t_cmd *args);
 int		alias(t_cmd *args, t_alias **aliases);
 void	free_alias(t_alias *alias);
-char	*ft_get_alias(t_alias *alias, char *var_name);
+char	*get_alias(t_alias *alias, char *var_name);
 t_alias	*alias_add_back(t_alias *alias, char *name, char *value);
 int		unalias(t_cmd *args, t_alias **aliases);
 int		ft_export(t_cmd *cmd, t_env **env);

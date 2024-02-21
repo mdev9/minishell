@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/18 16:31:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/21 13:09:00 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	free_alias(t_alias *alias)
 	free(alias);
 }
 
-char	*ft_get_alias(t_alias *alias, char *name)
+char	*get_alias(t_alias *alias, char *name)
 {
 	while (alias)
 	{

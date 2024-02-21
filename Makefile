@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/19 22:56:25 by tomoron          ###   ########.fr        #
+#    Updated: 2024/02/21 13:12:47 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -19,6 +19,7 @@ SRCS_RAW =	main.c\
 			exit.c\
 			echo.c\
 			alias.c\
+			unalias.c\
 			pwd.c\
 			parsing.c\
 			debug.c\

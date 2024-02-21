@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/19 22:51:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/02/21 12:56:33 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ char	*get_prompt(t_env *env)
 	res = ft_strjoin_free(res, ft_get_color(80, 80, 255), 3);
 	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	cwd = getcwd(cwd_buffer, 99);
-	if(ft_get_env(env, "HOME") && !ft_strncmp(cwd_buffer, ft_get_env(env, 
-			"HOME"), ft_strlen(ft_get_env(env, "HOME"))))
+	if (ft_get_env(env, "HOME") && !ft_strncmp(cwd_buffer, ft_get_env(env,
+				"HOME"), ft_strlen(ft_get_env(env, "HOME"))))
 	{
 		cwd += ft_strlen(getenv("HOME")) - 1;
 		cwd[0] = '~';
@@ -81,7 +81,8 @@ int	main(int argc, char **argv, char **envp)
 	(void)argv;
 	env = get_env(envp);
 	aliases = 0;
-	aliases = alias_add_back(0, ft_strdup("test"), ft_strdup("echo test")); // debug
+	aliases = alias_add_back(0, ft_strdup("test"), ft_strdup("echo test"));
+		// debug
 	handle_minishellrc(&env, &aliases);
 	while (env && command)
 	{
