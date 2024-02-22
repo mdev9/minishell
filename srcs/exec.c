@@ -6,11 +6,37 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/22 13:50:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:21:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+int	cmd_is_builtin(t_msh *msh, char *cmd_token)
+{
+	if (!cmd_token)
+		return (0);
+	else if (!ft_strcmp(cmd_token, "cd"))
+	{
+		cd(msh->cmds);
+		return (1);
+	}
+	else if (!ft_strcmp(cmd_token, "unalias"))
+	{
+		unalias(msh);
+		return (1);
+	}
+	else if (!ft_strcmp(cmd_token, "alias"))
+	{
+		alias(msh);
+		return (1);
+	}
+	else if (!ft_strcmp(cmd_token, "echo") || !ft_strcmp(cmd_token, "ret")
+		|| !ft_strcmp(cmd_token, "env") || !ft_strcmp(cmd_token, "exit")
+		|| !ft_strcmp(cmd_token, "pwd") || !ft_strcmp(cmd_token, "export"))
+		return (1);
+	return (0);
+}
 
 int	exec_builtin(t_msh *msh)
 {
@@ -76,7 +102,6 @@ int	get_args_count(t_cmd *cmds)
 	return (count);
 }
 
-
 void	redirect_input(t_msh *msh)
 {
 	if (dup2(msh->fds[0], 0) < 0)
@@ -90,7 +115,6 @@ void	redirect_output(t_msh *msh)
 	//close(msh->fds[1]);
 }
 
-
 void	pipe_child(t_msh *msh, char **cmd_args)
 {
 	if (msh->cmds->type != ARG)
@@ -100,7 +124,9 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 		close(msh->fds[0]);
 		close(msh->fds[1]);
 	}
-	if (exec_builtin(msh))
+	if (!ft_strcmp(msh->cmds->token, "cd") || !ft_strcmp(msh->cmds->token,
+			"alias") || !ft_strcmp(msh->cmds->token, "unalias")
+		|| exec_builtin(msh))
 		return ;
 	if (msh->cmds->token)
 		execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
@@ -120,6 +146,7 @@ void	pipe_parent(t_msh *msh)
 int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 {
 	pid_t	pid;
+	int		i;
 
 	if (msh->cmds != cmd)
 	{
@@ -143,7 +170,7 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 		rl_redisplay();
 		//if (waitpid(pid, 0, 0) < 0)
 		//	ft_exit(msh, 1);
-		int i = 0;
+		i = 0;
 		while (msh->pids[i])
 			i++;
 		msh->pids[i] = pid;
@@ -160,7 +187,8 @@ int	get_cmd_count(t_cmd *cmds)
 	cur_cmd = cmds;
 	while (cur_cmd->next != 0)
 	{
-		if (cur_cmd->type != ARG && (cur_cmd->next && cur_cmd->next->type == ARG))
+		if (cur_cmd->type != ARG && (cur_cmd->next
+				&& cur_cmd->next->type == ARG))
 			count++;
 		cur_cmd = cur_cmd->next;
 	}
@@ -193,8 +221,8 @@ char	**get_cmd_args(t_msh *msh)
 
 int	remove_command_from_msh(t_msh *msh)
 {
-	t_cmd *cmd_cur;
-	t_cmd *cmd_tmp;
+	t_cmd	*cmd_cur;
+	t_cmd	*cmd_tmp;
 
 	cmd_cur = msh->cmds;
 	while (cmd_cur && cmd_cur->next)
@@ -237,14 +265,13 @@ void	exec_command(t_msh *msh)
 	while (i < cmd_count)
 	{
 		//if (type = PIPE)
-
-		get_cmd_path(msh);
+		if (!cmd_is_builtin(msh, msh->cmds->token))
+			get_cmd_path(msh);
 		exec(msh, msh->cmds, get_cmd_args(msh));
 		//type = remove_command_from_msh(msh);
 		remove_command_from_msh(msh);
 		i++;
 	}
-	
 	i = cmd_count;
 	while (i > 0)
 	{
