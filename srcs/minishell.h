@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 21:48:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/22 13:41:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,6 +58,7 @@ typedef struct s_msh
 	struct s_env	*env;
 	struct s_cmd	*cmds;
 	int				*fds;
+	int				*pids;
 }	t_msh;
 
 extern int	g_return_code;
