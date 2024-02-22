@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/22 13:41:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:54:06 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,11 +54,13 @@ typedef struct s_alias
 
 typedef struct s_msh
 {
-	struct s_alias	*aliases;
-	struct s_env	*env;
-	struct s_cmd	*cmds;
-	int				*fds;
-	int				*pids;
+	struct s_alias		*aliases;
+	struct s_env		*env;
+	struct s_cmd		*cmds;
+	int					*fds;
+	int					*pids;
+	enum e_token_type	type_in;
+	enum e_token_type	type_out;
 }	t_msh;
 
 extern int	g_return_code;

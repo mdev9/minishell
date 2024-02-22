@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/22 17:21:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/22 17:58:49 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,17 +117,21 @@ void	redirect_output(t_msh *msh)
 
 void	pipe_child(t_msh *msh, char **cmd_args)
 {
-	if (msh->cmds->type != ARG)
+	if (msh->type_in != ARG)
 	{
 		redirect_input(msh);
-		redirect_output(msh);
 		close(msh->fds[0]);
+	}
+	if (msh->type_out != ARG)
+	{
+		redirect_output(msh);
 		close(msh->fds[1]);
 	}
-	if (!ft_strcmp(msh->cmds->token, "cd") || !ft_strcmp(msh->cmds->token,
-			"alias") || !ft_strcmp(msh->cmds->token, "unalias")
-		|| exec_builtin(msh))
-		return ;
+	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
+		|| !ft_strcmp(msh->cmds->token, "alias")
+		|| !ft_strcmp(msh->cmds->token, "unalias")
+		|| exec_builtin(msh)))
+		ft_exit(msh, 1);
 	if (msh->cmds->token)
 		execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
 	close(0);
@@ -139,8 +143,10 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 void	pipe_parent(t_msh *msh)
 {
 	(void)msh;
-	//close(msh->fds[0]);
-	//close(msh->fds[1]);
+	if (msh->type_in != ARG)
+		close(msh->fds[0]);
+	if (msh->type_out != ARG)
+		close(msh->fds[1]);
 }
 
 int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
@@ -219,7 +225,7 @@ char	**get_cmd_args(t_msh *msh)
 	return (cmd_args);
 }
 
-int	remove_command_from_msh(t_msh *msh)
+void	remove_command_from_msh(t_msh *msh)
 {
 	t_cmd	*cmd_cur;
 	t_cmd	*cmd_tmp;
@@ -231,10 +237,11 @@ int	remove_command_from_msh(t_msh *msh)
 		{
 			cmd_tmp = cmd_cur;
 			cmd_cur = cmd_cur->next;
+			msh->type_in = cmd_tmp->type;
 			free(cmd_tmp->token);
 			free(cmd_tmp);
 			msh->cmds = cmd_cur;
-			return (cmd_cur->type);
+			return ;
 		}
 		cmd_tmp = cmd_cur;
 		cmd_cur = cmd_cur->next;
@@ -242,7 +249,7 @@ int	remove_command_from_msh(t_msh *msh)
 		free(cmd_tmp);
 		msh->cmds = cmd_cur;
 	}
-	return (ARG);
+	msh->type_in = 0;
 }
 
 void	exec_command(t_msh *msh)
@@ -255,7 +262,6 @@ void	exec_command(t_msh *msh)
 	if (!msh->cmds)
 		return ;
 	msh->fds = ft_calloc(2, sizeof(int *));
-	type = ARG;
 	cmd_count = get_cmd_count(msh->cmds);
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids)
@@ -264,11 +270,11 @@ void	exec_command(t_msh *msh)
 		msh->fds[1] = 1;
 	while (i < cmd_count)
 	{
-		//if (type = PIPE)
+		//get_out_type
+		//msh->type_out = 
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
 		exec(msh, msh->cmds, get_cmd_args(msh));
-		//type = remove_command_from_msh(msh);
 		remove_command_from_msh(msh);
 		i++;
 	}
