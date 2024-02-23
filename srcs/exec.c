@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/22 17:58:49 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/23 14:12:21 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,11 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	else if (!ft_strcmp(cmd_token, "alias"))
 	{
 		alias(msh);
+		return (1);
+	}
+	else if (!ft_strcmp(cmd_token, "exit"))
+	{
+		exit_bt(msh);
 		return (1);
 	}
 	else if (!ft_strcmp(cmd_token, "echo") || !ft_strcmp(cmd_token, "ret")
@@ -130,6 +135,7 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
+		|| !ft_strcmp(msh->cmds->token, "exit")
 		|| exec_builtin(msh)))
 		ft_exit(msh, 1);
 	if (msh->cmds->token)
@@ -143,10 +149,6 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 void	pipe_parent(t_msh *msh)
 {
 	(void)msh;
-	if (msh->type_in != ARG)
-		close(msh->fds[0]);
-	if (msh->type_out != ARG)
-		close(msh->fds[1]);
 }
 
 int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
@@ -159,6 +161,7 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 		if (pipe(msh->fds) == -1)
 		{
 			perror("pipe");
+			ft_printf_fd(2, "exiting\n");
 			ft_exit(msh, 1);
 		}
 	}
@@ -166,6 +169,7 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 	if (pid == -1)
 	{
 		perror("fork");
+		ft_printf_fd(2, "exiting\n");
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
@@ -173,9 +177,8 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 	else
 	{
 		pipe_parent(msh);
-		rl_redisplay();
-		//if (waitpid(pid, 0, 0) < 0)
-		//	ft_exit(msh, 1);
+		//rl_redisplay();
+		//waitpid(pid, 0, 0);
 		i = 0;
 		while (msh->pids[i])
 			i++;
@@ -254,9 +257,8 @@ void	remove_command_from_msh(t_msh *msh)
 
 void	exec_command(t_msh *msh)
 {
-	int					cmd_count;
-	enum e_token_type	type;
-	int					i;
+	int	cmd_count;
+	int	i;
 
 	i = 0;
 	if (!msh->cmds)
@@ -282,7 +284,10 @@ void	exec_command(t_msh *msh)
 	while (i > 0)
 	{
 		if (waitpid(msh->pids[i], 0, 0) < 0)
+		{
+			ft_printf_fd(2, "exiting\n");
 			ft_exit(msh, 1);
+		}
 		i--;
 	}
 }
