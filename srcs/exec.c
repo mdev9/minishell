@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/23 16:18:56 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/23 20:30:13 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,21 +117,26 @@ void	redirect_output(t_msh *msh)
 {
 	if (dup2(msh->fds[1], 1) < 0)
 		ft_exit(msh, 1);
-	//close(msh->fds[1]);
+	close(msh->fds[1]);
 }
 
 void	pipe_child(t_msh *msh, char **cmd_args)
 {
-	if (msh->type_in != ARG)
+	//if (msh->type_in != ARG)
+	/*
+	if (msh->fds[0] != 0)
 	{
+		ft_printf_fd(2, "input: %d\n", msh->fds[0]);
 		redirect_input(msh);
 		close(msh->fds[0]);
 	}
-	if (msh->type_out != ARG)
+	//if (msh->type_out != ARG)
+	if (msh->fds[1] != 1)
 	{
+		ft_printf_fd(2, "output: %d\n", msh->fds[1]);
 		redirect_output(msh);
 		close(msh->fds[1]);
-	}
+	}*/
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -148,7 +153,10 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 
 void	pipe_parent(t_msh *msh)
 {
-	(void)msh;
+	if (msh->fds[0] != 0)
+		close(msh->fds[0]);
+	if (msh->fds[1] != 1)
+		close(msh->fds[1]);
 }
 
 int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
@@ -258,7 +266,7 @@ void	remove_command_from_msh(t_msh *msh)
 void	get_fds(t_msh *msh)
 {
 	msh->fds[1] = 1;
-
+	//(void) msh;
 	//get_out_type
 	//msh->type_out = 
 }
@@ -288,6 +296,7 @@ void	exec_command(t_msh *msh)
 	i = cmd_count;
 	while (i > 0)
 	{
+		ft_printf_fd(2, "waiting for %d\n", msh->pids[i]);
 		waitpid(msh->pids[i], 0, 0);
 		i--;
 	}
