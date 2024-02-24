@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/23 20:30:13 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/24 19:21:10 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,7 +186,6 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args)
 	{
 		pipe_parent(msh);
 		//rl_redisplay();
-		//waitpid(pid, 0, 0);
 		i = 0;
 		while (msh->pids[i])
 			i++;
