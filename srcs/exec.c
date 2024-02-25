@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/25 07:32:05 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/25 07:36:04 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -122,18 +122,16 @@ void	redirect_output(t_msh *msh)
 
 void	pipe_child(t_msh *msh, char **cmd_args)
 {
-	if (msh->type_in != ARG)
+	if (msh->fds[0] != 0)
 	{
 		redirect_input(msh);
 		close(msh->fds[0]);
 	}
-	if (msh->type_out != ARG)
+	if (msh->fds[1] != 1)
 	{
 		redirect_output(msh);
 		close(msh->fds[1]);
 	}
-
-
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -179,7 +177,6 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args, int i)
 	{
 		pipe_parent(msh);
 		//rl_redisplay();
-		//waitpid(pid, 0, 0);
 		msh->pids[i] = pid;
 	}
 	return (0);
@@ -257,7 +254,7 @@ void	remove_command_from_msh(t_msh *msh)
 void	get_fds(t_msh *msh)
 {
 	msh->fds[1] = 1;
-
+	//(void) msh;
 	//get_out_type
 	//msh->type_out = 
 }*/
@@ -286,9 +283,7 @@ void	exec_command(t_msh *msh)
 	i = cmd_count - 1;
 	while (i >= 0)
 	{
-		//ft_printf_fd(2, "pid: %d\n", msh->pids[i]);
 		waitpid(msh->pids[i], 0, 0);
 		i--;
 	}
-	//ft_printf_fd(2, "done waiting\n");
 }
