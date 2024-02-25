@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/22 17:54:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/25 07:51:21 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,8 +59,8 @@ typedef struct s_msh
 	struct s_cmd		*cmds;
 	int					*fds;
 	int					*pids;
-	enum e_token_type	type_in;
-	enum e_token_type	type_out;
+	enum e_token_type	in_type;
+	enum e_token_type	out_type;
 }	t_msh;
 
 extern int	g_return_code;
