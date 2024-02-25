@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/25 11:16:32 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/25 14:02:58 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,33 +118,39 @@ int is_fd_open(int fd) // debug
     return 1;
 }
 
-void	redirect_input(t_msh *msh)
+void	redirect_input(t_msh *msh, int i)
 {
-	if (dup2(msh->fds[0], 0) < 0)
+	ft_printf_fd(2, "i: %d\ninput: %d\n", i, msh->fds[i - 1][0]);
+	if (dup2(msh->fds[i - 1][0], 0) < 0)
 		ft_exit(msh, 1);
 }
 
-void	redirect_output(t_msh *msh)
+void	redirect_output(t_msh *msh, int i)
 {
-	if (dup2(msh->fds[1], 1) < 0)
+	if (dup2(msh->fds[i][1], 1) < 0)
 		ft_exit(msh, 1);
-	//close(msh->fds[0]);
 }
 
-void	pipe_child(t_msh *msh, char **cmd_args)
+void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
 		ft_printf_fd(2, "redirecting input\n");
-		redirect_input(msh);
+		redirect_input(msh, i);
+		close(msh->fds[i - 1][0]);
 	}
 	if (msh->out_type != ARG)
 	{
 		ft_printf_fd(2, "redirecting output\n");
-		redirect_output(msh);
+		redirect_output(msh, i);
+		if (i != 0)
+		{
+			close(msh->fds[i - 1][0]);
+			close(msh->fds[i - 1][1]);
+		}
+		close(msh->fds[i][1]);
 	}
-	close(msh->fds[0]);
-	close(msh->fds[1]);
+	//close(msh->fds[i][0]);
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -159,14 +165,18 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 	ft_exit(msh, 1);
 }
 
-void	pipe_parent(t_msh *msh)
+/*
+void	pipe_parent(t_msh *msh, int i)
 {
 	(void)msh;
 	//ft_printf_fd(2, "closed: %d\n", msh->fds[0]);
 	//close(msh->fds[0]);
 	//ft_printf_fd(2, "closed: %d\n", msh->fds[1]);
-	close(msh->fds[1]);
-}
+	if (msh->fds[1] != 0)
+		close(msh->fds[1]);
+	//if (msh->fds[0] != 0)
+	//	close(msh->fds[0]);
+}*/
 
 int	get_cmd_count(t_cmd *cmds)
 {
@@ -193,11 +203,11 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	
 	if (i != cmd_count - 1)
 	{
-		ft_printf_fd(2, "piping\n");
-		if (pipe(msh->fds) == -1)
+		//ft_printf_fd(2, "piping\n");
+		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("pipe");
-			ft_printf_fd(2, "exiting (pipe)\n"); // debug
+			//ft_printf_fd(2, "exiting (pipe)\n"); // debug
 			ft_exit(msh, 1);
 		}
 	}
@@ -205,15 +215,19 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	if (pid == -1)
 	{
 		perror("fork");
-		ft_printf_fd(2, "exiting (fork)\n"); //debug
+		//ft_printf_fd(2, "exiting (fork)\n"); //debug
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
-		pipe_child(msh, cmd_args);
+		pipe_child(msh, cmd_args, i);
 	else
 	{
-		pipe_parent(msh);
+		//pipe_parent(msh);
 		//rl_redisplay();
+		if (i != 0 && msh->fds[i - 1][1] != 0)
+			close(msh->fds[i - 1][1]);
+		if (i != 0 && msh->fds[i][0] != 0)
+			close(msh->fds[i][0]);
 		msh->pids[i] = pid;
 	}
 	return (0);
@@ -265,12 +279,11 @@ void	remove_command_from_msh(t_msh *msh)
 		free(cmd_tmp);
 		msh->cmds = cmd_cur;
 	}
-	msh->in_type = 0;
+	msh->in_type = ARG;
 }
 
 void	get_out_type(t_msh *msh)
 {
-	msh->out_type = 1;
 	t_cmd *cur_cmd;
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
@@ -290,13 +303,16 @@ void	exec_command(t_msh *msh)
 	i = 0;
 	if (!msh->cmds)
 		return ;
-	msh->fds = ft_calloc(2, sizeof(int *));
 	cmd_count = get_cmd_count(msh->cmds);
+	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
-	if (!msh->pids)
+	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
 	while (i < cmd_count)
 	{
+		msh->fds[i] = ft_calloc(2, sizeof(int *));
+		if (!msh->fds[i])
+			ft_exit(msh, 1);
 		get_out_type(msh);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
@@ -307,8 +323,11 @@ void	exec_command(t_msh *msh)
 	i = cmd_count - 1;
 	while (i >= 0)
 	{
+		if (msh->fds[i][0] != 0)
+			close(msh->fds[i][0]);
 		waitpid(msh->pids[i], 0, 0);
 		i--;
 	}
-	close(msh->fds[0]);
+	i = 0;
+	//todo: free fds tab
 }
