@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/25 10:24:55 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/25 11:16:32 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -120,16 +120,12 @@ int is_fd_open(int fd) // debug
 
 void	redirect_input(t_msh *msh)
 {
-	//is_fd_open(msh->fds[0]);
-	//is_fd_open(msh->fds[1]);
 	if (dup2(msh->fds[0], 0) < 0)
 		ft_exit(msh, 1);
 }
 
 void	redirect_output(t_msh *msh)
 {
-	//is_fd_open(msh->fds[0]);
-	//is_fd_open(msh->fds[1]);
 	if (dup2(msh->fds[1], 1) < 0)
 		ft_exit(msh, 1);
 	//close(msh->fds[0]);
@@ -141,14 +137,11 @@ void	pipe_child(t_msh *msh, char **cmd_args)
 	{
 		ft_printf_fd(2, "redirecting input\n");
 		redirect_input(msh);
-		//close(msh->fds[0]);
 	}
 	if (msh->out_type != ARG)
 	{
 		ft_printf_fd(2, "redirecting output\n");
 		redirect_output(msh);
-		//close(msh->fds[0]);
-		//close(msh->fds[1]);
 	}
 	close(msh->fds[0]);
 	close(msh->fds[1]);
@@ -175,13 +168,32 @@ void	pipe_parent(t_msh *msh)
 	close(msh->fds[1]);
 }
 
-int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args, int i)
+int	get_cmd_count(t_cmd *cmds)
+{
+	int		count;
+	t_cmd	*cur_cmd;
+
+	count = 0;
+	cur_cmd = cmds;
+	while (cur_cmd->next != 0)
+	{
+		if (cur_cmd->type != ARG && (cur_cmd->next
+				&& cur_cmd->next->type == ARG))
+			count++;
+		cur_cmd = cur_cmd->next;
+	}
+	if (cur_cmd->type == ARG)
+		count++;
+	return (count);
+}
+
+int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 {
 	pid_t	pid;
-
-	if (i != 1)
+	
+	if (i != cmd_count - 1)
 	{
-		(void)cmd;
+		ft_printf_fd(2, "piping\n");
 		if (pipe(msh->fds) == -1)
 		{
 			perror("pipe");
@@ -205,25 +217,6 @@ int	exec(t_msh *msh, t_cmd *cmd, char **cmd_args, int i)
 		msh->pids[i] = pid;
 	}
 	return (0);
-}
-
-int	get_cmd_count(t_cmd *cmds)
-{
-	int		count;
-	t_cmd	*cur_cmd;
-
-	count = 0;
-	cur_cmd = cmds;
-	while (cur_cmd->next != 0)
-	{
-		if (cur_cmd->type != ARG && (cur_cmd->next
-				&& cur_cmd->next->type == ARG))
-			count++;
-		cur_cmd = cur_cmd->next;
-	}
-	if (cur_cmd->type == ARG)
-		count++;
-	return (count);
 }
 
 char	**get_cmd_args(t_msh *msh)
@@ -278,6 +271,15 @@ void	remove_command_from_msh(t_msh *msh)
 void	get_out_type(t_msh *msh)
 {
 	msh->out_type = 1;
+	t_cmd *cur_cmd;
+	cur_cmd = msh->cmds;
+	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
+		cur_cmd = cur_cmd->next;
+	if (!cur_cmd->type)
+		msh->out_type = ARG;
+	else
+		msh->out_type = cur_cmd->type;
+	//ft_printf_fd(2, "%d\n", msh->out_type);
 }
 
 void	exec_command(t_msh *msh)
@@ -295,13 +297,10 @@ void	exec_command(t_msh *msh)
 		ft_exit(msh, 1);
 	while (i < cmd_count)
 	{
-		if (i == 0)
-			get_out_type(msh);
-		else
-			msh->out_type = 0;
+		get_out_type(msh);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
-		exec(msh, msh->cmds, get_cmd_args(msh), i);
+		exec(msh, get_cmd_args(msh), i, cmd_count);
 		remove_command_from_msh(msh);
 		i++;
 	}
