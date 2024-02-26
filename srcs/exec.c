@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/26 14:52:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/26 16:33:16 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -143,14 +143,31 @@ int is_fd_open(int fd) // debug
 
 void	redirect_input(t_msh *msh, int i)
 {
-	if (dup2(msh->fds[i - 1][0], 0) < 0)
-		ft_exit(msh, 1);
+	if (msh->in_type != PIPE)
+	{
+		if (dup2(msh->in_fd, 0) < 0)
+			ft_exit(msh, 1);
+		close(msh->in_fd);
+	}
+	else
+	{
+		if (dup2(msh->fds[i - 1][0], 0) < 0)
+			ft_exit(msh, 1);
+	}
 }
 
 void	redirect_output(t_msh *msh, int i)
 {
-	if (dup2(msh->fds[i][1], 1) < 0)
-		ft_exit(msh, 1);
+	if (msh->out_type != PIPE)
+	{
+		if (dup2(msh->out_fd, 1) < 0)
+			ft_exit(msh, 1);
+	}
+	else 
+	{
+		if (dup2(msh->fds[i][1], 1) < 0)
+			ft_exit(msh, 1);
+	}
 }
 
 void	pipe_child(t_msh *msh, char **cmd_args, int i)
@@ -165,8 +182,6 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 		//ft_printf_fd(2, "redirecting output\n");
 		redirect_output(msh, i);
 	}
-
-
 	if (i != 0)
 	{
 		if (msh->fds[i - 1][0] > 2)
@@ -178,8 +193,6 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 		close(msh->fds[i][0]);
 	if (msh->fds[i][1] > 2)
 		close(msh->fds[i][1]);
-
-
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -269,18 +282,34 @@ void	remove_command_from_msh(t_msh *msh)
 	t_cmd	*cmd_tmp;
 
 	cmd_cur = msh->cmds;
+	msh->out_type = ARG;
 	while (cmd_cur && cmd_cur->next)
 	{
-		if (cmd_cur->type != ARG)
+		//if (cmd_cur->type != ARG)
+		while (cmd_cur->type != ARG)
 		{
+			//remove cmd if not PIPE
+			if (cmd_cur->type == PIPE)
+			{
+				cmd_tmp = cmd_cur;
+				cmd_cur = cmd_cur->next;
+				msh->in_type = cmd_tmp->type;
+				free(cmd_tmp->token);
+				free(cmd_tmp);
+				msh->cmds = cmd_cur;
+				return ;
+			}
 			cmd_tmp = cmd_cur;
 			cmd_cur = cmd_cur->next;
-			msh->in_type = cmd_tmp->type;
+			msh->out_type = cmd_cur->type;
 			free(cmd_tmp->token);
 			free(cmd_tmp);
 			msh->cmds = cmd_cur;
-			return ;
 		}
+		if (msh->out_type == RED_O)
+			msh->out_fd = open(cmd_cur->token, O_CREAT | O_RDWR | O_TRUNC, 0644);
+		if (msh->out_type == RED_O_APP)
+			msh->out_fd = open(cmd_cur->token, O_CREAT | O_RDWR | O_APPEND, 0644);
 		cmd_tmp = cmd_cur;
 		cmd_cur = cmd_cur->next;
 		free(cmd_tmp->token);
@@ -299,8 +328,11 @@ void	get_out_type(t_msh *msh)
 	if (!cur_cmd->type)
 		msh->out_type = ARG;
 	else
+	{
+		//cur_cmd->token
 		msh->out_type = cur_cmd->type;
-	//ft_printf_fd(2, "%d\n", msh->out_type);
+	}
+	ft_printf_fd(2, "type: %d\n", msh->out_type);
 }
 
 void	exec_command(t_msh *msh)
@@ -318,6 +350,7 @@ void	exec_command(t_msh *msh)
 		ft_exit(msh, 1);
 	while (i < cmd_count)
 	{
+		ft_printf_fd(2, "%s\n", msh->cmds->token);
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
