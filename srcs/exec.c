@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/26 13:26:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:41:19 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,26 +134,29 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
-		//is_fd_open(msh->fds[i - 1][0]);
 		//ft_printf_fd(2, "redirecting input\n");
 		redirect_input(msh, i);
-		close(msh->fds[i - 1][0]);
 	}
 	if (msh->out_type != ARG)
 	{
-		//is_fd_open(msh->fds[i][1]);
 		//ft_printf_fd(2, "redirecting output\n");
 		redirect_output(msh, i);
-		if (i != 0)
-		{
-			close(msh->fds[i - 1][0]);
-			close(msh->fds[i - 1][1]);
-		}
-		//close(msh->fds[i][0]);
-		//close(msh->fds[i][1]);
-		ft_printf_fd(2, "c:");
-		is_fd_open(msh->fds[i][0]);
 	}
+
+
+	if (i != 0)
+	{
+		if (msh->fds[i - 1][0] > 2)
+			close(msh->fds[i - 1][0]);
+		if (msh->fds[i - 1][1] > 2)
+			close(msh->fds[i - 1][1]);
+	}
+	if (msh->fds[i][0] > 2)
+		close(msh->fds[i][0]);
+	if (msh->fds[i][1] > 2)
+		close(msh->fds[i][1]);
+
+
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -172,17 +175,18 @@ void	pipe_parent(t_msh *msh, int i, int cmd_count)
 {
 	if (i != 0)
 	{
-		if (msh->fds[i - 1][0] >= 3)
+		if (msh->fds[i - 1][0] > 2)
 			close(msh->fds[i - 1][0]);
-		if (msh->fds[i - 1][1] >= 3)
+		if (msh->fds[i - 1][1] > 2)
 			close(msh->fds[i - 1][1]);
 	}
-	(void)cmd_count;
-	if (msh->fds[i][1] >= 3)
-		close(msh->fds[i][1]);
-	ft_printf_fd(2, "%i\n", i);
-	ft_printf_fd(2, "p:");
-	is_fd_open(msh->fds[i][0]);
+	if (i == cmd_count - 1)
+	{
+		if (msh->fds[i][0] > 2)
+			close(msh->fds[i][0]);
+		if (msh->fds[i][1] > 2)
+			close(msh->fds[i][1]);
+	}
 }
 
 int	get_cmd_count(t_cmd *cmds)
