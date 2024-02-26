@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/26 13:41:19 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/26 14:52:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,25 @@ int	exec_builtin(t_msh *msh)
 	return (STDOUT_FILENO);
 }
 
+int	get_cmd_count(t_cmd *cmds)
+{
+	int		count;
+	t_cmd	*cur_cmd;
+
+	count = 0;
+	cur_cmd = cmds;
+	while (cur_cmd->next != 0)
+	{
+		if (cur_cmd->type != ARG && (cur_cmd->next
+				&& cur_cmd->next->type == ARG))
+			count++;
+		cur_cmd = cur_cmd->next;
+	}
+	if (cur_cmd->type == ARG)
+		count++;
+	return (count);
+}
+
 void	free_msh(t_msh *msh)
 {
 	if (msh)
@@ -80,6 +99,10 @@ void	free_msh(t_msh *msh)
 			free_env(msh->env);
 		if (msh->aliases)
 			free_alias(msh->aliases);
+		if (msh->pids)
+			free(msh->pids);
+		if (msh->fds)
+			free(msh->fds);
 		free(msh);
 	}
 }
@@ -189,36 +212,15 @@ void	pipe_parent(t_msh *msh, int i, int cmd_count)
 	}
 }
 
-int	get_cmd_count(t_cmd *cmds)
-{
-	int		count;
-	t_cmd	*cur_cmd;
-
-	count = 0;
-	cur_cmd = cmds;
-	while (cur_cmd->next != 0)
-	{
-		if (cur_cmd->type != ARG && (cur_cmd->next
-				&& cur_cmd->next->type == ARG))
-			count++;
-		cur_cmd = cur_cmd->next;
-	}
-	if (cur_cmd->type == ARG)
-		count++;
-	return (count);
-}
-
 int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 {
 	pid_t	pid;
 	
 	if (i != cmd_count - 1)
 	{
-		//ft_printf_fd(2, "piping\n");
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("pipe");
-			//ft_printf_fd(2, "exiting (pipe)\n"); // debug
 			ft_exit(msh, 1);
 		}
 	}
@@ -226,7 +228,6 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	if (pid == -1)
 	{
 		perror("fork");
-		//ft_printf_fd(2, "exiting (fork)\n"); //debug
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
@@ -234,14 +235,8 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	else
 	{
 		pipe_parent(msh, i, cmd_count);
-		//rl_redisplay();
-		/*
-		if (i != 0 && msh->fds[i - 1][1] != 0)
-			close(msh->fds[i - 1][1]);
-		if (i != 0 && msh->fds[i][0] != 0)
-			close(msh->fds[i][0]);
-		*/
 		msh->pids[i] = pid;
+		free(cmd_args);
 	}
 	return (0);
 }
@@ -340,5 +335,11 @@ void	exec_command(t_msh *msh)
 		i--;
 	}
 	i = 0;
-	//todo: free fds tab
+	while (i < cmd_count)
+	{
+		free(msh->fds[i]);
+		i++;
+	}
+	free(msh->fds);
+	free(msh->pids);
 }
