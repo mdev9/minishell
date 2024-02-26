@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/26 15:59:49 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/26 20:30:30 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,5 +98,6 @@ void	free_msh(t_msh *msh);
 char	**split_paths_from_env(t_env *env);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	get_cmd_path(t_msh *msh);
+void	handle_here_doc(t_msh *msh, char *eof);
 
 #endif
