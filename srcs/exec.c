@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/25 14:02:58 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/26 13:26:39 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -111,16 +111,15 @@ int is_fd_open(int fd) // debug
 {
 	if (fcntl(fd, F_GETFL) == -1)
 	{
-		ft_printf_fd(2, "fd %d is not open\n", fd);
+		ft_printf_fd(2, "%d:closed\n", fd);
 		return (0);
 	}
-	ft_printf_fd(2, "fd %d is open\n", fd);
+	ft_printf_fd(2, "%d:open\n", fd);
     return 1;
 }
 
 void	redirect_input(t_msh *msh, int i)
 {
-	ft_printf_fd(2, "i: %d\ninput: %d\n", i, msh->fds[i - 1][0]);
 	if (dup2(msh->fds[i - 1][0], 0) < 0)
 		ft_exit(msh, 1);
 }
@@ -135,22 +134,26 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
-		ft_printf_fd(2, "redirecting input\n");
+		//is_fd_open(msh->fds[i - 1][0]);
+		//ft_printf_fd(2, "redirecting input\n");
 		redirect_input(msh, i);
 		close(msh->fds[i - 1][0]);
 	}
 	if (msh->out_type != ARG)
 	{
-		ft_printf_fd(2, "redirecting output\n");
+		//is_fd_open(msh->fds[i][1]);
+		//ft_printf_fd(2, "redirecting output\n");
 		redirect_output(msh, i);
 		if (i != 0)
 		{
 			close(msh->fds[i - 1][0]);
 			close(msh->fds[i - 1][1]);
 		}
-		close(msh->fds[i][1]);
+		//close(msh->fds[i][0]);
+		//close(msh->fds[i][1]);
+		ft_printf_fd(2, "c:");
+		is_fd_open(msh->fds[i][0]);
 	}
-	//close(msh->fds[i][0]);
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 		|| !ft_strcmp(msh->cmds->token, "alias")
 		|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -165,18 +168,22 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 	ft_exit(msh, 1);
 }
 
-/*
-void	pipe_parent(t_msh *msh, int i)
+void	pipe_parent(t_msh *msh, int i, int cmd_count)
 {
-	(void)msh;
-	//ft_printf_fd(2, "closed: %d\n", msh->fds[0]);
-	//close(msh->fds[0]);
-	//ft_printf_fd(2, "closed: %d\n", msh->fds[1]);
-	if (msh->fds[1] != 0)
-		close(msh->fds[1]);
-	//if (msh->fds[0] != 0)
-	//	close(msh->fds[0]);
-}*/
+	if (i != 0)
+	{
+		if (msh->fds[i - 1][0] >= 3)
+			close(msh->fds[i - 1][0]);
+		if (msh->fds[i - 1][1] >= 3)
+			close(msh->fds[i - 1][1]);
+	}
+	(void)cmd_count;
+	if (msh->fds[i][1] >= 3)
+		close(msh->fds[i][1]);
+	ft_printf_fd(2, "%i\n", i);
+	ft_printf_fd(2, "p:");
+	is_fd_open(msh->fds[i][0]);
+}
 
 int	get_cmd_count(t_cmd *cmds)
 {
@@ -222,12 +229,14 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 		pipe_child(msh, cmd_args, i);
 	else
 	{
-		//pipe_parent(msh);
+		pipe_parent(msh, i, cmd_count);
 		//rl_redisplay();
+		/*
 		if (i != 0 && msh->fds[i - 1][1] != 0)
 			close(msh->fds[i - 1][1]);
 		if (i != 0 && msh->fds[i][0] != 0)
 			close(msh->fds[i][0]);
+		*/
 		msh->pids[i] = pid;
 	}
 	return (0);
@@ -323,8 +332,6 @@ void	exec_command(t_msh *msh)
 	i = cmd_count - 1;
 	while (i >= 0)
 	{
-		if (msh->fds[i][0] != 0)
-			close(msh->fds[i][0]);
 		waitpid(msh->pids[i], 0, 0);
 		i--;
 	}
