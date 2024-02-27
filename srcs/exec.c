@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/27 13:13:51 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/27 16:48:12 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -110,6 +110,7 @@ void	free_msh(t_msh *msh)
 
 void	ft_exit(t_msh *msh, int exit_code)
 {
+	ft_printf_fd(2, "exiting");
 	free_msh(msh);
 	exit(exit_code);
 }
@@ -175,12 +176,12 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
-		// ft_printf_fd(2, "redirecting input\n");
+		ft_printf_fd(2, "redirecting input\n");
 		redirect_input(msh, i);
 	}
 	if (msh->out_type != ARG)
 	{
-		// ft_printf_fd(2, "redirecting output\n");
+		//ft_printf_fd(2, "redirecting output\n");
 		redirect_output(msh, i);
 	}
 	if (i != 0)
@@ -280,11 +281,14 @@ void	remove_command_from_msh(t_msh *msh)
 {
 	t_cmd	*cur_cmd;
 	t_cmd	*cmd_tmp;
+
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)
 	{
+		// if (cur_cmd->type != ARG)
 		while (cur_cmd->type != ARG)
 		{
+			// remove cmd if not PIPE
 			if (cur_cmd->type == PIPE)
 			{
 				cmd_tmp = cur_cmd;
@@ -309,6 +313,8 @@ void	remove_command_from_msh(t_msh *msh)
 		msh->cmds = cur_cmd;
 	}
 	msh->in_type = ARG;
+
+	//todo: fix this function to not remove command and split into two functions: one for removing old commands, one for input redirections
 }
 
 void	get_in_type(t_msh *msh)
@@ -324,24 +330,28 @@ void	get_in_type(t_msh *msh)
 	else
 	{
 		msh->in_type = cur_cmd->type;
-		if (msh->in_type == HERE_DOC)
+		if (msh->in_type == HERE_DOC || msh->in_type == RED_I)
 		{
-			handle_here_doc(msh, cur_cmd->token);
-			ft_printf_fd(2, "eof: %s\n", cur_cmd->next->token);
-			ft_printf_fd(2, "cmd: %s\n", cur_cmd->next->next->token);
-		}
-		if (msh->in_type == RED_I)
-		{
-			ft_printf_fd(2, "opening %s\n", cur_cmd->token);
-			msh->in_fd = open(cur_cmd->token, O_RDONLY);
-			if (msh->in_fd == -1)
+			cur_cmd = cur_cmd->next;
+			if (msh->in_type == HERE_DOC)
+				handle_here_doc(msh, cur_cmd->token);
+			if (msh->in_type == RED_I)
 			{
-				ft_printf_fd(2, "minishell: %s", cur_cmd->token);
-			perror("");
+				ft_printf_fd(2, "opening %s\n", cur_cmd->token);
+				msh->in_fd = open(cur_cmd->token, O_RDONLY);
+				if (msh->in_fd == -1)
+				{
+					ft_printf_fd(2, "minishell: %s: ", cur_cmd->token);
+					perror("");
+					// cancel execution of all commands
+				}
 			}
+			cur_cmd = cur_cmd->next;
+			msh->cmds = cur_cmd;
+			ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		}
 	}
-	ft_printf_fd(2, "in_type: %d\n", msh->in_type);
+	//ft_printf_fd(2, "in_type: %d\n", msh->in_type);
 }
 
 void	get_out_type(t_msh *msh)
@@ -366,7 +376,6 @@ void	get_out_type(t_msh *msh)
 		if (msh->out_fd == -1)
 			ft_exit(msh, 2);
 	}
-	//ft_printf_fd(2, "out_type: %d\n", msh->out_type);
 }
 
 void	exec_command(t_msh *msh)
@@ -379,18 +388,19 @@ void	exec_command(t_msh *msh)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
 	//ft_printf_fd(2, "cmd_count: %d\n", cmd_count);
+	//fix cmd_count
 	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
 	while (i < cmd_count)
 	{
-		ft_printf_fd(2, "%s\n", msh->cmds->token);
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
 		get_in_type(msh);
 		get_out_type(msh);
+		ft_printf_fd(2, "%s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
 		exec(msh, get_cmd_args(msh), i, cmd_count);

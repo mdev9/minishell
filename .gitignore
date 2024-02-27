@@ -4,6 +4,8 @@
 minishell
 .minishellrc
 objs/
+.tmp*
+out
 
 # Object files
 *.o
