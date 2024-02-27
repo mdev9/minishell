@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/27 16:48:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/27 18:44:14 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -151,7 +151,7 @@ void	redirect_input(t_msh *msh, int i)
 			ft_exit(msh, 1);
 		close(msh->in_fd);
 	}
-	else
+	else if (i > 0)
 	{
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
 			ft_exit(msh, 1);
@@ -176,12 +176,12 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
-		ft_printf_fd(2, "redirecting input\n");
+		//ft_printf_fd(2, "redirecting input of %s of type %d\n", msh->cmds->token, msh->in_type);
 		redirect_input(msh, i);
 	}
 	if (msh->out_type != ARG)
 	{
-		//ft_printf_fd(2, "redirecting output\n");
+		//ft_printf_fd(2, "redirecting output of %s of type %d\n", msh->cmds->token, msh->out_type);
 		redirect_output(msh, i);
 	}
 	if (i != 0)
@@ -224,6 +224,10 @@ void	pipe_parent(t_msh *msh, int i, int cmd_count)
 		if (msh->fds[i][1] > 2)
 			close(msh->fds[i][1]);
 	}
+	if (msh->in_fd > 2)
+		close(msh->in_fd);
+	if (msh->out_fd > 2)
+		close(msh->out_fd);
 }
 
 int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
@@ -285,10 +289,8 @@ void	remove_command_from_msh(t_msh *msh)
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)
 	{
-		// if (cur_cmd->type != ARG)
 		while (cur_cmd->type != ARG)
 		{
-			// remove cmd if not PIPE
 			if (cur_cmd->type == PIPE)
 			{
 				cmd_tmp = cur_cmd;
@@ -313,21 +315,24 @@ void	remove_command_from_msh(t_msh *msh)
 		msh->cmds = cur_cmd;
 	}
 	msh->in_type = ARG;
-
-	//todo: fix this function to not remove command and split into two functions: one for removing old commands, one for input redirections
 }
 
 void	get_in_type(t_msh *msh)
 {
 	t_cmd	*cur_cmd;
-
-	msh->in_type = ARG;
+	
+	//msh->in_type = ARG;
+	
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
 		cur_cmd = cur_cmd->next;
+	/*
 	if (!cur_cmd->type)
-		msh->in_type = ARG;
-	else
+	{
+		//msh->in_type = ARG;
+	}
+	else */
+	if (cur_cmd->type)
 	{
 		msh->in_type = cur_cmd->type;
 		if (msh->in_type == HERE_DOC || msh->in_type == RED_I)
@@ -337,18 +342,18 @@ void	get_in_type(t_msh *msh)
 				handle_here_doc(msh, cur_cmd->token);
 			if (msh->in_type == RED_I)
 			{
-				ft_printf_fd(2, "opening %s\n", cur_cmd->token);
+				//ft_printf_fd(2, "opening %s\n", cur_cmd->token);
 				msh->in_fd = open(cur_cmd->token, O_RDONLY);
 				if (msh->in_fd == -1)
 				{
 					ft_printf_fd(2, "minishell: %s: ", cur_cmd->token);
 					perror("");
-					// cancel execution of all commands
+					// todo: cancel execution of all commands
 				}
 			}
 			cur_cmd = cur_cmd->next;
 			msh->cmds = cur_cmd;
-			ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
+			//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		}
 	}
 	//ft_printf_fd(2, "in_type: %d\n", msh->in_type);
@@ -388,7 +393,7 @@ void	exec_command(t_msh *msh)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
 	//ft_printf_fd(2, "cmd_count: %d\n", cmd_count);
-	//fix cmd_count
+	// todo: fix cmd_count
 	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
@@ -400,7 +405,7 @@ void	exec_command(t_msh *msh)
 			ft_exit(msh, 1);
 		get_in_type(msh);
 		get_out_type(msh);
-		ft_printf_fd(2, "%s\n", msh->cmds->token);
+		//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
 		exec(msh, get_cmd_args(msh), i, cmd_count);
