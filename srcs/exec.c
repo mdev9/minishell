@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/27 19:20:14 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/28 12:47:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,8 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	}
 	else if (!ft_strcmp(cmd_token, "echo") || !ft_strcmp(cmd_token, "ret")
 		|| !ft_strcmp(cmd_token, "env") || !ft_strcmp(cmd_token, "exit")
-		|| !ft_strcmp(cmd_token, "pwd") || !ft_strcmp(cmd_token, "export"))
+		|| !ft_strcmp(cmd_token, "pwd") || !ft_strcmp(cmd_token, "export")
+		|| !ft_strcmp(cmd_token, "unset"))
 		return (1);
 	return (0);
 }
@@ -61,6 +62,8 @@ int	exec_builtin(t_msh *msh)
 		g_return_code = cd(msh->cmds);
 	else if (!ft_strcmp(msh->cmds->token, "export"))
 		g_return_code = ft_export(msh);
+	else if (!ft_strcmp(msh->cmds->token, "unset"))
+		g_return_code = ft_unset(msh);
 	else if (!ft_strcmp(msh->cmds->token, "alias"))
 		g_return_code = alias(msh);
 	else if (!ft_strcmp(msh->cmds->token, "unalias"))

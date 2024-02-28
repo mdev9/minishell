@@ -6,6 +6,7 @@ minishell
 objs/
 .tmp*
 out
+minishell_tester/
 
 # Object files
 *.o
