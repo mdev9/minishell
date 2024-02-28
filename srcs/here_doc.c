@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:20:31 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/27 19:23:08 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/28 17:39:18 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,7 +93,7 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	if (msh->in_fd == -1)
 	{
 		perror("open");
-		ft_exit(msh, 2);
+		ft_exit(msh, 1);
 	}
 	eof = ft_strjoin_free(eof, "\n", 1);
 	if (!eof)
@@ -104,6 +104,6 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	if (msh->in_fd == -1)
 	{
 		perror("open");
-		ft_exit(msh, 2);
+		ft_exit(msh, 1);
 	}
 }

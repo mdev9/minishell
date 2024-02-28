@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/28 12:47:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/02/28 18:53:41 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -201,12 +201,26 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 			|| !ft_strcmp(msh->cmds->token, "alias")
 			|| !ft_strcmp(msh->cmds->token, "unalias")
 			|| !ft_strcmp(msh->cmds->token, "exit") || exec_builtin(msh)))
+	{
+		while(i >= 0)
+		{
+			free(msh->fds[i]);
+			i--;
+		}
+		free(cmd_args);
 		ft_exit(msh, 1);
+	}
 	if (msh->cmds->token)
 		execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
 	close(0);
 	close(1);
 	close(2);
+	while(i >= 0)
+	{
+		free(msh->fds[i]);
+		i--;
+	}
+	free(cmd_args);
 	ft_exit(msh, 1);
 }
 
@@ -383,7 +397,7 @@ void	get_out_type(t_msh *msh)
 		if (msh->out_fd == -1)
 		{
 			perror("open");
-			ft_exit(msh, 2);
+			ft_exit(msh, 1);
 		}
 	}
 }
