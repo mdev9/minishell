@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/28 18:53:41 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/02 16:48:46 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -155,6 +155,7 @@ void	redirect_input(t_msh *msh, int i)
 	}
 	else if (i > 0)
 	{
+		ft_printf_fd(2, "input_fd: %d\n", msh->fds[i - 1][0]);
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
 			ft_exit(msh, 1);
 	}
@@ -178,12 +179,12 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 {
 	if (msh->in_type != ARG)
 	{
-		//ft_printf_fd(2, "redirecting input of %s of type %d\n", msh->cmds->token, msh->in_type);
+		ft_printf_fd(2, "redirecting input of %s of type %d with fd %d\n", msh->cmds->token, msh->in_type, msh->in_fd);
 		redirect_input(msh, i);
 	}
 	if (msh->out_type != ARG)
 	{
-		//ft_printf_fd(2, "redirecting output of %s of type %d\n", msh->cmds->token, msh->out_type);
+		ft_printf_fd(2, "redirecting output of %s of type %d with fd %d\n", msh->cmds->token, msh->out_type, msh->out_fd);
 		redirect_output(msh, i);
 	}
 	if (i != 0)
@@ -358,8 +359,8 @@ void	get_in_type(t_msh *msh)
 				handle_here_doc(msh, cur_cmd->token);
 			if (msh->in_type == RED_I)
 			{
-				//ft_printf_fd(2, "opening %s\n", cur_cmd->token);
 				msh->in_fd = open(cur_cmd->token, O_RDONLY);
+				ft_printf_fd(2, "opened %s: %d\n", cur_cmd->token, msh->in_fd);
 				if (msh->in_fd == -1)
 				{
 					ft_printf_fd(2, "minishell: %s: ", cur_cmd->token);
@@ -367,8 +368,8 @@ void	get_in_type(t_msh *msh)
 					// todo: cancel execution of all commands
 				}
 			}
-			cur_cmd = cur_cmd->next;
-			msh->cmds = cur_cmd;
+			//cur_cmd = cur_cmd->next;
+			//msh->cmds = cur_cmd;
 			//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		}
 	}
@@ -380,6 +381,7 @@ void	get_out_type(t_msh *msh)
 	t_cmd	*cur_cmd;
 
 	msh->out_type = ARG;
+	msh->out_fd = 0;
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
 		cur_cmd = cur_cmd->next;
@@ -394,6 +396,8 @@ void	get_out_type(t_msh *msh)
 		if (msh->out_type == RED_O_APP)
 			msh->out_fd = open(cur_cmd->next->token,
 					O_CREAT | O_RDWR | O_APPEND, 0644);
+		if (msh->out_fd) // debug
+			ft_printf_fd(2, "opened %s: %d\n", cur_cmd->next->token, msh->out_fd);
 		if (msh->out_fd == -1)
 		{
 			perror("open");
@@ -424,6 +428,7 @@ void	exec_command(t_msh *msh)
 			ft_exit(msh, 1);
 		get_in_type(msh);
 		get_out_type(msh);
+		ft_printf_fd(2, "%d\n", msh->out_fd);
 		//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
 			get_cmd_path(msh);
