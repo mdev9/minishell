@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/04 13:00:21 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:40:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	get_args_count(t_cmd *cmds)
 		if (cur_cmd->type == ARG)
 			count++;
 		else
-			cur_cmd = cur_cmd->next;
+			cur_cmd = cur_cmd->next->next;
 	}
 	if (cur_cmd->type == ARG)
 		count++;
@@ -294,14 +294,14 @@ char	**get_cmd_args(t_msh *msh)
 	if (!cmd_args || !msh->fds)
 		ft_exit(msh, 1);
 	cur_cmd = msh->cmds;
-	//ft_printf_fd(2, "cmd: %s: args_count: %d\n", cur_cmd->token, args_count);
+	ft_printf_fd(2, "cmd: %s: args_count: %d\n", cur_cmd->token, args_count);
 	i = 0;
 	while (i < args_count)
 	{
 		if (cur_cmd->type == ARG)
 		{
 			cmd_args[i] = cur_cmd->token;
-			//ft_printf_fd(2, "%s[%d] = %s\n", msh->cmds->token, i, cur_cmd->token);
+			ft_printf_fd(2, "%s[%d] = %s\n", msh->cmds->token, i, cur_cmd->token);
 			i++;
 		}
 		else
@@ -351,17 +351,9 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 {
 	t_cmd	*cur_cmd;
 	
-	//msh->in_type = ARG;
-	
 	cur_cmd = cmds;
 	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
 		cur_cmd = cur_cmd->next;
-	/*
-	if (!cur_cmd->type)
-	{
-		//msh->in_type = ARG;
-	}
-	else */
 	if (cur_cmd->type)
 	{
 		msh->in_type = cur_cmd->type;
@@ -379,7 +371,7 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 				{
 					ft_printf_fd(2, "minishell: %s: ", cur_cmd->next->token);
 					perror("");
-					// todo: cancel execution of all commands
+					// todo: cancel execution of all commands????????????????? idk
 					g_return_code = 1;
 				}
 			}
