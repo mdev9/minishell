@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/04 10:21:15 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/04 11:03:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -379,8 +379,8 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 				{
 					ft_printf_fd(2, "minishell: %s: ", cur_cmd->next->token);
 					perror("");
-					g_return_code = 1;
 					// todo: cancel execution of all commands
+					g_return_code = 1;
 				}
 			}
 			cur_cmd = cur_cmd->next;
