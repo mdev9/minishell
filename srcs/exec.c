@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/04 11:03:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/04 13:00:21 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -375,7 +375,7 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 					close(msh->in_fd);
 				msh->in_fd = open(cur_cmd->next->token, O_RDONLY);
 				//ft_printf_fd(2, "opened %s: %d\n", cur_cmd->next->token, msh->in_fd);
-				if (msh->in_fd == -1)
+				if (msh->in_fd == -1 && !g_return_code)
 				{
 					ft_printf_fd(2, "minishell: %s: ", cur_cmd->next->token);
 					perror("");
@@ -440,6 +440,7 @@ void	exec_command(t_msh *msh)
 		ft_exit(msh, 1);
 	while (i < cmd_count)
 	{
+		g_return_code = 0;
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
