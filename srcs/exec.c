@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/04 13:40:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 08:26:12 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -132,7 +132,7 @@ int	get_args_count(t_cmd *cmds)
 		if (cur_cmd->type == ARG)
 			count++;
 		else
-			cur_cmd = cur_cmd->next->next;
+			cur_cmd = cur_cmd->next;
 	}
 	if (cur_cmd->type == ARG)
 		count++;
@@ -188,6 +188,7 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 		//ft_printf_fd(2, "redirecting input of %s of type %d with fd %d\n", msh->cmds->token, msh->in_type, msh->in_fd);
 		redirect_input(msh, i);
 	}
+	//ft_printf_fd(2, "output of %s of type %d with fd %d\n", msh->cmds->token, msh->out_type, msh->out_fd);
 	if (msh->out_type == PIPE || msh->out_type == RED_O || msh->out_type == RED_O_APP)
 	{
 		//ft_printf_fd(2, "redirecting output of %s of type %d with fd %d\n", msh->cmds->token, msh->out_type, msh->out_fd);
@@ -301,7 +302,7 @@ char	**get_cmd_args(t_msh *msh)
 		if (cur_cmd->type == ARG)
 		{
 			cmd_args[i] = cur_cmd->token;
-			ft_printf_fd(2, "%s[%d] = %s\n", msh->cmds->token, i, cur_cmd->token);
+			//ft_printf_fd(2, "%s[%d] = %s\n", msh->cmds->token, i, cur_cmd->token);
 			i++;
 		}
 		else
@@ -391,7 +392,7 @@ void	get_out_type(t_msh *msh)
 	msh->out_type = ARG;
 	msh->out_fd = 0;
 	cur_cmd = msh->cmds;
-	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
+	while (cur_cmd && cur_cmd->next && cur_cmd->type != ARG) //PIPE?
 		cur_cmd = cur_cmd->next;
 	if (!cur_cmd->type)
 		msh->out_type = ARG;
