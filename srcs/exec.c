@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 15:21:11 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:55:58 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -157,7 +157,7 @@ void	redirect_input(t_msh *msh, int i)
 			ft_exit(msh, 1);
 		close(msh->in_fd);
 	}
-	else if (i > 0)
+	else
 	{
 		//ft_printf_fd(2, "input_fd: %d\n", msh->fds[i - 1][0]);
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
@@ -187,7 +187,6 @@ void	pipe_child(t_msh *msh, char **cmd_args, int i)
 		//ft_printf_fd(2, "redirecting input of %s of type %d with fd %d\n", msh->cmds->token, msh->in_type, msh->in_fd);
 		redirect_input(msh, i);
 	}
-	//ft_printf_fd(2, "output of %s of type %d with fd %d\n", msh->cmds->token, msh->out_type, msh->out_fd);
 	if (msh->out_type == PIPE || msh->out_type == RED_O || msh->out_type == RED_O_APP)
 	{
 		//ft_printf_fd(2, "redirecting output of %s of type %d with fd %d\n", msh->cmds->token, msh->out_type, msh->out_fd);
@@ -375,12 +374,13 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 					g_return_code = 1;
 				}
 			}
-			cur_cmd = cur_cmd->next;
-			if (cur_cmd->next && (cur_cmd->next->type == HERE_DOC || cur_cmd->next->type == RED_I))
-				get_in_type(msh, cur_cmd->next);
 			//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		}
 	}
+	while (cur_cmd && cur_cmd->next && cur_cmd->next->type == ARG)
+		cur_cmd = cur_cmd->next;
+	if (cur_cmd->next && (cur_cmd->next->type == HERE_DOC || cur_cmd->next->type == RED_I))
+		get_in_type(msh, cur_cmd);
 	//ft_printf_fd(2, "in_type: %d\n", msh->in_type);
 }
 
@@ -449,7 +449,8 @@ void	exec_command(t_msh *msh)
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
 		get_in_type(msh, msh->cmds);
-		get_out_type(msh, msh->cmds);
+		if (!g_return_code) //maybe????
+			get_out_type(msh, msh->cmds);
 		//ft_printf_fd(2, "%d\n", msh->out_fd);
 		//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
