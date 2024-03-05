@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 15:55:58 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 16:22:14 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -428,6 +428,18 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 	}
 }
 
+int	first_is_in_type(t_msh *msh)
+{
+	t_cmd	*cur_cmd;
+	
+	cur_cmd = msh->cmds;
+	while (cur_cmd && cur_cmd->type == ARG && cur_cmd->next)
+		cur_cmd = cur_cmd->next;
+	if (cur_cmd->type == PIPE || cur_cmd->type == RED_I || cur_cmd->type == HERE_DOC)
+		return (1);
+	return (0);
+}
+
 void	exec_command(t_msh *msh)
 {
 	int	cmd_count;
@@ -448,9 +460,20 @@ void	exec_command(t_msh *msh)
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
-		get_in_type(msh, msh->cmds);
-		if (!g_return_code) //maybe????
+
+		if (first_is_in_type(msh))
+		{
+			get_in_type(msh, msh->cmds);
+			if (!g_return_code) //maybe????
+				get_out_type(msh, msh->cmds);
+		}
+		else
+		{
 			get_out_type(msh, msh->cmds);
+			if (!g_return_code) //maybe????
+				get_in_type(msh, msh->cmds);
+		}
+
 		//ft_printf_fd(2, "%d\n", msh->out_fd);
 		//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
