@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 12:52:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 15:21:11 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,8 +82,7 @@ int	get_cmd_count(t_cmd *cmds)
 	cur_cmd = cmds;
 	while (cur_cmd->next != 0)
 	{
-		if (cur_cmd->type != ARG && (cur_cmd->next
-				&& cur_cmd->next->type == ARG))
+		if (cur_cmd->type != ARG)
 			if (cur_cmd->type == PIPE)
 				count++;
 		cur_cmd = cur_cmd->next;
@@ -320,32 +319,32 @@ void	remove_command_from_msh(t_msh *msh)
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)
 	{
-		while (cur_cmd->type != ARG)
+		//while (cur_cmd->type != ARG)
+		//{
+		if (cur_cmd->type == PIPE)
 		{
-			if (cur_cmd->type == PIPE)
-			{
-				cmd_tmp = cur_cmd;
-				cur_cmd = cur_cmd->next;
-				msh->in_type = cmd_tmp->type;
-				free(cmd_tmp->token);
-				free(cmd_tmp);
-				msh->cmds = cur_cmd;
-				return ;
-			}
 			cmd_tmp = cur_cmd;
 			cur_cmd = cur_cmd->next;
-			msh->in_type = cur_cmd->type;
+			msh->in_type = cmd_tmp->type;
 			free(cmd_tmp->token);
 			free(cmd_tmp);
 			msh->cmds = cur_cmd;
+			return ;
 		}
 		cmd_tmp = cur_cmd;
 		cur_cmd = cur_cmd->next;
+		msh->in_type = cur_cmd->type;
 		free(cmd_tmp->token);
 		free(cmd_tmp);
 		msh->cmds = cur_cmd;
+		//}
+		//cmd_tmp = cur_cmd;
+		//cur_cmd = cur_cmd->next;
+		//free(cmd_tmp->token);
+		//free(cmd_tmp);
+		//msh->cmds = cur_cmd;
 	}
-	msh->in_type = ARG;
+	msh->in_type = msh->cmds->type;
 }
 
 void	get_in_type(t_msh *msh, t_cmd *cmds)
@@ -366,7 +365,7 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 			{
 				if (msh->in_fd != 0)
 					close(msh->in_fd);
-				msh->in_fd = open(cur_cmd->next->token, O_RDONLY);
+				msh->in_fd = open(cur_cmd->next->token, O_RDONLY | O_CREAT);
 				//ft_printf_fd(2, "opened %s: %d\n", cur_cmd->next->token, msh->in_fd);
 				if (msh->in_fd == -1 && !g_return_code)
 				{
@@ -391,7 +390,13 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 
 	msh->out_type = ARG;
 	msh->out_fd = 0;
+	//ft_printf_fd(2, "%s\n", cmds->token);
 	cur_cmd = cmds;
+	if (cmds->type && msh->cmds == cmds)
+	{
+		while (msh->cmds->type != ARG && msh->cmds->next->next)
+			msh->cmds = msh->cmds->next->next;
+	}
 	while (cur_cmd && cur_cmd->next && (cur_cmd->type == ARG || cur_cmd->type > 3))
 		cur_cmd = cur_cmd->next;
 	if (!cur_cmd->type)
@@ -400,7 +405,7 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 	{
 		msh->out_type = cur_cmd->type;
 		if (msh->out_type == RED_O)
-			msh->out_fd = open(cur_cmd->next->token, O_CREAT | O_RDWR | O_TRUNC,
+			msh->out_fd = open(cur_cmd->next->token, O_CREAT | O_WRONLY | O_TRUNC,
 					0644);
 		if (msh->out_type == RED_O_APP)
 			msh->out_fd = open(cur_cmd->next->token,
@@ -409,16 +414,16 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 		//	ft_printf_fd(2, "opened %s: %d\n", cur_cmd->next->token, msh->out_fd);
 		if (msh->out_fd == -1)
 		{
-			perror("open");
-			//ft_exit(msh, 1);
 			g_return_code = 1;
+			perror("open");
 			return ;
 		}
 		if (cur_cmd->type != PIPE)
 		{
-			cur_cmd = cur_cmd->next;
+			while (cur_cmd->next && cur_cmd->next->type == ARG)
+				cur_cmd = cur_cmd->next;
 			if (cur_cmd->next && (cur_cmd->next->type == RED_O || cur_cmd->next->type == RED_O_APP))
-				get_out_type(msh, cur_cmd->next);
+				get_out_type(msh, cur_cmd);
 		}
 	}
 }
@@ -433,7 +438,6 @@ void	exec_command(t_msh *msh)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
 	//ft_printf_fd(2, "cmd_count: %d\n", cmd_count);
-	// todo: fix cmd_count
 	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
