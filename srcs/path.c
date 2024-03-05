@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/26 14:49:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:30:27 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,10 +67,10 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found)
 
 void	free_paths(char **paths)
 {
-	int i;
+	int	i;
 
 	i = 0;
-	while(paths[i])
+	while (paths[i])
 	{
 		free(paths[i]);
 		i++;

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 17:40:16 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/29 13:13:15 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:33:30 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,9 +22,8 @@ void	exec_rc_file(t_msh *msh, int fd)
 		if (line[0] != '#')
 		{
 			msh->cmds = parse_command(line, msh->env);
-			exec_command(msh);
+			exec_commands(msh);
 			free_cmd(msh->cmds);
-			//free(line);
 		}
 		free(line);
 		line = get_next_line(fd);

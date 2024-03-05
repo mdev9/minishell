@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 13:20:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 18:30:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,26 +82,25 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 
 int	main(int argc, char **argv, char **envp)
 {
-	char	*command;
+	char	*commands;
 	char	*prompt;
 	t_msh	*msh;
 
-	command = (char *)1;
+	commands = (char *)1;
 	init_minishell(&msh, argc, argv, envp);
 	handle_minishellrc(msh);
-	while (msh->env && command)
+	while (msh->env && commands)
 	{
 		prompt = get_prompt(msh->env);
 		if (!prompt)
 			exit(STDIN_FILENO);
-		command = readline(prompt);
+		commands = readline(prompt);
 		free(prompt);
-		add_history(command);
-		msh->cmds = parse_command(command, msh->env);
-		free(command);
+		add_history(commands);
+		msh->cmds = parse_command(commands, msh->env);
+		free(commands);
 		msh->cmds = handle_alias(msh);
-		//print_parsed_cmd(msh->cmds); // debug
-		exec_command(msh);
+		exec_commands(msh);
 		free_cmd(msh->cmds);
 	}
 	rl_clear_history();

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/29 15:31:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/05 17:29:06 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,8 +28,8 @@ int	get_var_len(char **command, t_env *env)
 	char	*env_var;
 
 	(*command)++;
-	if(**command == '\'' || **command == '"')
-		return(1);
+	if (**command == '\'' || **command == '"')
+		return (1);
 	if (!ft_isalnum(**command) && **command != '_' && **command != '?')
 		return (2);
 	if (**command == '?')
@@ -64,8 +64,8 @@ int	get_token_len(char *command, t_env *env)
 			res += ft_strlen(getenv("HOME"));
 		else if (*command != '\'' && *command != '"')
 			res++;
-		else if ((*command == '\'' && in_dquote)
-			|| (*command == '"' && in_quote))
+		else if ((*command == '\'' && in_dquote) || (*command == '"'
+				&& in_quote))
 			res++;
 		command++;
 	}
@@ -75,7 +75,7 @@ int	get_token_len(char *command, t_env *env)
 int	add_return_code_to_str(char *res)
 {
 	char	*var;
-	int		i;	
+	int		i;
 
 	i = 0;
 	var = ft_itoa(g_return_code);
@@ -95,11 +95,11 @@ int	add_var_to_str(char *res, char **command, t_env *env)
 	int		i;
 
 	i = 0;
-	if(**command == '\'' || **command == '"')
+	if (**command == '\'' || **command == '"')
 	{
 		*res = '$';
 		(*command)--;
-		return(1);
+		return (1);
 	}
 	if (!ft_isalnum(**command) && **command != '_' && **command != '?')
 	{

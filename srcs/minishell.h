@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/28 12:46:27 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 19:05:34 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,7 +69,7 @@ extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
 void	free_cmd(t_cmd *cmd);
-void	exec_command(t_msh *msh);
+void	exec_commands(t_msh *msh);
 int		echo(t_cmd *args);
 void	exit_bt(t_msh *msh);
 t_env	*env_add_back(t_env *env, char *name, char *value);
@@ -100,5 +100,20 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	get_cmd_path(t_msh *msh);
 void	handle_here_doc(t_msh *msh, char *eof);
 int		ft_unset(t_msh *msh);
+void	get_in_type(t_msh *msh, t_cmd *cmds);
+void	get_out_type(t_msh *msh, t_cmd *cmds);
+int		first_is_in_type(t_msh *msh);
+void	redirect_input(t_msh *msh, int i);
+void	redirect_output(t_msh *msh, int i);
+void	child(t_msh *msh, char **cmd_args, int i);
+void	parent(t_msh *msh, int i, int cmd_count);
+void	free_msh(t_msh *msh);
+void	ft_exit(t_msh *msh, int exit_code);
+int		cmd_is_builtin(t_msh *msh, char *cmd_token);
+int		exec_builtin(t_msh *msh);
+int		get_cmd_count(t_cmd *cmds);
+int		get_args_count(t_cmd *cmds);
+char	**get_cmd_args(t_msh *msh);
+void	remove_command_from_msh(t_msh *msh);
 
 #endif

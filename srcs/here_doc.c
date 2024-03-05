@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:20:31 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/02/28 17:39:18 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 17:45:51 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-char	*get_tmp_file_name(t_msh *msh/*, int argc, char **argv*/)
+char	*get_tmp_file_name(t_msh *msh)
 {
 	int		i;
 	char	*tmp_file_name;
@@ -26,8 +26,7 @@ char	*get_tmp_file_name(t_msh *msh/*, int argc, char **argv*/)
 	if (!res)
 		ft_exit(msh, 1);
 	free(i_char);
-	while (/*!ft_strncmp(res, argv[argc - 1], ft_strlen(res))
-		||*/ !access(res, F_OK))
+	while (!access(res, F_OK))
 	{
 		free(res);
 		i_char = ft_itoa(i);
@@ -70,7 +69,8 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 		line = get_next_line(0);
 		if (!line && new_line)
 		{
-			ft_printf_fd(2, "\npipex: here-document delimited by end-of-file\n");
+			ft_printf_fd(2, "\nminishell: warning: here-document delimited by");
+			ft_printf_fd(2, " end-of-file, wanted %s", eof);
 			break ;
 		}
 		if (line && new_line && !ft_strncmp(line, eof, ft_strlen(eof)))
