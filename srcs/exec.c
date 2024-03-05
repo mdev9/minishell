@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 09:29:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 12:52:01 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -410,7 +410,9 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 		if (msh->out_fd == -1)
 		{
 			perror("open");
-			ft_exit(msh, 1);
+			//ft_exit(msh, 1);
+			g_return_code = 1;
+			return ;
 		}
 		if (cur_cmd->type != PIPE)
 		{
