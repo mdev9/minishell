@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 08:26:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/05 09:29:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -124,6 +124,8 @@ int	get_args_count(t_cmd *cmds)
 
 	count = 0;
 	cur_cmd = cmds;
+	if (cur_cmd->type == ARG)
+		count++;
 	while (cur_cmd->next)
 	{
 		if (cur_cmd->type == PIPE)
@@ -131,11 +133,9 @@ int	get_args_count(t_cmd *cmds)
 		cur_cmd = cur_cmd->next;
 		if (cur_cmd->type == ARG)
 			count++;
-		else
+		else if (cur_cmd->type != PIPE)
 			cur_cmd = cur_cmd->next;
 	}
-	if (cur_cmd->type == ARG)
-		count++;
 	return (count);
 }
 
@@ -295,7 +295,7 @@ char	**get_cmd_args(t_msh *msh)
 	if (!cmd_args || !msh->fds)
 		ft_exit(msh, 1);
 	cur_cmd = msh->cmds;
-	ft_printf_fd(2, "cmd: %s: args_count: %d\n", cur_cmd->token, args_count);
+	//ft_printf_fd(2, "cmd: %s: args_count: %d\n", cur_cmd->token, args_count);
 	i = 0;
 	while (i < args_count)
 	{
@@ -385,20 +385,19 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 	//ft_printf_fd(2, "in_type: %d\n", msh->in_type);
 }
 
-void	get_out_type(t_msh *msh)
+void	get_out_type(t_msh *msh, t_cmd *cmds)
 {
 	t_cmd	*cur_cmd;
 
 	msh->out_type = ARG;
 	msh->out_fd = 0;
-	cur_cmd = msh->cmds;
-	while (cur_cmd && cur_cmd->next && cur_cmd->type != ARG) //PIPE?
+	cur_cmd = cmds;
+	while (cur_cmd && cur_cmd->next && (cur_cmd->type == ARG || cur_cmd->type > 3))
 		cur_cmd = cur_cmd->next;
 	if (!cur_cmd->type)
 		msh->out_type = ARG;
 	else
 	{
-		//ft_printf_fd(2, "%s of type %d", cur_cmd->token, cur_cmd->type);
 		msh->out_type = cur_cmd->type;
 		if (msh->out_type == RED_O)
 			msh->out_fd = open(cur_cmd->next->token, O_CREAT | O_RDWR | O_TRUNC,
@@ -412,6 +411,12 @@ void	get_out_type(t_msh *msh)
 		{
 			perror("open");
 			ft_exit(msh, 1);
+		}
+		if (cur_cmd->type != PIPE)
+		{
+			cur_cmd = cur_cmd->next;
+			if (cur_cmd->next && (cur_cmd->next->type == RED_O || cur_cmd->next->type == RED_O_APP))
+				get_out_type(msh, cur_cmd->next);
 		}
 	}
 }
@@ -438,7 +443,7 @@ void	exec_command(t_msh *msh)
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
 		get_in_type(msh, msh->cmds);
-		get_out_type(msh);
+		get_out_type(msh, msh->cmds);
 		//ft_printf_fd(2, "%d\n", msh->out_fd);
 		//ft_printf_fd(2, "cmd: %s\n", msh->cmds->token);
 		if (!cmd_is_builtin(msh, msh->cmds->token))
