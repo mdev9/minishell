@@ -6,11 +6,12 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/06 08:42:49 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/06 10:18:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <unistd.h>
 
 char	**split_paths_from_env(t_env *env)
 {
@@ -30,7 +31,7 @@ char	**split_paths_from_env(t_env *env)
 	}
 	if (!path_in_envp)
 	{
-		ft_printf_fd(2, "msh: error: PATH not found\n");
+		ft_printf_fd(2, "minishell: error: PATH not found\n");
 		return (0);
 	}
 	return (ft_split(cur_env_var->value, ':'));
@@ -78,26 +79,32 @@ void	free_paths(char **paths)
 	free(paths);
 }
 
-void	get_cmd_path(t_msh *msh)
+void	get_path(t_msh *msh, int *found)
 {
 	char	**paths;
+
+	paths = split_paths_from_env(msh->env);
+	if (!paths)
+	{
+		free_paths(paths);
+		ft_exit(msh, 1);
+	}
+	find_cmd_path(msh, paths, found);
+	free_paths(paths);
+}
+
+void	get_cmd_path(t_msh *msh)
+{
 	int		found;
 
 	found = 0;
-	if (ft_strchr(msh->cmds->token, '/')
-		&& access(msh->cmds->token, X_OK) != -1)
-		found = 1;
-	else
+	if (ft_strchr(msh->cmds->token, '/'))
 	{
-		paths = split_paths_from_env(msh->env);
-		if (!paths)
-		{
-			free_paths(paths);
-			ft_exit(msh, 1);
-		}
-		find_cmd_path(msh, paths, &found);
-		free_paths(paths);
+		if (!file_access(msh, &found))
+			return ;
 	}
+	else
+		get_path(msh, &found);
 	if (!found)
 	{
 		ft_printf_fd(2, "%s: command not found\n", msh->cmds->token);
