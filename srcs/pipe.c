@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/05 19:14:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/06 08:22:46 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 
 void	child(t_msh *msh, char **cmd_args, int i)
 {
-	if (msh->in_type != ARG)
+	if ((msh->in_type != ARG && msh->in_type != PIPE)
+		|| (msh->in_type == PIPE && i > 0))
 		redirect_input(msh, i);
 	if (msh->out_type == PIPE || msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
