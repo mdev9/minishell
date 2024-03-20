@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/28 18:48:27 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/20 18:46:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -94,8 +94,8 @@ t_cmd	*parse_command(char *command, t_env *env)
 	char			*token;
 	t_token_type	type;
 
-	in_quote = EXIT_SUCCESS;
-	in_dquote = STDIN_FILENO;
+	in_quote = 0;
+	in_dquote = 0;
 	res = 0;
 	while (command && *command)
 	{
@@ -104,7 +104,15 @@ t_cmd	*parse_command(char *command, t_env *env)
 			token = get_token(&command, &in_quote, &in_dquote, env);
 		else
 			token = 0;
-		res = cmd_add_back(res, token, type);
+		if(type == ARG && token == 0)
+		{
+			free_cmd(res);
+			return(0);
+		}
+		if(token && !*token)
+			free(token);
+		else
+			res = cmd_add_back(res, token, type);
 		while (ft_isspace(*command))
 			command++;
 	}
