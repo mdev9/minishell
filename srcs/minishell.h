@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/06 10:19:27 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:30:59 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,5 +117,6 @@ int		get_args_count(t_cmd *cmds);
 char	**get_cmd_args(t_msh *msh);
 void	remove_command_from_msh(t_msh *msh);
 int		file_access(t_msh *msh, int *found);
+char	*remove_path(char *token);
 
 #endif

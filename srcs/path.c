@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/06 10:18:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/21 16:39:06 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -93,9 +93,19 @@ void	get_path(t_msh *msh, int *found)
 	free_paths(paths);
 }
 
+char	*remove_path(char *token)
+{
+	int	i;
+
+	i = 0;
+	while (ft_strchr(token, '/'))
+		token++;
+	return (token);
+}
+
 void	get_cmd_path(t_msh *msh)
 {
-	int		found;
+	int	found;
 
 	found = 0;
 	if (ft_strchr(msh->cmds->token, '/'))

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/06 08:32:18 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:55:20 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,7 +88,6 @@ int	main(int argc, char **argv, char **envp)
 
 	commands = (char *)1;
 	init_minishell(&msh, argc, argv, envp);
-	//handle_minishellrc(msh);
 	while (msh->env && commands)
 	{
 		prompt = get_prompt(msh->env);
