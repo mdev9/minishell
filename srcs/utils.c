@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/06 10:19:58 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:21:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,18 +14,23 @@
 
 void	free_msh(t_msh *msh)
 {
+	int cmd_count = 0;
 	if (msh)
 	{
-		if (msh->cmds)
-			free_cmd(msh->cmds);
-		if (msh->env)
-			free_env(msh->env);
-		if (msh->aliases)
-			free_alias(msh->aliases);
-		if (msh->pids)
-			free(msh->pids);
-		if (msh->fds)
-			free(msh->fds);
+		free_env(msh->env);
+		free_alias(msh->aliases);
+		free(msh->pids);
+		if(msh->fds)
+		{
+			cmd_count = get_cmd_count(msh->cmds);
+			while(cmd_count)
+			{
+				free(msh->fds[cmd_count - 1]);
+				cmd_count--;
+			}
+		}
+		free(msh->fds);
+		free_cmd(msh->cmds);
 		free(msh);
 	}
 }

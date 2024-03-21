@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/06 08:22:46 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/21 13:50:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,7 @@ void	close_pipe_fds(t_msh *msh, int i)
 
 void	execute_command(t_msh *msh, char **cmd_args, int i)
 {
+	char	**env;
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 			|| !ft_strcmp(msh->cmds->token, "alias")
 			|| !ft_strcmp(msh->cmds->token, "unalias")
@@ -37,13 +38,18 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 		while (i >= 0)
 		{
 			free(msh->fds[i]);
+			msh->fds[i] = 0;
 			i--;
 		}
 		free(cmd_args);
 		ft_exit(msh, 1);
 	}
 	if (msh->cmds->token)
-		execve(msh->cmds->token, cmd_args, env_to_char_tab(msh->env));
+	{
+		env = env_to_char_tab(msh->env);
+		execve(msh->cmds->token, cmd_args, env);
+		ft_free_str_arr(env);	
+	}
 }
 
 void	child(t_msh *msh, char **cmd_args, int i)
@@ -62,6 +68,7 @@ void	child(t_msh *msh, char **cmd_args, int i)
 	while (i >= 0)
 	{
 		free(msh->fds[i]);
+		msh->fds[i] = 0;
 		i--;
 	}
 	free(cmd_args);
