@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/06 09:10:11 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/22 13:34:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,8 @@ void	exit_bt(t_msh *msh)
 {
 	t_cmd	*cur_cmd;	
 	int		exit_code;
+	int		cmd_count;
+
 
 	cur_cmd = msh->cmds->next;
 	ft_printf("exit\n");
@@ -42,6 +44,15 @@ void	exit_bt(t_msh *msh)
 			exit_code = (unsigned char)ft_atoi(cur_cmd->token);
 		else
 			exit_code = g_return_code;
+		if(msh->fds)
+		{
+			cmd_count = get_cmd_count(msh->cmds);
+			while(cmd_count)
+			{
+				free(msh->fds[cmd_count - 1]);
+				cmd_count--;
+			}
+		}
 		free_msh(msh);
 		exit(exit_code);
 	}
