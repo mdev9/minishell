@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/21 16:39:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/22 15:45:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,7 @@ char	**split_paths_from_env(t_env *env)
 		cur_env_var = cur_env_var->next;
 	}
 	if (!path_in_envp)
-	{
-		ft_printf_fd(2, "minishell: error: PATH not found\n");
 		return (0);
-	}
 	return (ft_split(cur_env_var->value, ':'));
 }
 
@@ -71,7 +68,7 @@ void	free_paths(char **paths)
 	int	i;
 
 	i = 0;
-	while (paths[i])
+	while (paths && paths[i])
 	{
 		free(paths[i]);
 		i++;
@@ -87,7 +84,7 @@ void	get_path(t_msh *msh, int *found)
 	if (!paths)
 	{
 		free_paths(paths);
-		ft_exit(msh, 1);
+		return;
 	}
 	find_cmd_path(msh, paths, found);
 	free_paths(paths);

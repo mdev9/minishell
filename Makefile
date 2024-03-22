@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/03/05 19:11:56 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/03/22 14:32:18 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -36,7 +36,8 @@ SRCS_RAW =	main.c\
 			builtins.c\
 			commands.c\
 			pipe.c\
-			utils.c
+			utils.c\
+			signal_handler.c
 
 OBJS_DIR = objs/
 SRCS_DIR = srcs/

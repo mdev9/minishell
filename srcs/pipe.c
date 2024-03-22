@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/21 13:50:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/22 17:45:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ void	child(t_msh *msh, char **cmd_args, int i)
 
 void	parent(t_msh *msh, int i, int cmd_count)
 {
+	signal(SIGINT, signal_handler_command);
+	signal(SIGQUIT, signal_handler_command);
 	if (i != 0)
 	{
 		if (msh->fds[i - 1][0] > 2)

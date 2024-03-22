@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/22 13:35:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/22 16:45:49 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,6 +77,8 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(void)argv;
 	(*msh)->env = get_env(envp);
 	(*msh)->aliases = 0;
+	signal(SIGINT, signal_handler_interactive);
+	signal(SIGQUIT, signal_handler_interactive);
 	return (0);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/21 13:30:59 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/22 16:44:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,6 +21,7 @@
 # include "../libft/libft.h"
 # include "fcntl.h"
 # include <sys/stat.h>
+# include <signal.h>
 
 typedef enum e_token_type
 {
@@ -118,5 +119,7 @@ char	**get_cmd_args(t_msh *msh);
 void	remove_command_from_msh(t_msh *msh);
 int		file_access(t_msh *msh, int *found);
 char	*remove_path(char *token);
+void	signal_handler_interactive(int signum);
+void	signal_handler_command(int signum);
 
 #endif
