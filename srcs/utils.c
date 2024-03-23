@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/22 13:33:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 18:14:05 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,11 @@ void	ft_exit(t_msh *msh, int exit_code)
 
 int	file_access(t_msh *msh, int *found)
 {
-	if (open(msh->cmds->token, O_DIRECTORY) != -1)
+	int fd;
+
+	fd = open(msh->cmds->token, O_DIRECTORY);
+	close(fd);
+	if (fd != -1)
 	{
 		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->cmds->token);
 		g_return_code = 126;
