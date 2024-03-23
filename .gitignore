@@ -1,5 +1,7 @@
 # Prerequisites
 *.d
+todo
+
 
 minishell
 .minishellrc
