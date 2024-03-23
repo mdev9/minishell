@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/22 16:44:54 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 16:37:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,6 +22,7 @@
 # include "fcntl.h"
 # include <sys/stat.h>
 # include <signal.h>
+# include <stdint.h>
 
 typedef enum e_token_type
 {

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/22 17:48:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:13:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,7 @@ void	exec_commands(t_msh *msh)
 {
 	int	cmd_count;
 	int	i;
+	int	status;
 
 	i = -1;
 	if (!msh->cmds)
@@ -80,9 +81,13 @@ void	exec_commands(t_msh *msh)
 		ft_exit(msh, 1);
 	while (++i < cmd_count)
 		exec_command(msh, i, cmd_count);
-	i = cmd_count;
-	while (--i >= 0)
-		waitpid(msh->pids[i], 0, 0);
+	i = 0;
+	while (i < cmd_count)
+	{
+		waitpid(msh->pids[i], &status, 0);
+		g_return_code = WEXITSTATUS(status);
+		i++;
+	}
 	i = 0;
 	while (i < cmd_count)
 	{

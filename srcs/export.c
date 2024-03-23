@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/22 13:52:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:51:59 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,6 +23,8 @@ void print_env_declare(t_env *env)
 
 int	check_var_name(char *name)
 {
+	if(ft_isdigit(*name) || !*name)
+		return(0);
 	while(*name)
 	{
 		if(!ft_isalnum(*name) && *name != '_')
@@ -54,7 +56,7 @@ int	ft_export(t_msh *msh)
 		if(!name || !check_var_name(name))
 		{
 			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(name, 2);
+				ft_putstr_fd(arg, 2);
 			ft_putstr_fd("': not a valid identifier\n", 2);
 			free(name);
 			return(1);

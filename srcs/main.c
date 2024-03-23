@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/22 16:45:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 16:38:10 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int		g_return_code = 0;
+int	g_return_code = 0;
 
 char	*get_prompt(t_env *env)
 {

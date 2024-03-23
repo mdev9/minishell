@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/22 17:45:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 17:28:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,8 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 			i--;
 		}
 		free(cmd_args);
-		ft_exit(msh, 1);
+		//ft_exit(msh, 1);
+		ft_exit(msh, g_return_code);
 	}
 	if (msh->cmds->token)
 	{
@@ -72,7 +73,7 @@ void	child(t_msh *msh, char **cmd_args, int i)
 		i--;
 	}
 	free(cmd_args);
-	ft_exit(msh, 1);
+	ft_exit(msh, g_return_code);
 }
 
 void	parent(t_msh *msh, int i, int cmd_count)
