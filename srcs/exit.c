@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/22 13:34:06 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:20:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,10 +22,9 @@ void	numeric_arg_err(char *arg, int *exit_code)
 
 void	exit_bt(t_msh *msh)
 {
-	t_cmd	*cur_cmd;	
+	t_cmd	*cur_cmd;
 	int		exit_code;
 	int		cmd_count;
-
 
 	cur_cmd = msh->cmds->next;
 	ft_printf("exit\n");
@@ -37,17 +36,16 @@ void	exit_bt(t_msh *msh)
 	}
 	else
 	{
-		if (cur_cmd && cur_cmd->type == ARG
-			&& !ft_strisnbr(cur_cmd->token))
+		if (cur_cmd && cur_cmd->type == ARG && !ft_strisnbr(cur_cmd->token))
 			numeric_arg_err(cur_cmd->token, &exit_code);
 		else if (cur_cmd && cur_cmd->type == ARG)
 			exit_code = (unsigned char)ft_atoi(cur_cmd->token);
 		else
 			exit_code = g_return_code;
-		if(msh->fds)
+		if (msh->fds)
 		{
 			cmd_count = get_cmd_count(msh->cmds);
-			while(cmd_count)
+			while (cmd_count)
 			{
 				free(msh->fds[cmd_count - 1]);
 				cmd_count--;

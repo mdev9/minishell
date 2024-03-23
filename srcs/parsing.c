@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/20 18:46:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:23:50 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,7 +54,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 		else if (**cmd == '~' && !*in_quote && !*in_dquote)
 			i += add_home_to_str(res + i);
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
-			|| (**cmd != '\'' && **cmd != '"'))
+				|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
 	}
@@ -104,12 +104,12 @@ t_cmd	*parse_command(char *command, t_env *env)
 			token = get_token(&command, &in_quote, &in_dquote, env);
 		else
 			token = 0;
-		if(type == ARG && token == 0)
+		if (type == ARG && token == 0)
 		{
 			free_cmd(res);
-			return(0);
+			return (0);
 		}
-		if(token && !*token)
+		if (token && !*token)
 			free(token);
 		else
 			res = cmd_add_back(res, token, type);

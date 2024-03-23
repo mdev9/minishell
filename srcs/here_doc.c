@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/26 20:20:31 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 10:21:07 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/23 19:23:09 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 void	handle_here_doc(t_msh *msh, char *eof)
 {
 	char	*here_doc_file;
+	int		pid;
 
 	here_doc_file = get_tmp_file_name(msh);
 	msh->in_fd = open(here_doc_file, O_CREAT | O_RDWR, 0644);
@@ -98,7 +99,6 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	eof = ft_strjoin_free(eof, "\n", 1);
 	if (!eof)
 		ft_exit(msh, 1);
-	
 	/*
 	get_here_doc_input(msh, eof);
 	close(msh->in_fd);
@@ -109,8 +109,7 @@ void	handle_here_doc(t_msh *msh, char *eof)
 		ft_exit(msh, 1);
 	}
 }*/
-	
-	int	pid = fork();
+	pid = fork();
 	if (pid == 0)
 		get_here_doc_input(msh, eof);
 	else

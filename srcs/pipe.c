@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 17:28:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:25:38 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,6 +30,7 @@ void	close_pipe_fds(t_msh *msh, int i)
 void	execute_command(t_msh *msh, char **cmd_args, int i)
 {
 	char	**env;
+
 	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
 			|| !ft_strcmp(msh->cmds->token, "alias")
 			|| !ft_strcmp(msh->cmds->token, "unalias")

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/22 15:45:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:24:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -84,7 +84,7 @@ void	get_path(t_msh *msh, int *found)
 	if (!paths)
 	{
 		free_paths(paths);
-		return;
+		return ;
 	}
 	find_cmd_path(msh, paths, found);
 	free_paths(paths);

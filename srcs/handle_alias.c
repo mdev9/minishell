@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/17 02:54:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/23 18:35:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:23:28 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ t_cmd	*handle_alias(t_msh *msh)
 	while (tmp->next)
 		tmp = tmp->next;
 	tmp->next = msh->cmds->next;
-	if(msh->cmds)
+	if (msh->cmds)
 		free(msh->cmds->token);
 	free(msh->cmds);
 	return (res);

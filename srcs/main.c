@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/23 16:38:10 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:24:40 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,7 +90,8 @@ int	main(int argc, char **argv, char **envp)
 
 	commands = (char *)1;
 	init_minishell(&msh, argc, argv, envp);
-	msh->aliases = alias_add_back(msh->aliases, ft_strdup("ls"), ft_strdup("ls --color=auto"));
+	msh->aliases = alias_add_back(msh->aliases,
+			ft_strdup("ls"), ft_strdup("ls --color=auto"));
 	while (msh->env && commands)
 	{
 		prompt = get_prompt(msh->env);
