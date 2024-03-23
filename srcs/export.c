@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 17:51:59 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/23 19:06:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,34 +68,43 @@ int	ft_export(t_msh *msh)
 	}
 	return (0);
 }
-
-int	ft_unset(t_msh *msh)
+/*
+void	delete_from_env(t_env *env, char *name)
 {
-	t_cmd	*cmd;
 	t_env	*tmp_env;
 	t_env	*prev;
+
+	while(tmp_env)
+	{
+		if(!strcmp(cmd->next->token, tmp_env->name))
+		{
+			free(tmp_env->name);
+			free(tmp_env->value);
+			if(!prev)
+				msh->env = tmp_env->next;
+			else
+				prev->next = tmp_env->next;
+			free(tmp_env);
+			return;
+		}
+		prev = tmp_env;
+		tmp_env = tmp_env->next;	
+	}
+}
+*/
+int	ft_unset(t_msh *msh)
+{
+/*
+	t_cmd	*cmd;
 
 	cmd = msh->cmds;
 	tmp_env = msh->env;
 	prev = 0;
 	if(cmd && cmd->next && cmd->next->type == ARG)
 	{
-		while(tmp_env)
-		{
-			if(!strcmp(cmd->next->token, tmp_env->name))
-			{
-				free(tmp_env->name);
-				free(tmp_env->value);
-				if(!prev)
-					msh->env = tmp_env->next;
-				else
-					prev->next = tmp_env->next;
-				free(tmp_env);
-				return(0);
-			}
-			prev = tmp_env;
-			tmp_env = tmp_env->next;	
-		}
 	}
 	return (0);
+	*/
+	(void)msh;
+	return(0);
 }
