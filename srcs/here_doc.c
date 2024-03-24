@@ -5,8 +5,8 @@
 /*                                                    +:+ +:+         +:+     */
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
-/*   Created: 2024/02/26 20:20:31 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 19:23:09 by marde-vr         ###   ########.fr       */
+/*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
+/*   Updated: 2024/03/24 18:41:32 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,27 +58,22 @@ int	contains_newline(char *str)
 void	get_here_doc_input(t_msh *msh, char *eof)
 {
 	char	*line;
-	int		new_line;
 
 	line = NULL;
-	new_line = 1;
-	ft_printf_fd(1, "> ");
 	while (1)
 	{
 		free(line);
-		line = get_next_line(0);
-		if (!line && new_line)
+		line = readline("> ");
+		if (!line)
 		{
 			ft_printf_fd(2, "\nminishell: warning: here-document delimited by");
 			ft_printf_fd(2, " end-of-file, wanted %s", eof);
 			break ;
 		}
-		if (line && new_line && !ft_strncmp(line, eof, ft_strlen(eof)))
+		if (line && !ft_strncmp(line, eof, ft_strlen(eof)))
 			break ;
-		new_line = contains_newline(line);
-		if (new_line)
-			ft_printf_fd(1, "> ");
 		write(msh->in_fd, line, ft_strlen(line));
+		write(msh->in_fd, "\n", 1);
 	}
 	free(eof);
 	free(line);
@@ -96,24 +91,15 @@ void	handle_here_doc(t_msh *msh, char *eof)
 		perror("open");
 		ft_exit(msh, 1);
 	}
-	eof = ft_strjoin_free(eof, "\n", 1);
-	if (!eof)
-		ft_exit(msh, 1);
-	/*
-	get_here_doc_input(msh, eof);
-	close(msh->in_fd);
-	msh->in_fd = open(here_doc_file, O_RDWR, 0644);
-	if (msh->in_fd == -1)
-	{
-		perror("open");
-		ft_exit(msh, 1);
-	}
-}*/
 	pid = fork();
 	if (pid == 0)
+	{
 		get_here_doc_input(msh, eof);
+		close(msh->in_fd);
+	}
 	else
 	{
+		wait(0);
 		close(msh->in_fd);
 		msh->in_fd = open(here_doc_file, O_RDWR, 0644);
 		if (msh->in_fd == -1)
