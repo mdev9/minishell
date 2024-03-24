@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 19:25:38 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/24 09:09:25 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,13 +44,14 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 		}
 		free(cmd_args);
 		//ft_exit(msh, 1);
+		//ft_printf_fd(2, "exiting with code: %d\n", g_return_code);
 		ft_exit(msh, g_return_code);
 	}
 	if (msh->cmds->token)
 	{
 		env = env_to_char_tab(msh->env);
 		execve(msh->cmds->token, cmd_args, env);
-		ft_free_str_arr(env);	
+		ft_free_str_arr(env);
 	}
 }
 

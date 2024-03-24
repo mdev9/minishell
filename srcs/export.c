@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 19:44:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/24 08:49:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -77,13 +77,13 @@ void	delete_from_env(t_msh *msh, char *name)
 
 	tmp_env = msh->env;
 	prev = 0;
-	while(tmp_env)
+	while (tmp_env)
 	{
-		if(!strcmp(name, tmp_env->name))
+		if (!strcmp(name, tmp_env->name))
 		{
 			free(tmp_env->name);
 			free(tmp_env->value);
-			if(!prev)
+			if (!prev)
 				msh->env = tmp_env->next;
 			else
 				prev->next = tmp_env->next;
@@ -91,7 +91,7 @@ void	delete_from_env(t_msh *msh, char *name)
 			return ;
 		}
 		prev = tmp_env;
-		tmp_env = tmp_env->next;	
+		tmp_env = tmp_env->next;
 	}
 }
 
@@ -100,9 +100,9 @@ int	ft_unset(t_msh *msh)
 	t_cmd	*cmd;
 
 	cmd = msh->cmds;
-	if(cmd)
+	if (cmd)
 		cmd = cmd->next;
-	while(cmd && cmd->type == ARG)
+	while (cmd && cmd->type == ARG)
 	{
 		delete_from_env(msh, cmd->token);
 		cmd = cmd->next;

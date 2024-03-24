@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/23 16:37:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/24 09:53:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,6 +66,7 @@ typedef struct s_msh
 	enum e_token_type	out_type;
 	int					in_fd;
 	int					out_fd;
+	int					locked_return_code;
 }	t_msh;
 
 extern int	g_return_code;
