@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/03/22 14:32:18 by tomoron          ###   ########.fr        #
+#    Updated: 2024/03/25 12:33:26 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -18,16 +18,11 @@ SRCS_RAW =	main.c\
 			exec.c\
 			exit.c\
 			echo.c\
-			alias.c\
-			unalias.c\
 			pwd.c\
 			parsing.c\
 			debug.c\
 			env_to_char_tab.c\
 			parsing_var.c\
-			handle_alias.c\
-			lst_alias.c\
-			minishellrc.c\
 			path.c\
 			here_doc.c\
 			export.c\

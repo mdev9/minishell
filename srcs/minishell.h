@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/24 09:53:43 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:36:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,16 +48,8 @@ typedef struct s_env
 	struct s_env	*next;
 }	t_env;
 
-typedef struct s_alias
-{
-	char			*name;
-	char			*value;
-	struct s_alias	*next;
-}	t_alias;
-
 typedef struct s_msh
 {
-	struct s_alias		*aliases;
 	struct s_env		*env;
 	struct s_cmd		*cmds;
 	int					**fds;
@@ -90,13 +82,7 @@ void	print_parsed_cmd(t_cmd *cmd);//debug
 void	ft_exit(t_msh *msh, int error_code);
 char	**env_to_char_tab(t_env *env);
 void	handle_minishellrc(t_msh *msh);
-t_cmd	*handle_alias(t_msh *msh);	
 int		cd(t_cmd *args);
-int		alias(t_msh *msh);
-void	free_alias(t_alias *alias);
-char	*get_alias(t_alias *alias, char *var_name);
-t_alias	*alias_add_back(t_alias *alias, char *name, char *value);
-int		unalias(t_msh *msh);
 int		ft_export(t_msh *msh);
 void	free_msh(t_msh *msh);
 char	**split_paths_from_env(t_env *env);

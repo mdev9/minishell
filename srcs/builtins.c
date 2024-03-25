@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 19:21:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:36:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,16 +28,6 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	else if (!ft_strcmp(cmd_token, "cd"))
 	{
 		cd(msh->cmds);
-		return (1);
-	}
-	else if (!ft_strcmp(cmd_token, "unalias"))
-	{
-		g_return_code = unalias(msh);
-		return (1);
-	}
-	else if (!ft_strcmp(cmd_token, "alias"))
-	{
-		alias(msh);
 		return (1);
 	}
 	else if (!ft_strcmp(cmd_token, "exit"))
@@ -75,10 +65,6 @@ int	exec_builtin(t_msh *msh)
 		g_return_code = pwd();
 	else if (!ft_strcmp(msh->cmds->token, "cd"))
 		g_return_code = cd(msh->cmds);
-	else if (!ft_strcmp(msh->cmds->token, "alias"))
-		g_return_code = alias(msh);
-	else if (!ft_strcmp(msh->cmds->token, "unalias"))
-		g_return_code = unalias(msh);
 	else
 		return (0);
 	return (1);

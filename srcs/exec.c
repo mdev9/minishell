@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/24 09:59:16 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/24 16:27:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
-	//g_return_code = 0;
+	g_return_code = 0;
 	msh->fds[i] = ft_calloc(2, sizeof(int *));
 	if (!msh->fds[i])
 		ft_exit(msh, 1);
@@ -62,7 +62,8 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	}
 	if (!cmd_is_builtin(msh, msh->cmds->token))
 		get_cmd_path(msh);
-	exec(msh, get_cmd_args(msh), i, cmd_count);
+	if(!g_return_code)
+		exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
 }
 
@@ -86,15 +87,10 @@ void	exec_commands(t_msh *msh)
 	while (i < cmd_count)
 	{
 		waitpid(msh->pids[i], &status, 0);
-		//if (/*!g_return_code*/i == cmd_count - 1)
-		//{
-			//ft_printf_fd(2, "old: %d, new: %d\n", g_return_code, WEXITSTATUS(status));
-			//ft_printf_fd(2, "replace value\n");
-		//g_return_code = WEXITSTATUS(status);
-		//}
 		i++;
 	}
-	g_return_code = WEXITSTATUS(status);
+	if(!g_return_code)
+		g_return_code = WEXITSTATUS(status);
 	i = 0;
 	while (i < cmd_count)
 	{

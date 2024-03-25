@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/24 08:56:03 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 12:33:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	free_msh(t_msh *msh)
 	if (msh)
 	{
 		free_env(msh->env);
-		free_alias(msh->aliases);
 		free(msh->pids);
 		free(msh->fds);
 		free_cmd(msh->cmds);
