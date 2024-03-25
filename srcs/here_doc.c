@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/25 13:18:05 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 18:12:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,6 +53,32 @@ int	contains_newline(char *str)
 	return (0);
 }
 
+void	parse_var(t_msh *msh, char *line)
+{
+	char	*var_name;
+
+	while(*line)
+	{
+		if(*line == '$')
+		{
+			var_name = get_var_name(line + 1);
+			if(!var_name)
+				return;
+			line += ft_strlen(var_name);
+			if(!*var_name)
+				write(msh->in_fd, "$", 1);
+			else if(!ft_strcmp(var_name, "?"))
+				ft_putnbr_fd(g_return_code, msh->in_fd);
+			else
+				ft_putstr_fd(ft_get_env(msh->env, var_name), msh->in_fd); 
+			free(var_name);
+		}
+		else
+			write(msh->in_fd, line, 1);
+		line++;
+	}
+}
+
 void	get_here_doc_input(t_msh *msh, char *eof)
 {
 	char	*line;
@@ -70,7 +96,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 		}
 		if (line && !ft_strncmp(line, eof, ft_strlen(eof)))
 			break ;
-		write(msh->in_fd, line, ft_strlen(line));
+		parse_var(msh, line);
 		write(msh->in_fd, "\n", 1);
 	}
 	free(line);
