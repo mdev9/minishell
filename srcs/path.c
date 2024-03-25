@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/23 19:24:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:26:18 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,7 +20,7 @@ char	**split_paths_from_env(t_env *env)
 
 	path_in_envp = 0;
 	cur_env_var = env;
-	while (cur_env_var->next != 0)
+	while (cur_env_var && cur_env_var->next != 0)
 	{
 		if (!ft_strcmp(cur_env_var->name, "PATH"))
 		{
