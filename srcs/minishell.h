@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 18:15:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/25 18:42:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -109,6 +109,8 @@ int		file_access(t_msh *msh, int *found);
 char	*remove_path(char *token);
 void	signal_handler_interactive(int signum);
 void	signal_handler_command(int signum);
+void	signal_handler_here_doc(int signum);
 char	*get_var_name(char *str);
+void	*here_doc_variables(int write, int index, void *data);
 
 #endif
