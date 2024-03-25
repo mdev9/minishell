@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/25 19:14:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/25 20:38:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,6 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 
 	line = NULL;
 	signal(SIGINT, signal_handler_here_doc);
-	signal(SIGQUIT, signal_handler_here_doc);
 	while (1)
 	{
 		free(line);
@@ -131,10 +130,10 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	else
 	{
 		signal(SIGINT, signal_handler_command); 
-		signal(SIGQUIT, signal_handler_command); 
+		signal(SIGQUIT, signal_handler_here_doc); 
 		waitpid(pid, &status , 0);
 		signal(SIGINT, signal_handler_interactive); 
-		signal(SIGQUIT, signal_handler_interactive);
+		signal(SIGQUIT, signal_handler_interactive); 
 		close(msh->in_fd);
 		if(WIFEXITED(status) && WEXITSTATUS(status))
 			unlink(here_doc_file);
