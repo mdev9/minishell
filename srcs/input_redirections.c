@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/24 09:56:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/25 13:49:06 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	open_input_file(t_msh *msh, t_cmd **cur_cmd)
 		if (msh->in_fd == -1 && !g_return_code)
 		{
 			ft_printf_fd(2, "minishell: %s: ", (*cur_cmd)->next->token);
-			//ft_printf_fd(2, "\nset return_code to 1\n");
 			perror("");
 			g_return_code = 1;
 		}
