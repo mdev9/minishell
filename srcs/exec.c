@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 19:01:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 09:11:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,6 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	}
 	if (!cmd_is_builtin(msh, msh->cmds->token))
 		get_cmd_path(msh);
-	//if(!g_return_code)
 	exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
 }
@@ -89,7 +88,7 @@ void	exec_commands(t_msh *msh)
 		waitpid(msh->pids[i], &status, 0);
 		i++;
 	}
-	if(!g_return_code && WIFEXITED(status))
+	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	i = 0;
 	while (i < cmd_count)

@@ -1,12 +1,12 @@
 /* ************************************************************************** */
 /*                                                                            */
 /*                                                        :::      ::::::::   */
-/*   env_to_char_tab.c                                  :+:      :+:    :+:   */
+/*   env_utils.c                                        :+:      :+:    :+:   */
 /*                                                    +:+ +:+         +:+     */
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 13:30:18 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/16 15:08:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:49:12 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,25 @@ char	**env_to_char_tab(t_env *env)
 		env = env->next;
 	}
 	return (res);
+}
+
+char	**split_paths_from_env(t_env *env)
+{
+	t_env	*cur_env_var;
+	int		path_in_envp;
+
+	path_in_envp = 0;
+	cur_env_var = env;
+	while (cur_env_var && cur_env_var->next != 0)
+	{
+		if (!ft_strcmp(cur_env_var->name, "PATH"))
+		{
+			path_in_envp = 1;
+			break ;
+		}
+		cur_env_var = cur_env_var->next;
+	}
+	if (!path_in_envp)
+		return (0);
+	return (ft_split(cur_env_var->value, ':'));
 }

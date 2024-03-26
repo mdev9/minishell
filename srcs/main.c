@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 20:04:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:44:14 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	g_return_code = 0;
+int		g_return_code = 0;
 
 char	*get_prompt(t_env *env)
 {
@@ -22,7 +22,7 @@ char	*get_prompt(t_env *env)
 
 	res = ft_strjoin_free("\001", ft_get_color(10, 255, 80), 2);
 	res = ft_strjoin_free(res, "\033[1m\002", 1);
-	if(getenv("USER"))
+	if (getenv("USER"))
 	{
 		res = ft_strjoin_free(res, getenv("USER"), 1);
 		res = ft_strjoin_free(res, "@", 1);
@@ -73,28 +73,33 @@ t_env	*get_env(char **envp)
 
 void	print_binary(unsigned int num)
 {
-	if (num == 0) {
-    	printf("0");
-    	return;
-    }
-    
-    // Taille d'un unsigned int en bits
-    int size = sizeof(unsigned int) * 8;
-    int i;
-    
-    // Parcours de chaque bit de droite à gauche
-    for (i = size - 1; i >= 0; i--) {
-        // Vérifie si le bit est 1 ou 0
-        if (num & (1u << i))
-            printf("1");
-        else
-            printf("0");
-    }
+	int	size;
+	int	i;
+
+	if (num == 0)
+	{
+		printf("0");
+		return ;
+	}
+
+	//Tom qu'est-ce que t'a fait ?????
+
+	// Taille d'un unsigned int en bits
+	size = sizeof(unsigned int) * 8;
+	// Parcours de chaque bit de droite à gauche
+	for (i = size - 1; i >= 0; i--)
+	{
+		// Vérifie si le bit est 1 ou 0
+		if (num & (1u << i))
+			printf("1");
+		else
+			printf("0");
+	}
 }
 
 int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 {
-	struct termios t_p;	
+	struct termios	t_p;
 
 	*msh = ft_calloc(1, sizeof(t_msh));
 	if (!*msh)
@@ -104,11 +109,7 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->env = get_env(envp);
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	if(tcgetattr(1, &t_p))
-		ft_printf_fd(2, "an error occured while setting the flags");
 	t_p.c_lflag = t_p.c_lflag & (~ECHOCTL);
-	if(tcsetattr(1, TCSANOW, &t_p))
-		ft_printf_fd(2, "an error occured while setting the flags");
 	return (0);
 }
 

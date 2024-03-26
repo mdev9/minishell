@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 20:39:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:42:47 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ void	signal_handler_interactive(int signum)
 	if (signum == SIGINT)
 	{
 		g_return_code = 130;
-		printf("%s%s^C\n",rl_prompt, rl_line_buffer);
+		printf("%s%s^C\n", rl_prompt, rl_line_buffer);
 		rl_replace_line("", 0);
 		rl_on_new_line();
 		rl_redisplay();
@@ -28,13 +28,13 @@ void	signal_handler_interactive(int signum)
 
 void	*here_doc_variables(int write, int index, void *data)
 {
-	static void *variables[2];
+	static void	*variables[2];
 
 	if (write)
 		variables[index] = data;
 	else
 		return (variables[index]);
-	return(0);
+	return (0);
 }
 
 void	signal_handler_here_doc(int signum)
@@ -42,9 +42,9 @@ void	signal_handler_here_doc(int signum)
 	t_msh	*msh;
 	char	*here_doc_file;
 
-	if(signum == SIGINT)
+	if (signum == SIGINT)
 	{
-		printf("%s%s^C\n",rl_prompt, rl_line_buffer);
+		printf("%s%s^C\n", rl_prompt, rl_line_buffer);
 		msh = here_doc_variables(0, 0, 0);
 		here_doc_file = here_doc_variables(0, 1, 0);
 		close(msh->in_fd);
@@ -56,6 +56,6 @@ void	signal_handler_here_doc(int signum)
 
 void	signal_handler_command(int signum)
 {
-	if(signum == SIGQUIT)
+	if (signum == SIGQUIT)
 		printf("^\\Quit (core dumped)\n");
 }

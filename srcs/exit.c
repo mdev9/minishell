@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/23 19:20:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 08:59:44 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,6 +18,20 @@ void	numeric_arg_err(char *arg, int *exit_code)
 	ft_putstr_fd(arg, 2);
 	ft_putstr_fd(": numeric argument required\n", 2);
 	*exit_code = 2;
+}
+
+void	get_exit_bt_return_code(t_msh *msh)
+{
+	t_cmd	*cur_cmd;
+	int		exit_code;
+
+	cur_cmd = msh->cmds->next;
+	if (cur_cmd && cur_cmd->type == ARG && !ft_strisnbr(cur_cmd->token))
+		numeric_arg_err(cur_cmd->token, &exit_code);
+	else if (cur_cmd && cur_cmd->type == ARG)
+		exit_code = (unsigned char)ft_atoi(cur_cmd->token);
+	else
+		exit_code = g_return_code;
 }
 
 void	exit_bt(t_msh *msh)
@@ -36,12 +50,7 @@ void	exit_bt(t_msh *msh)
 	}
 	else
 	{
-		if (cur_cmd && cur_cmd->type == ARG && !ft_strisnbr(cur_cmd->token))
-			numeric_arg_err(cur_cmd->token, &exit_code);
-		else if (cur_cmd && cur_cmd->type == ARG)
-			exit_code = (unsigned char)ft_atoi(cur_cmd->token);
-		else
-			exit_code = g_return_code;
+		get_exit_bt_return_code(msh);
 		if (msh->fds)
 		{
 			cmd_count = get_cmd_count(msh->cmds);

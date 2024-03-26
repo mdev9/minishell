@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 19:37:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 09:07:38 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,5 +113,8 @@ void	signal_handler_command(int signum);
 void	signal_handler_here_doc(int signum);
 char	*get_var_name(char *str);
 void	*here_doc_variables(int write, int index, void *data);
+char	*get_tmp_file_name(t_msh *msh);
+int		contains_newline(char *str);
+void	parse_var(t_msh *msh, char *line);
 
 #endif

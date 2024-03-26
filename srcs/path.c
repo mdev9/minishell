@@ -6,33 +6,12 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/25 13:26:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 08:49:24 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
-
-char	**split_paths_from_env(t_env *env)
-{
-	t_env	*cur_env_var;
-	int		path_in_envp;
-
-	path_in_envp = 0;
-	cur_env_var = env;
-	while (cur_env_var && cur_env_var->next != 0)
-	{
-		if (!ft_strcmp(cur_env_var->name, "PATH"))
-		{
-			path_in_envp = 1;
-			break ;
-		}
-		cur_env_var = cur_env_var->next;
-	}
-	if (!path_in_envp)
-		return (0);
-	return (ft_split(cur_env_var->value, ':'));
-}
 
 void	find_cmd_path(t_msh *msh, char **paths, int *found)
 {
