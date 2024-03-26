@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/24 08:49:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 13:57:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,12 @@ void	print_env_declare(t_env *env)
 	while (env)
 	{
 		if (strcmp(env->name, "_"))
-			printf("declare -x %s=\"%s\"\n", env->name, env->value);
+		{
+			if(*(env->value))
+				printf("declare -x %s=\"%s\"\n", env->name, env->value);
+			else
+				printf("declare -x %s\n", env->name);
+		}
 		env = env->next;
 	}
 }
