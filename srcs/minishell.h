@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 17:25:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 18:28:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@
 # include <readline/readline.h>
 # include <readline/history.h>
 # include <limits.h>
-# include <stdio.h>//debug	
+# include <stdio.h>
 # include <sys/wait.h>
 # include "../libft/libft.h"
 # include "fcntl.h"
@@ -66,60 +66,59 @@ typedef struct s_msh
 extern int	g_return_code;
 
 t_token	*cmd_add_back(t_token *res, char *token, t_token_type type);
-t_token	*free_cmd(t_token *cmd);
+void	*here_doc_variables(int write, int index, void *data);
+int		add_var_to_str(char *res, char **command, t_env *env);
+void	find_cmd_path(t_msh *msh, char **paths, int *found);
+t_env	*env_add_back(t_env *env, char *name, char *value);
+int		cmd_is_builtin(t_msh *msh, char *cmd_token);
+void	child(t_msh *msh, char **cmd_args, int i);
+t_token	*parse_command(char *command, t_env *env);
+void	parent(t_msh *msh, int i, int cmd_count);
+char	*ft_get_env(t_env *env, char *var_name);
+void	get_out_type(t_msh *msh, t_token *cmds);
+void	handle_here_doc(t_msh *msh, char *eof);
+void	get_in_type(t_msh *msh, t_token *cmds);
+void	signal_handler_interactive(int signum);
+int		get_token_len(char *cmd, t_env *env);
+t_token	*parsing_syntax_error(t_token *res);
+int		file_access(t_msh *msh, int *found);
+void	remove_command_from_msh(t_msh *msh);
+void	ft_exit(t_msh *msh, int error_code);
+void	signal_handler_command(int signum);
+void	ft_exit(t_msh *msh, int exit_code);
+void	redirect_output(t_msh *msh, int i);
+char	**split_paths_from_env(t_env *env);
+int		add_return_code_to_str(char *res);
+void	redirect_input(t_msh *msh, int i);
+void	parse_var(t_msh *msh, char *line);
+int		get_var_name_len(char *command);
+void	handle_minishellrc(t_msh *msh);
+char	*get_tmp_file_name(t_msh *msh);
+void	print_parsed_cmd(t_token *cmd);//debug
+int		get_args_count(t_token *cmds);
+char	**env_to_char_tab(t_env *env);
+int		get_cmd_count(t_token *cmds);
+int		first_is_in_type(t_msh *msh);
+int		contains_newline(char *str);
+int		check_var_name(char *name);
+char	**get_cmd_args(t_msh *msh);
 void	exec_commands(t_msh *msh);
+char	*remove_path(char *token);
+char	*get_var_name(char *str);
+int		exec_builtin(t_msh *msh);
+void	get_cmd_path(t_msh *msh);
+t_token	*free_cmd(t_token *cmd);
+int		set_echoctl(int value);
+int		print_env(t_env *env);
+int		ft_export(t_msh *msh);
+void	free_env(t_env *env);
+int		ft_unset(t_msh *msh);
+void	free_msh(t_msh *msh);
+void	free_msh(t_msh *msh);
 int		echo(t_token *args);
 int		exit_bt(t_msh *msh);
-t_env	*env_add_back(t_env *env, char *name, char *value);
-void	free_env(t_env *env);
-int		print_env(t_env *env);
-t_token	*parse_command(char *command, t_env *env);
-int		get_token_len(char *cmd, t_env *env);
-int		add_var_to_str(char *res, char **command, t_env *env);
-int		get_var_name_len(char *command);
-char	*ft_get_env(t_env *env, char *var_name);
-int		pwd(void);
 int		is_cmd_char(char c);
-void	print_parsed_cmd(t_token *cmd);//debug
-void	ft_exit(t_msh *msh, int error_code);
-char	**env_to_char_tab(t_env *env);
-void	handle_minishellrc(t_msh *msh);
 int		cd(t_token *args);
-int		ft_export(t_msh *msh);
-void	free_msh(t_msh *msh);
-char	**split_paths_from_env(t_env *env);
-void	find_cmd_path(t_msh *msh, char **paths, int *found);
-void	get_cmd_path(t_msh *msh);
-void	handle_here_doc(t_msh *msh, char *eof);
-int		ft_unset(t_msh *msh);
-void	get_in_type(t_msh *msh, t_token *cmds);
-void	get_out_type(t_msh *msh, t_token *cmds);
-int		first_is_in_type(t_msh *msh);
-void	redirect_input(t_msh *msh, int i);
-void	redirect_output(t_msh *msh, int i);
-void	child(t_msh *msh, char **cmd_args, int i);
-void	parent(t_msh *msh, int i, int cmd_count);
-void	free_msh(t_msh *msh);
-void	ft_exit(t_msh *msh, int exit_code);
-int		cmd_is_builtin(t_msh *msh, char *cmd_token);
-int		exec_builtin(t_msh *msh);
-int		get_cmd_count(t_token *cmds);
-int		get_args_count(t_token *cmds);
-char	**get_cmd_args(t_msh *msh);
-void	remove_command_from_msh(t_msh *msh);
-int		file_access(t_msh *msh, int *found);
-char	*remove_path(char *token);
-void	signal_handler_interactive(int signum);
-void	signal_handler_command(int signum);
-void	signal_handler_here_doc(int signum);
-char	*get_var_name(char *str);
-void	*here_doc_variables(int write, int index, void *data);
-char	*get_tmp_file_name(t_msh *msh);
-int		contains_newline(char *str);
-void	parse_var(t_msh *msh, char *line);
-int		set_echoctl(int value);
-int		add_return_code_to_str(char *res);
-t_token	*parsing_syntax_error(t_token *res);
-int		check_var_name(char *name);
+int		pwd(void);
 
 #endif
