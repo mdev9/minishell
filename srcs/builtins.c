@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 14:59:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:25:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	}
 	else if (!ft_strcmp(cmd_token, "exit"))
 	{
-		exit_bt(msh);
+		g_return_code = exit_bt(msh);
 		return (1);
 	}
 	else if (!ft_strcmp(cmd_token, "export"))

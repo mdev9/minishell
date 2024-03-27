@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 15:35:57 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:24:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 		*exit_code = g_return_code;
 }
 
-void	exit_bt(t_msh *msh)
+int	exit_bt(t_msh *msh)
 {
 	t_token	*cur_cmd;
 	int		exit_code;
@@ -43,10 +43,7 @@ void	exit_bt(t_msh *msh)
 	ft_printf("exit\n");
 	if (cur_cmd && cur_cmd->next && cur_cmd->next->type == ARG
 		&& ft_strisnbr(cur_cmd->value))
-	{
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
-		g_return_code = 1;
-	}
 	else
 	{
 		get_exit_bt_return_code(msh, &exit_code);
@@ -62,4 +59,5 @@ void	exit_bt(t_msh *msh)
 		free_msh(msh);
 		exit(exit_code);
 	}
+	return (1);
 }

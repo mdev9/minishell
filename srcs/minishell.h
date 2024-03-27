@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 15:24:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:20:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,7 +52,7 @@ typedef struct s_env
 typedef struct s_msh
 {
 	struct s_env		*env;
-	struct s_cmd		*cmds;
+	struct s_token		*cmds;
 	int					**fds;
 	int					*pids;
 	enum e_token_type	in_type;
@@ -66,10 +66,10 @@ typedef struct s_msh
 extern int	g_return_code;
 
 t_token	*cmd_add_back(t_token *res, char *token, t_token_type type);
-void	free_cmd(t_token *cmd);
+int		free_cmd(t_token *cmd);
 void	exec_commands(t_msh *msh);
 int		echo(t_token *args);
-void	exit_bt(t_msh *msh);
+int		exit_bt(t_msh *msh);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 int		print_env(t_env *env);
@@ -118,5 +118,7 @@ char	*get_tmp_file_name(t_msh *msh);
 int		contains_newline(char *str);
 void	parse_var(t_msh *msh, char *line);
 int		set_echoctl(int value);
+int		add_return_code_to_str(char *res);
+int		parsing_syntax_error(t_token *res);	
 
 #endif

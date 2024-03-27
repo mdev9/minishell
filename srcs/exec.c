@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 14:49:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:52:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -66,31 +66,17 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	remove_command_from_msh(msh);
 }
 
-void	exec_commands(t_msh *msh)
+void	end_execution(t_msh *msh, int cmd_count)
 {
-	int	cmd_count;
 	int	i;
 	int	status;
 
-	i = -1;
-	if (!msh->cmds)
-		return ;
-	cmd_count = get_cmd_count(msh->cmds);
-	msh->fds = ft_calloc(cmd_count, sizeof(int **));
-	msh->pids = ft_calloc(cmd_count, sizeof(int *));
-	if (!msh->pids || !msh->fds)
-		ft_exit(msh, 1);
-	while (++i < cmd_count)
-		exec_command(msh, i, cmd_count);
 	i = 0;
 	while (i < cmd_count)
-	{
-		waitpid(msh->pids[i], &status, 0);
-		i++;
-	}
+		waitpid(msh->pids[i++], &status, 0);
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
-	if(WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		printf("Quit (core dumped)\n");
 	i = 0;
 	while (i < cmd_count)
@@ -106,4 +92,22 @@ void	exec_commands(t_msh *msh)
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
+}
+
+void	exec_commands(t_msh *msh)
+{
+	int	cmd_count;
+	int	i;
+
+	i = -1;
+	if (!msh->cmds)
+		return ;
+	cmd_count = get_cmd_count(msh->cmds);
+	msh->fds = ft_calloc(cmd_count, sizeof(int **));
+	msh->pids = ft_calloc(cmd_count, sizeof(int *));
+	if (!msh->pids || !msh->fds)
+		ft_exit(msh, 1);
+	while (++i < cmd_count)
+		exec_command(msh, i, cmd_count);
+	end_execution(msh, cmd_count);
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 15:00:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:55:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,6 +29,35 @@ void	ft_exit(t_msh *msh, int exit_code)
 {
 	free_msh(msh);
 	exit(exit_code);
+}
+
+int	check_var_name(char *name)
+{
+	if (ft_isdigit(*name) || !*name)
+		return (0);
+	while (*name)
+	{
+		if (!ft_isalnum(*name) && *name != '_')
+			return (0);
+		name++;
+	}
+	return (1);
+}
+
+int	add_return_code_to_str(char *res)
+{
+	char	*var;
+	int		i;
+
+	i = 0;
+	var = ft_itoa(g_return_code);
+	while (var && var[i])
+	{
+		res[i] = var[i];
+		i++;
+	}
+	free(var);
+	return (i);
 }
 
 int	file_access(t_msh *msh, int *found)

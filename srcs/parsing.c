@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/24 08:50:11 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:20:20 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -47,10 +47,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 		if (**cmd == '\'' && !*in_dquote)
 			*in_quote = !*in_quote;
 		if (**cmd == '$' && !*in_quote)
-		{
-			(*cmd)++;
 			i += add_var_to_str(res + i, cmd, env);
-		}
 		else if (**cmd == '~' && !*in_quote && !*in_dquote)
 			i += add_home_to_str(res + i);
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
@@ -86,12 +83,12 @@ t_token_type	get_token_type(char **command)
 	return (res);
 }
 
-t_cmd	*parse_command(char *command, t_env *env)
+t_token	*parse_command(char *command, t_env *env)
 {
 	int				in_quote;
 	int				in_dquote;
-	t_cmd			*res;
-	char			*token;
+	t_token			*res;
+	char			*value;
 	t_token_type	type;
 
 	in_quote = 0;
@@ -101,26 +98,16 @@ t_cmd	*parse_command(char *command, t_env *env)
 	{
 		type = get_token_type(&command);
 		if (type == ARG)
-			token = get_token(&command, &in_quote, &in_dquote, env);
+			value = get_token(&command, &in_quote, &in_dquote, env);
 		else
-			token = 0;
-		if (type == ARG && token == 0)
-		{
-			free_cmd(res);
-			return (0);
-		}
-		if (token && !*token)
-			free(token);
-		else
-			res = cmd_add_back(res, token, type);
+			value = 0;
+		if (type == ARG && value == 0)
+			return (free_cmd(res));
+		res = cmd_add_back(res, value, type);
 		while (ft_isspace(*command))
 			command++;
 	}
 	if (command && (in_quote || in_dquote))
-	{
-		free_cmd(res);
-		ft_putstr_fd("minishell: syntax error\n", 2);
-		return (0);
-	}
+		return (parsing_syntax_error(res));
 	return (res);
 }

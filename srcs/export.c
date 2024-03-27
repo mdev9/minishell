@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 14:57:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:55:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_env_declare(t_env *env)
 	{
 		if (strcmp(env->name, "_"))
 		{
-			if(*(env->value))
+			if (*(env->value))
 				printf("declare -x %s=\"%s\"\n", env->name, env->value);
 			else
 				printf("declare -x %s\n", env->name);
@@ -27,22 +27,18 @@ void	print_env_declare(t_env *env)
 	}
 }
 
-int	check_var_name(char *name)
+int	export_invalid_identifier(char *arg, char *name)
 {
-	if (ft_isdigit(*name) || !*name)
-		return (0);
-	while (*name)
-	{
-		if (!ft_isalnum(*name) && *name != '_')
-			return (0);
-		name++;
-	}
+	ft_putstr_fd("minishell: export: `", 2);
+	ft_putstr_fd(arg, 2);
+	ft_putstr_fd("': not a valid identifier\n", 2);
+	free(name);
 	return (1);
 }
 
 int	ft_export(t_msh *msh)
 {
-	t_cmd	*cmd;
+	t_token	*cmd;
 	char	*arg;
 	char	*name;
 	char	*value;
@@ -60,13 +56,7 @@ int	ft_export(t_msh *msh)
 			len++;
 		name = ft_substr(arg, 0, len);
 		if (!name || !check_var_name(name))
-		{
-			ft_putstr_fd("minishell: export: `", 2);
-			ft_putstr_fd(arg, 2);
-			ft_putstr_fd("': not a valid identifier\n", 2);
-			free(name);
-			return (1);
-		}
+			return (export_invalid_identifier(arg, name));
 		if (arg[len])
 			len++;
 		value = ft_strdup(arg + len);
@@ -102,7 +92,7 @@ void	delete_from_env(t_msh *msh, char *name)
 
 int	ft_unset(t_msh *msh)
 {
-	t_cmd	*cmd;
+	t_token	*cmd;
 
 	cmd = msh->cmds;
 	if (cmd)

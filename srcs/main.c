@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 15:05:42 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:02:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,39 +71,11 @@ t_env	*get_env(char **envp)
 	return (env);
 }
 
-void	print_binary(unsigned int num)
-{
-	int	size;
-	int	i;
-
-	if (num == 0)
-	{
-		printf("0");
-		return ;
-	}
-
-	//Tom qu'est-ce que t'a fait ?????
-
-	// Taille d'un unsigned int en bits
-	size = sizeof(unsigned int) * 8;
-	// Parcours de chaque bit de droite à gauche
-	for (i = size - 1; i >= 0; i--)
-	{
-		// Vérifie si le bit est 1 ou 0
-		if (num & (1u << i))
-			printf("1");
-		else
-			printf("0");
-	}
-}
-
 int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 {
 	struct termios	t_p;
 
-	*msh = ft_calloc(1, sizeof(t_msh));
-	if (!*msh)
-		ft_exit(*msh, 1);
+	ft_exit(*msh, 1);
 	(void)argc;
 	(void)argv;
 	(*msh)->env = get_env(envp);
@@ -111,7 +83,7 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	if(set_echoctl(0))
+	if (set_echoctl(0))
 		ft_exit(*msh, 1);
 	return (0);
 }

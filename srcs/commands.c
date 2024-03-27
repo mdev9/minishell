@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 16:20:06 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:01:49 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,10 +71,9 @@ char	**get_cmd_args(t_msh *msh)
 		if (cur_cmd->type == ARG)
 		{
 			if (!i)
-				cmd_args[i] = remove_path(cur_cmd->value);
+				cmd_args[i++] = remove_path(cur_cmd->value);
 			else
-				cmd_args[i] = cur_cmd->value;
-			i++;
+				cmd_args[i++] = cur_cmd->value;
 		}
 		else
 			cur_cmd = cur_cmd->next;

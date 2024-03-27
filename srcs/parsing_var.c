@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/05 17:29:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 17:09:50 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,20 +72,11 @@ int	get_token_len(char *command, t_env *env)
 	return (res);
 }
 
-int	add_return_code_to_str(char *res)
+int	invalid_variable_char(char *res, char c)
 {
-	char	*var;
-	int		i;
-
-	i = 0;
-	var = ft_itoa(g_return_code);
-	while (var && var[i])
-	{
-		res[i] = var[i];
-		i++;
-	}
-	free(var);
-	return (i);
+	res[0] = '$';
+	res[1] = c;
+	return (2);
 }
 
 int	add_var_to_str(char *res, char **command, t_env *env)
@@ -95,6 +86,7 @@ int	add_var_to_str(char *res, char **command, t_env *env)
 	int		i;
 
 	i = 0;
+	(*command)++;
 	if (**command == '\'' || **command == '"')
 	{
 		*res = '$';
@@ -102,21 +94,14 @@ int	add_var_to_str(char *res, char **command, t_env *env)
 		return (1);
 	}
 	if (!ft_isalnum(**command) && **command != '_' && **command != '?')
-	{
-		res[0] = '$';
-		res[1] = **command;
-		return (2);
-	}
+		return (invalid_variable_char(res, **command));
 	if (**command == '?')
 		return (add_return_code_to_str(res));
 	var_name = get_var_name(*command);
 	var = ft_get_env(env, var_name);
 	free(var_name);
 	while (var && var[i])
-	{
-		res[i] = var[i];
-		i++;
-	}
+		res[i] = var[i++];
 	*command += get_var_name_len(*command) - 1;
 	return (i);
 }

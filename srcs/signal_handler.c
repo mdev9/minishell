@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 16:22:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:21:09 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,6 +76,7 @@ ags");
 	}
 	return (0);
 }
+
 void	signal_handler_command(int signum)
 {
 	(void)signum;
