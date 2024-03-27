@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 17:02:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:33:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,7 +75,9 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 {
 	struct termios	t_p;
 
-	ft_exit(*msh, 1);
+	*msh = ft_calloc(1, sizeof(t_msh));
+	if (!*msh)
+		ft_exit(*msh, 1);
 	(void)argc;
 	(void)argv;
 	(*msh)->env = get_env(envp);

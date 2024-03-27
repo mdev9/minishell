@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 17:18:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 17:24:55 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_token	*cmd_add_back(t_token *cmd, char *value, t_token_type type)
 	return (cmd);
 }
 
-int	free_cmd(t_token *cmd)
+t_token	*free_cmd(t_token *cmd)
 {
 	if (cmd)
 	{
