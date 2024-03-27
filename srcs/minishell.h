@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 18:28:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 19:50:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,15 +25,31 @@
 # include <stdint.h>
 # include <termios.h>
 
+typedef enum e_cmd_type
+{
+	PIPE,
+	CMD,
+	PAREN,
+	AND,
+	OR
+}
+
+typedef struct s_cmd
+{
+	t_cmd_type	cmd_type;
+	char		*value;
+	stuct s_cmd	*next;
+}	t_cmd;
+
 typedef enum e_token_type
 {
 	ARG,
-	PIPE,
 	RED_O,
 	RED_O_APP,
 	RED_I,
-	HERE_DOC,
+	HERE_DOC
 }	t_token_type;
+
 
 typedef struct s_token
 {
