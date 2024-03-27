@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/25 12:33:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/26 17:23:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,7 @@ void	free_msh(t_msh *msh)
 		free(msh->pids);
 		free(msh->fds);
 		free_cmd(msh->cmds);
+		set_echoctl(msh->echoctl);
 		free(msh);
 	}
 }

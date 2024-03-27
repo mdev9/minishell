@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/26 09:07:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:52:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 	char	*line;
 
 	line = NULL;
-	signal(SIGINT, signal_handler_here_doc);
 	while (1)
 	{
 		free(line);
@@ -40,6 +39,7 @@ void	here_doc_child(t_msh *msh, char *eof, char *here_doc_file)
 {
 	here_doc_variables(1, 0, msh);
 	here_doc_variables(1, 1, here_doc_file);
+	signal(SIGINT, signal_handler_here_doc);
 	get_here_doc_input(msh, eof);
 	close(msh->in_fd);
 	free(here_doc_file);

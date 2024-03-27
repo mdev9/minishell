@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 09:07:38 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:13:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,6 +60,7 @@ typedef struct s_msh
 	int					in_fd;
 	int					out_fd;
 	int					locked_return_code;
+	int					echoctl;
 }	t_msh;
 
 extern int	g_return_code;
@@ -116,5 +117,6 @@ void	*here_doc_variables(int write, int index, void *data);
 char	*get_tmp_file_name(t_msh *msh);
 int		contains_newline(char *str);
 void	parse_var(t_msh *msh, char *line);
+int		set_echoctl(int value);
 
 #endif

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 09:11:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:33:20 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,6 +90,8 @@ void	exec_commands(t_msh *msh)
 	}
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
+	if(WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
+		printf("Quit (core dumped)\n");
 	i = 0;
 	while (i < cmd_count)
 	{
@@ -103,4 +105,5 @@ void	exec_commands(t_msh *msh)
 	msh->pids = 0;
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
+	set_echoctl(0);
 }

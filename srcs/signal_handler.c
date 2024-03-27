@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 08:42:47 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:59:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,9 +53,29 @@ void	signal_handler_here_doc(int signum)
 		ft_exit(msh, 1);
 	}
 }
+int	set_echoctl(int value)
+{
+	struct termios	t_p;
 
+	if(tcgetattr(1, &t_p))
+	{
+		ft_printf_fd(2, "minishell: an error occured while setting the local fl\
+ags");
+		return(1);
+	}
+	if(value)
+		t_p.c_lflag = t_p.c_lflag | ECHOCTL;
+	else
+		t_p.c_lflag = t_p.c_lflag & (~ECHOCTL);
+	if(tcsetattr(1, TCSANOW, &t_p))
+	{
+		ft_printf_fd(2, "minishell: an error occured while setting the local fl\
+	ags");
+		return(1);
+	}
+	return(0);
+}
 void	signal_handler_command(int signum)
 {
-	if (signum == SIGQUIT)
-		printf("^\\Quit (core dumped)\n");
+	(void)signum;
 }

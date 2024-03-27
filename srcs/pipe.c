@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/26 08:40:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/26 17:21:57 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 	}
 	if (msh->cmds->token)
 	{
+		set_echoctl(msh->echoctl);
 		env = env_to_char_tab(msh->env);
 		execve(msh->cmds->token, cmd_args, env);
 		ft_free_str_arr(env);
