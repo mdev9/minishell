@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 14:56:35 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:21:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_parsed_cmd(t_cmd *cmd)
+void	print_parsed_cmd(t_token *cmd)
 {
 	while (cmd)
 	{

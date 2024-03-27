@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 14:58:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:20:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	redirect_input(t_msh *msh, int i)
 	}
 }
 
-void	open_input_file(t_msh *msh, t_cmd **cur_cmd)
+void	open_input_file(t_msh *msh, t_token **cur_cmd)
 {
 	if ((*cur_cmd)->type == HERE_DOC)
 		handle_here_doc(msh, (*cur_cmd)->next->value);
@@ -45,9 +45,9 @@ void	open_input_file(t_msh *msh, t_cmd **cur_cmd)
 	}
 }
 
-void	get_in_type(t_msh *msh, t_cmd *cmds)
+void	get_in_type(t_msh *msh, t_token *cmds)
 {
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	cur_cmd = cmds;
 	while (cur_cmd && cur_cmd->next && cur_cmd->type == ARG)
@@ -67,7 +67,7 @@ void	get_in_type(t_msh *msh, t_cmd *cmds)
 
 int	first_is_in_type(t_msh *msh)
 {
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->type == ARG && cur_cmd->next)

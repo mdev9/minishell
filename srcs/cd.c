@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 14:49:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:21:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	cd(t_cmd *args)
+int	cd(t_token *args)
 {
 	char	*new_wd;
 

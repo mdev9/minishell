@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 14:51:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:35:57 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ void	numeric_arg_err(char *arg, int *exit_code)
 
 void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 {
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	cur_cmd = msh->cmds->next;
 	if (cur_cmd && cur_cmd->type == ARG && !ft_strisnbr(cur_cmd->value))
@@ -35,7 +35,7 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 
 void	exit_bt(t_msh *msh)
 {
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 	int		exit_code;
 	int		cmd_count;
 

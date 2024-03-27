@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 14:46:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:24:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,12 +35,12 @@ typedef enum e_token_type
 	HERE_DOC,
 }	t_token_type;
 
-typedef struct s_cmd
+typedef struct s_token
 {
 	t_token_type	type;
 	char			*value;
-	struct s_cmd	*next;
-}	t_cmd;
+	struct s_token	*next;
+}	t_token;
 
 typedef struct s_env
 {
@@ -65,26 +65,26 @@ typedef struct s_msh
 
 extern int	g_return_code;
 
-t_cmd	*cmd_add_back(t_cmd *res, char *token, t_token_type type);
-void	free_cmd(t_cmd *cmd);
+t_token	*cmd_add_back(t_token *res, char *token, t_token_type type);
+void	free_cmd(t_token *cmd);
 void	exec_commands(t_msh *msh);
-int		echo(t_cmd *args);
+int		echo(t_token *args);
 void	exit_bt(t_msh *msh);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 void	free_env(t_env *env);
 int		print_env(t_env *env);
-t_cmd	*parse_command(char *command, t_env *env);
+t_token	*parse_command(char *command, t_env *env);
 int		get_token_len(char *cmd, t_env *env);
 int		add_var_to_str(char *res, char **command, t_env *env);
 int		get_var_name_len(char *command);
 char	*ft_get_env(t_env *env, char *var_name);
 int		pwd(void);
 int		is_cmd_char(char c);
-void	print_parsed_cmd(t_cmd *cmd);//debug
+void	print_parsed_cmd(t_token *cmd);//debug
 void	ft_exit(t_msh *msh, int error_code);
 char	**env_to_char_tab(t_env *env);
 void	handle_minishellrc(t_msh *msh);
-int		cd(t_cmd *args);
+int		cd(t_token *args);
 int		ft_export(t_msh *msh);
 void	free_msh(t_msh *msh);
 char	**split_paths_from_env(t_env *env);
@@ -92,8 +92,8 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	get_cmd_path(t_msh *msh);
 void	handle_here_doc(t_msh *msh, char *eof);
 int		ft_unset(t_msh *msh);
-void	get_in_type(t_msh *msh, t_cmd *cmds);
-void	get_out_type(t_msh *msh, t_cmd *cmds);
+void	get_in_type(t_msh *msh, t_token *cmds);
+void	get_out_type(t_msh *msh, t_token *cmds);
 int		first_is_in_type(t_msh *msh);
 void	redirect_input(t_msh *msh, int i);
 void	redirect_output(t_msh *msh, int i);
@@ -103,8 +103,8 @@ void	free_msh(t_msh *msh);
 void	ft_exit(t_msh *msh, int exit_code);
 int		cmd_is_builtin(t_msh *msh, char *cmd_token);
 int		exec_builtin(t_msh *msh);
-int		get_cmd_count(t_cmd *cmds);
-int		get_args_count(t_cmd *cmds);
+int		get_cmd_count(t_token *cmds);
+int		get_args_count(t_token *cmds);
 char	**get_cmd_args(t_msh *msh);
 void	remove_command_from_msh(t_msh *msh);
 int		file_access(t_msh *msh, int *found);

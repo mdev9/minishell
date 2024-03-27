@@ -6,16 +6,16 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 14:59:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:20:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_cmd_count(t_cmd *cmds)
+int	get_cmd_count(t_token *cmds)
 {
 	int		count;
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	count = 0;
 	cur_cmd = cmds;
@@ -31,10 +31,10 @@ int	get_cmd_count(t_cmd *cmds)
 	return (count);
 }
 
-int	get_args_count(t_cmd *cmds)
+int	get_args_count(t_token *cmds)
 {
 	int		count;
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 
 	count = 0;
 	cur_cmd = cmds;
@@ -56,7 +56,7 @@ int	get_args_count(t_cmd *cmds)
 char	**get_cmd_args(t_msh *msh)
 {
 	char	**cmd_args;
-	t_cmd	*cur_cmd;
+	t_token	*cur_cmd;
 	int		args_count;
 	int		i;
 
@@ -85,8 +85,8 @@ char	**get_cmd_args(t_msh *msh)
 
 void	remove_command_from_msh(t_msh *msh)
 {
-	t_cmd	*cur_cmd;
-	t_cmd	*cmd_tmp;
+	t_token	*cur_cmd;
+	t_token	*cmd_tmp;
 
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)

@@ -6,14 +6,14 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 14:55:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 16:21:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 #include <unistd.h>
 
-void	put_args(t_cmd *args)
+void	put_args(t_token *args)
 {
 	int	first;
 
@@ -33,7 +33,7 @@ void	put_args(t_cmd *args)
 	}
 }
 
-int	echo(t_cmd *args)
+int	echo(t_token *args)
 {
 	int	put_nl;
 	int	i;
