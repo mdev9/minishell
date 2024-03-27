@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/05 19:28:25 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:58:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,10 +30,10 @@ void	open_out_file(t_msh *msh, t_cmd **cur_cmd)
 {
 	msh->out_type = (*cur_cmd)->type;
 	if (msh->out_type == RED_O)
-		msh->out_fd = open((*cur_cmd)->next->token,
+		msh->out_fd = open((*cur_cmd)->next->value,
 				O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (msh->out_type == RED_O_APP)
-		msh->out_fd = open((*cur_cmd)->next->token,
+		msh->out_fd = open((*cur_cmd)->next->value,
 				O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (msh->out_fd == -1)
 	{

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/26 17:23:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:00:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,22 +35,22 @@ int	file_access(t_msh *msh, int *found)
 {
 	int	fd;
 
-	fd = open(msh->cmds->token, O_DIRECTORY);
+	fd = open(msh->cmds->value, O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
-		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->cmds->token);
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->cmds->value);
 		g_return_code = 126;
 		return (0);
 	}
-	if (access(msh->cmds->token, X_OK) != -1)
+	if (access(msh->cmds->value, X_OK) != -1)
 		*found = 1;
 	else
 	{
-		ft_printf_fd(2, "minishell: %s: ", msh->cmds->token);
+		ft_printf_fd(2, "minishell: %s: ", msh->cmds->value);
 		perror("");
 		g_return_code = 127;
-		if (access(msh->cmds->token, F_OK) != -1)
+		if (access(msh->cmds->value, F_OK) != -1)
 			g_return_code = 126;
 		return (0);
 	}

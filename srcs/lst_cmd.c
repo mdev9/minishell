@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/25 12:45:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:48:50 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_cmd	*cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
+t_cmd	*cmd_add_back(t_cmd *cmd, char *value, t_token_type type)
 {
 	t_cmd	*res;
 	t_cmd	*current;
@@ -20,7 +20,7 @@ t_cmd	*cmd_add_back(t_cmd *cmd, char *token, t_token_type type)
 	res = ft_calloc(1, sizeof(t_cmd));
 	if (!res)
 		return (cmd);
-	res->token = token;
+	res->value = value;
 	res->type = type;
 	if (!cmd)
 		return (res);
@@ -35,10 +35,10 @@ void	free_cmd(t_cmd *cmd)
 {
 	if (cmd)
 	{
-		if (cmd && cmd->token)
+		if (cmd && cmd->value)
 		{
-			free(cmd->token);
-			cmd->token = 0;
+			free(cmd->value);
+			cmd->value = 0;
 		}
 		if (cmd && cmd->next)
 		{

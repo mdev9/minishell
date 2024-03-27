@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/06 08:43:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:49:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ int	cd(t_cmd *args)
 	if (!args->next || args->next->type != ARG)
 		new_wd = getenv("HOME");
 	else
-		new_wd = args->next->token;
+		new_wd = args->next->value;
 	if (chdir(new_wd) == -1)
 	{
 		perror("minishell: cd");

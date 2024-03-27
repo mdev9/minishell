@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 17:33:20 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:49:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		if (!g_return_code)
 			get_in_type(msh, msh->cmds);
 	}
-	if (!cmd_is_builtin(msh, msh->cmds->token))
+	if (!cmd_is_builtin(msh, msh->cmds->value))
 		get_cmd_path(msh);
 	exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);

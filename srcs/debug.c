@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/21 12:59:08 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:56:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_parsed_cmd(t_cmd *cmd)
 	{
 		printf("[");
 		if (cmd->type == ARG)
-			printf("ARG : \"%s\"", cmd->token);
+			printf("ARG : \"%s\"", cmd->value);
 		else if (cmd->type == PIPE)
 			printf("PIPE");
 		else if (cmd->type == RED_O)

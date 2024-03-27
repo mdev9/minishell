@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/26 17:21:57 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 15:00:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,8 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 {
 	char	**env;
 
-	if (msh->cmds->token && (!ft_strcmp(msh->cmds->token, "cd")
-			|| !ft_strcmp(msh->cmds->token, "exit") || exec_builtin(msh)))
+	if (msh->cmds->value && (!ft_strcmp(msh->cmds->value, "cd")
+			|| !ft_strcmp(msh->cmds->value, "exit") || exec_builtin(msh)))
 	{
 		while (i >= 0)
 		{
@@ -43,11 +43,11 @@ void	execute_command(t_msh *msh, char **cmd_args, int i)
 		free(cmd_args);
 		ft_exit(msh, g_return_code);
 	}
-	if (msh->cmds->token)
+	if (msh->cmds->value)
 	{
 		set_echoctl(msh->echoctl);
 		env = env_to_char_tab(msh->env);
-		execve(msh->cmds->token, cmd_args, env);
+		execve(msh->cmds->value, cmd_args, env);
 		ft_free_str_arr(env);
 	}
 }

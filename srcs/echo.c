@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 14:14:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:55:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ void	put_args(t_cmd *args)
 		{
 			if (!first)
 				ft_putchar_fd(' ', STDOUT_FILENO);
-			ft_putstr_fd(args->token, STDOUT_FILENO);
+			ft_putstr_fd(args->value, STDOUT_FILENO);
 			first = 0;
 		}
 		args = args->next;
@@ -40,14 +40,14 @@ int	echo(t_cmd *args)
 
 	put_nl = 1;
 	i = 1;
-	while (args && args->token && args->token[0] == '-')
+	while (args && args->value && args->value[0] == '-')
 	{
-		while (args->token[i] == 'n')
+		while (args->value[i] == 'n')
 			i++;
-		if (!args->token[i])
+		if (!args->value[i])
 			put_nl = 0;
 		else
-			ft_printf("%s ",args->token);
+			ft_printf("%s ",args->value);
 		args = args->next;
 	}
 	put_args(args);

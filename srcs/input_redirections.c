@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/25 13:49:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/03/27 14:58:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,15 +30,15 @@ void	redirect_input(t_msh *msh, int i)
 void	open_input_file(t_msh *msh, t_cmd **cur_cmd)
 {
 	if ((*cur_cmd)->type == HERE_DOC)
-		handle_here_doc(msh, (*cur_cmd)->next->token);
+		handle_here_doc(msh, (*cur_cmd)->next->value);
 	if ((*cur_cmd)->type == RED_I)
 	{
 		if (msh->in_fd != 0)
 			close(msh->in_fd);
-		msh->in_fd = open((*cur_cmd)->next->token, O_RDONLY);
+		msh->in_fd = open((*cur_cmd)->next->value, O_RDONLY);
 		if (msh->in_fd == -1 && !g_return_code)
 		{
-			ft_printf_fd(2, "minishell: %s: ", (*cur_cmd)->next->token);
+			ft_printf_fd(2, "minishell: %s: ", (*cur_cmd)->next->value);
 			perror("");
 			g_return_code = 1;
 		}

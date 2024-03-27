@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/26 17:13:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/27 14:46:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ typedef enum e_token_type
 typedef struct s_cmd
 {
 	t_token_type	type;
-	char			*token;
+	char			*value;
 	struct s_cmd	*next;
 }	t_cmd;
 
