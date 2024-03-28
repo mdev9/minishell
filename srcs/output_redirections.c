@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 16:21:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:26:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	redirect_output(t_msh *msh, int i)
 {
-	if (msh->out_type != PIPE)
+	if (/*msh->out_type != PIPE*/ 1)
 	{
 		if (dup2(msh->out_fd, 1) < 0)
 			ft_exit(msh, 1);
@@ -41,7 +41,7 @@ void	open_out_file(t_msh *msh, t_token **cur_cmd)
 		perror("open");
 		return ;
 	}
-	if ((*cur_cmd)->type != PIPE)
+	if (/*(*cur_cmd)->type != PIPE*/ 1)
 	{
 		while ((*cur_cmd)->next && (*cur_cmd)->next->type == ARG)
 			*cur_cmd = (*cur_cmd)->next;

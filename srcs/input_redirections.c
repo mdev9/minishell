@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 16:20:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:26:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	redirect_input(t_msh *msh, int i)
 {
-	if (msh->in_type != PIPE)
+	if (/*msh->in_type != PIPE*/ 1)
 	{
 		if (dup2(msh->in_fd, 0) < 0)
 			ft_exit(msh, 1);
@@ -72,7 +72,7 @@ int	first_is_in_type(t_msh *msh)
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->type == ARG && cur_cmd->next)
 		cur_cmd = cur_cmd->next;
-	if (cur_cmd->type == PIPE || cur_cmd->type == RED_I
+	if (/*cur_cmd->type == PIPE || */cur_cmd->type == RED_I
 		|| cur_cmd->type == HERE_DOC)
 		return (1);
 	return (0);

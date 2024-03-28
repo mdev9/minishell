@@ -6,31 +6,47 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 16:21:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/28 14:29:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_parsed_cmd(t_token *cmd)
+void	print_parsed_token(t_token *token)
 {
-	while (cmd)
+	while (token)
 	{
 		printf("[");
-		if (cmd->type == ARG)
-			printf("ARG : \"%s\"", cmd->value);
-		else if (cmd->type == PIPE)
-			printf("PIPE");
-		else if (cmd->type == RED_O)
+		if (token->type == ARG)
+			printf("ARG : \"%s\"", token->value);
+		else if (token->type == RED_O)
 			printf("RED_O");
-		else if (cmd->type == RED_O_APP)
+		else if (token->type == RED_O_APP)
 			printf("RED_O_APP");
-		else if (cmd->type == RED_I)
+		else if (token->type == RED_I)
 			printf("RED_I");
-		else if (cmd->type == HERE_DOC)
+		else if (token->type == HERE_DOC)
 			printf("HERE_DOC");
 		printf("] ");
-		cmd = cmd->next;
+		token = token->next;
 	}
 	printf("\n");
+}
+
+void	print_parsed_cmd(t_cmd *cmd)
+{
+	while(cmd)
+	{
+		if(cmd->cmd_type == CMD)
+			printf("[CMD : %s] ", cmd->value);
+		if(cmd->cmd_type == PAREN)
+			printf("[PAREN : %s] ", cmd->value);
+		if(cmd->cmd_type == AND)
+			printf("[AND] ");
+		if(cmd->cmd_type == OR)
+			printf("[OR] ");
+		if(cmd->cmd_type == PIPE)
+			printf("[PIPE] ");
+		cmd = cmd->next;
+	}
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 17:01:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:35:09 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,7 +22,7 @@ int	get_cmd_count(t_token *cmds)
 	while (cur_cmd->next != 0)
 	{
 		if (cur_cmd->type != ARG)
-			if (cur_cmd->type == PIPE)
+			if (/*cur_cmd->type == PIPE*/ 0)
 				count++;
 		cur_cmd = cur_cmd->next;
 	}
@@ -42,12 +42,12 @@ int	get_args_count(t_token *cmds)
 		count++;
 	while (cur_cmd->next)
 	{
-		if (cur_cmd->type == PIPE)
+		if (/*cur_cmd->type == PIPE*/ 0)
 			break ;
 		cur_cmd = cur_cmd->next;
 		if (cur_cmd->type == ARG)
 			count++;
-		else if (cur_cmd->type != PIPE)
+		else if (/*cur_cmd->type != PIPE*/ 1)
 			cur_cmd = cur_cmd->next;
 	}
 	return (count);
@@ -90,7 +90,7 @@ void	remove_command_from_msh(t_msh *msh)
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)
 	{
-		if (cur_cmd->type == PIPE)
+		if (/*cur_cmd->type == PIPE*/ 0)
 		{
 			cmd_tmp = cur_cmd;
 			cur_cmd = cur_cmd->next;

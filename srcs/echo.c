@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 17:20:40 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/28 13:21:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	put_args(t_token *args)
 	int	first;
 
 	first = 1;
-	while (args && args->type != PIPE)
+	while (args && args->type == ARG)
 	{
 		if (args->type != ARG)
 			args = args->next;
