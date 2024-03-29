@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 16:19:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 16:45:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,23 +85,37 @@ int		get_parenthesis_cmd_len(char *cmd)
 
 int		get_normal_cmd_len(char *cmd)
 {
-	int	len;
+	int len;
+	int in_quote;
+	int in_dquote;
 
 	len = 0;
-	(void)len;
-	(void)cmd;
-	return(0);
+	in_quote = 0;
+	in_dquote = 0;
+	while(cmd[len] && (in_quote || in_dquote || (cmd[len] != '|' &&
+		cmd[len] != '&' && cmd[len] != '(' && cmd[len] != ')')))
+	{
+		if (cmd[len] == '\'' && !in_dquote)
+			in_quote = !in_quote;
+		if (cmd[len] == '"' && !in_quote)
+			in_dquote = !in_dquote;
+		len++;
+	}
+	return(len);
 }
 
 char	*get_cmd_value(char **cmd , t_cmd_type type)
 {	
 	int len;
+	char *res;
 
 	if (type == PAREN)
 		len = get_parenthesis_cmd_len(*cmd);
 	else
 		len =  get_normal_cmd_len(*cmd);
-	return(0);
+	res = ft_substr(*cmd, 0, len);
+	(*cmd) += len;
+	return(res);
 }
 
 t_cmd	*parsing_bonus(char *cmd)
