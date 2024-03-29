@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/03/27 18:29:50 by tomoron          ###   ########.fr        #
+#    Updated: 2024/03/29 14:34:57 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -15,6 +15,7 @@ SRCS_RAW =	main.c\
 			lst_cmd.c\
 			cd.c\
 			lst_env.c\
+			lst_token.c\
 			exec.c\
 			exit.c\
 			echo.c\
@@ -35,7 +36,8 @@ SRCS_RAW =	main.c\
 			utils.c\
 			utils2.c\
 			signal_handler.c\
-			parsing_bonus.c
+			parsing_bonus.c\
+			exec_bonus.c
 
 
 OBJS_DIR = objs/

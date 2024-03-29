@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 14:10:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:31:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -101,7 +101,7 @@ t_token	*parse_command(char *command, t_env *env)
 			value = 0;
 		if (type == ARG && value == 0)
 			return (free_token(res));
-		res = cmd_add_back(res, value, type);
+		res = token_add_back(res, value, type);
 		while (ft_isspace(*command))
 			command++;
 	}

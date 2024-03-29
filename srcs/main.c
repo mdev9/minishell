@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 14:44:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:45:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,7 +83,7 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->env = get_env(envp);
 	tcgetattr(1, &t_p);
 	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
-	signal(SIGINT, signal_handler_interactive);
+	//signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	if (set_echoctl(0))
 		ft_exit(*msh, 1);
@@ -121,11 +121,11 @@ int	main(int argc, char **argv, char **envp)
 	return (g_return_code);
 }*/
 
-int main(void int argc, char **argv, char **envp)
+int main(int argc, char **argv, char **envp)
 {
 	char	*commands;
 	char	*prompt;
-	t_cmd	*cmd
+	t_msh	*msh;
 
 	commands = (char *)1;
 	init_minishell(&msh, argc, argv, envp);
@@ -137,6 +137,7 @@ int main(void int argc, char **argv, char **envp)
 		commands = readline(prompt);
 		free(prompt);
 		add_history(commands);
-		exec_command_bonus(commands);
+		exec_command_bonus(msh, commands);
+		free(commands);
 	}	
 }

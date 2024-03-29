@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 14:30:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:30:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,7 @@ t_cmd	*cmd_add_back(t_cmd *cmd, char *value, t_cmd_type type)
 	if (!res)
 		return (cmd);
 	res->value = value;
-	res->type = type;
+	res->cmd_type = type;
 	if (!cmd)
 		return (res);
 	current = cmd;

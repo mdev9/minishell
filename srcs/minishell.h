@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 14:31:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 14:36:18 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,7 @@ void	*here_doc_variables(int write, int index, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 t_env	*env_add_back(t_env *env, char *name, char *value);
+void	exec_command_bonus(t_msh *msh, char *cmd_str);
 int		cmd_is_builtin(t_msh *msh, char *cmd_token);
 void	child(t_msh *msh, char **cmd_args, int i);
 t_token	*parse_command(char *command, t_env *env);
@@ -99,6 +100,7 @@ void	signal_handler_interactive(int signum);
 int		get_token_len(char *cmd, t_env *env);
 void	signal_handler_here_doc(int signum);
 t_token	*parsing_syntax_error(t_token *res);
+t_cmd	*parsing_bonus(char *cmd);
 int		file_access(t_msh *msh, int *found);
 void	remove_command_from_msh(t_msh *msh);
 void	ft_exit(t_msh *msh, int error_code);
