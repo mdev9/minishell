@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 16:45:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 18:24:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,7 +28,7 @@ int	check_syntax(char *cmd)
 		if (*cmd == '"' && !in_quote)
 			in_dquote = !in_dquote;
 		if ((*cmd == '(' || *cmd == ')') && !in_quote && !in_dquote)
-			parenthesis += 1 * (-(*cmd == ')'));
+			parenthesis += 1 - (2 * (*cmd == ')'));
 		cmd++;
 	}
 	if (in_quote || in_dquote || parenthesis)
