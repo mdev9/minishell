@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 15:57:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/29 16:19:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,7 +59,7 @@ t_cmd_type	get_cmd_type_bonus(char **cmd)
 	return (res);
 }
 
-int		*get_parenthesis_cmd_len(char *cmd)
+int		get_parenthesis_cmd_len(char *cmd)
 {
 	int len;
 	int parenthesis;
@@ -83,8 +83,14 @@ int		*get_parenthesis_cmd_len(char *cmd)
 	return(len);
 }
 
-int		*get_normal_cmd_len(char *cmd)
+int		get_normal_cmd_len(char *cmd)
 {
+	int	len;
+
+	len = 0;
+	(void)len;
+	(void)cmd;
+	return(0);
 }
 
 char	*get_cmd_value(char **cmd , t_cmd_type type)
@@ -111,7 +117,7 @@ t_cmd	*parsing_bonus(char *cmd)
 	{
 		type = get_cmd_type_bonus(&cmd);
 		if (type == CMD || type == PAREN)
-			value = get_cmd_value(&cmd);
+			value = get_cmd_value(&cmd, type);
 		else
 			value = 0;
 		res = cmd_add_back(res, value, type);
