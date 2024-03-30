@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 18:24:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/30 16:44:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ int		get_parenthesis_cmd_len(char *cmd)
 			parenthesis += 1 * (-(cmd[len] == ')'));
 		len++;
 	}
-	return(len);
+	return(len - 1);
 }
 
 int		get_normal_cmd_len(char *cmd)
@@ -115,6 +115,8 @@ char	*get_cmd_value(char **cmd , t_cmd_type type)
 		len =  get_normal_cmd_len(*cmd);
 	res = ft_substr(*cmd, 0, len);
 	(*cmd) += len;
+	if(type == PAREN)
+		(*cmd)++;
 	return(res);
 }
 
