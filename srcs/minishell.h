@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 14:36:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:15:14 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,8 +36,8 @@ typedef enum e_cmd_type
 
 typedef struct s_cmd
 {
-	t_cmd_type	cmd_type;
-	char		*value;
+	t_cmd_type		cmd_type;
+	char			*value;
 	struct s_cmd	*next;
 }	t_cmd;
 
@@ -67,16 +67,17 @@ typedef struct s_env
 
 typedef struct s_msh
 {
-	struct s_env		*env;
-	struct s_token		*cmds;
-	int					**fds;
-	int					*pids;
-	enum e_token_type	in_type;
-	enum e_token_type	out_type;
-	int					in_fd;
-	int					out_fd;
-	int					locked_return_code;
-	int					echoctl;
+	t_env			*env;
+	t_cmd			*cmds;
+	t_token			*tokens;
+	int				**fds;
+	int				*pids;
+	t_token_type	in_type;
+	t_token_type	out_type;
+	int				in_fd;
+	int				out_fd;
+	int				locked_return_code;
+	int				echoctl;
 }	t_msh;
 
 extern int	g_return_code;
@@ -95,7 +96,7 @@ void	parent(t_msh *msh, int i, int cmd_count);
 char	*ft_get_env(t_env *env, char *var_name);
 void	get_out_type(t_msh *msh, t_token *cmds);
 void	handle_here_doc(t_msh *msh, char *eof);
-void	get_in_type(t_msh *msh, t_token *cmds);
+void	get_in_type(t_msh *msh, t_token *tokens);
 void	signal_handler_interactive(int signum);
 int		get_token_len(char *cmd, t_env *env);
 void	signal_handler_here_doc(int signum);
@@ -115,10 +116,10 @@ void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);
 char	*get_tmp_file_name(t_msh *msh);
-int		get_args_count(t_token *cmds);
+int		get_args_count(t_cmd *cmds);
 char	**env_to_char_tab(t_env *env);
 void	print_parsed_cmd(t_cmd *cmd);//debug
-int		get_cmd_count(t_token *cmds);
+int		get_cmd_count(t_cmd *cmds);
 int		first_is_in_type(t_msh *msh);
 int		contains_newline(char *str);
 int		check_var_name(char *name);

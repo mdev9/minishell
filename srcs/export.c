@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 16:55:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/30 18:45:02 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -44,7 +44,7 @@ int	ft_export(t_msh *msh)
 	char	*value;
 	int		len;
 
-	cmd = msh->cmds;
+	cmd = msh->tokens;
 	if (cmd && (!cmd->next || (cmd->next && cmd->next->type != ARG)))
 		print_env_declare(msh->env);
 	if (cmd && cmd->next && cmd->next->type == ARG && (!cmd->next->next
@@ -94,7 +94,7 @@ int	ft_unset(t_msh *msh)
 {
 	t_token	*cmd;
 
-	cmd = msh->cmds;
+	cmd = msh->tokens;
 	if (cmd)
 		cmd = cmd->next;
 	while (cmd && cmd->type == ARG)

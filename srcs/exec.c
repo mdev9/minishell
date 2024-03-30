@@ -6,10 +6,11 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 16:52:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/30 16:55:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
+/*
 #include "minishell.h"
 #include <sys/wait.h>
 
@@ -110,4 +111,4 @@ void	exec_commands(t_msh *msh)
 	while (++i < cmd_count)
 		exec_command(msh, i, cmd_count);
 	end_execution(msh, cmd_count);
-}
+}*/

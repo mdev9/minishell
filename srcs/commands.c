@@ -6,46 +6,45 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/28 13:35:09 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/03/30 17:25:20 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	get_cmd_count(t_token *cmds)
+int	get_cmd_count(t_cmd *cmds)
 {
 	int		count;
-	t_token	*cur_cmd;
-
+	t_cmd	*cur_cmd;
+	(void)cmds;
 	count = 0;
 	cur_cmd = cmds;
 	while (cur_cmd->next != 0)
 	{
-		if (cur_cmd->type != ARG)
-			if (/*cur_cmd->type == PIPE*/ 0)
+		if (cur_cmd->cmd_type != PIPE)
 				count++;
 		cur_cmd = cur_cmd->next;
 	}
-	if (cur_cmd->type == ARG)
+	if (cur_cmd->cmd_type != PIPE)
 		count++;
 	return (count);
 }
 
-int	get_args_count(t_token *cmds)
+int	get_args_count(t_cmd *cmds)
 {
 	int		count;
-	t_token	*cur_cmd;
+	t_cmd	*cur_cmd;
 
 	count = 0;
 	cur_cmd = cmds;
-	if (cur_cmd->type == ARG)
+	if (cur_cmd->cmd_type == ARG)
 		count++;
 	while (cur_cmd->next)
 	{
 		if (/*cur_cmd->type == PIPE*/ 0)
 			break ;
 		cur_cmd = cur_cmd->next;
-		if (cur_cmd->type == ARG)
+		if (cur_cmd->cmd_type == ARG)
 			count++;
 		else if (/*cur_cmd->type != PIPE*/ 1)
 			cur_cmd = cur_cmd->next;
@@ -56,7 +55,7 @@ int	get_args_count(t_token *cmds)
 char	**get_cmd_args(t_msh *msh)
 {
 	char	**cmd_args;
-	t_token	*cur_cmd;
+	t_cmd	*cur_cmd;
 	int		args_count;
 	int		i;
 
@@ -68,7 +67,7 @@ char	**get_cmd_args(t_msh *msh)
 	i = 0;
 	while (i < args_count)
 	{
-		if (cur_cmd->type == ARG)
+		if (cur_cmd->cmd_type == ARG)
 		{
 			if (!i)
 				cmd_args[i++] = remove_path(cur_cmd->value);
@@ -84,8 +83,8 @@ char	**get_cmd_args(t_msh *msh)
 
 void	remove_command_from_msh(t_msh *msh)
 {
-	t_token	*cur_cmd;
-	t_token	*cmd_tmp;
+	t_cmd	*cur_cmd;
+	t_cmd	*cmd_tmp;
 
 	cur_cmd = msh->cmds;
 	while (cur_cmd && cur_cmd->next)
@@ -94,7 +93,7 @@ void	remove_command_from_msh(t_msh *msh)
 		{
 			cmd_tmp = cur_cmd;
 			cur_cmd = cur_cmd->next;
-			msh->in_type = cmd_tmp->type;
+			//msh->in_type = cmd_tmp->cmd_type;
 			free(cmd_tmp->value);
 			free(cmd_tmp);
 			msh->cmds = cur_cmd;
@@ -102,10 +101,10 @@ void	remove_command_from_msh(t_msh *msh)
 		}
 		cmd_tmp = cur_cmd;
 		cur_cmd = cur_cmd->next;
-		msh->in_type = cur_cmd->type;
+		//msh->in_type = cur_cmd->type;
 		free(cmd_tmp->value);
 		free(cmd_tmp);
 		msh->cmds = cur_cmd;
 	}
-	msh->in_type = msh->cmds->type;
+	//msh->in_type = msh->cmds->type;
 }
