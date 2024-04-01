@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 13:21:28 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:09:27 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect_output(t_msh *msh, int i)
+void	redirect_output(t_msh *msh)
 {
 	if (/*msh->out_type != PIPE*/ 1)
 	{
@@ -21,7 +21,7 @@ void	redirect_output(t_msh *msh, int i)
 	}
 	else
 	{
-		if (dup2(msh->fds[i][1], 1) < 0)
+		if (dup2(msh->out_fd, 1) < 0)
 			ft_exit(msh, 1);
 	}
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/27 17:21:09 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:10:09 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,7 +49,6 @@ void	signal_handler_here_doc(int signum)
 		here_doc_file = here_doc_variables(0, 1, 0);
 		close(msh->in_fd);
 		free(here_doc_file);
-		free(msh->fds[0]);
 		ft_exit(msh, 1);
 	}
 }

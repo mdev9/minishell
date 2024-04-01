@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/03/29 14:34:57 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/01 20:09:57 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,7 +34,7 @@ SRCS_RAW =	main.c\
 			commands.c\
 			pipe.c\
 			utils.c\
-			utils2.c\
+			utils_bonus.c\
 			signal_handler.c\
 			parsing_bonus.c\
 			exec_bonus.c

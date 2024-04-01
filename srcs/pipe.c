@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 13:59:08 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:09:14 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,30 +16,24 @@ void	close_pipe_fds(t_msh *msh, int i)
 {
 	if (i != 0)
 	{
-		if (msh->fds[i - 1][0] > 2)
-			close(msh->fds[i - 1][0]);
-		if (msh->fds[i - 1][1] > 2)
-			close(msh->fds[i - 1][1]);
+		if (msh->in_fd > 2)
+			close(msh->in_fd);
+		if (msh->out_fd > 2)
+			close(msh->out_fd);
 	}
-	if (msh->fds[i][0] > 2)
-		close(msh->fds[i][0]);
-	if (msh->fds[i][1] > 2)
-		close(msh->fds[i][1]);
+	if (msh->in_fd > 2)
+		close(msh->out_fd);
+	if (msh->in_fd > 2)
+		close(msh->in_fd);
 }
 
-void	execute_command(t_msh *msh, char **cmd_args, int i)
+void	execute_command(t_msh *msh, char **cmd_args)
 {
 	char	**env;
 
 	if (msh->cmds->value && (!ft_strcmp(msh->cmds->value, "cd")
 			|| !ft_strcmp(msh->cmds->value, "exit") || exec_builtin(msh)))
 	{
-		while (i >= 0)
-		{
-			free(msh->fds[i]);
-			msh->fds[i] = 0;
-			i--;
-		}
 		free(cmd_args);
 		ft_exit(msh, g_return_code);
 	}
@@ -56,21 +50,15 @@ void	child(t_msh *msh, char **cmd_args, int i)
 {
 	if ((msh->in_type != ARG/* && msh->in_type != PIPE*/)
 		|| (/*msh->in_type == PIPE &&*/ i > 0))
-		redirect_input(msh, i);
+		redirect_input(msh);
 	if (/*msh->out_type == PIPE ||*/ msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
 		redirect_output(msh, i);
 	close_pipe_fds(msh, i);
-	execute_command(msh, cmd_args, i);
+	execute_command(msh, cmd_args);
 	close(0);
 	close(1);
 	close(2);
-	while (i >= 0)
-	{
-		free(msh->fds[i]);
-		msh->fds[i] = 0;
-		i--;
-	}
 	free(cmd_args);
 	ft_exit(msh, g_return_code);
 }
@@ -81,17 +69,17 @@ void	parent(t_msh *msh, int i, int cmd_count)
 	signal(SIGQUIT, signal_handler_command);
 	if (i != 0)
 	{
-		if (msh->fds[i - 1][0] > 2)
-			close(msh->fds[i - 1][0]);
-		if (msh->fds[i - 1][1] > 2)
-			close(msh->fds[i - 1][1]);
+		if (msh->in_fd > 2)
+			close(msh->in_fd);
+		if (msh->out_fd > 2)
+			close(msh->out_fd);
 	}
 	if (i == cmd_count - 1)
 	{
-		if (msh->fds[i][0] > 2)
-			close(msh->fds[i][0]);
-		if (msh->fds[i][1] > 2)
-			close(msh->fds[i][1]);
+		if (msh->in_fd > 2)
+			close(msh->in_fd);
+		if (msh->out_fd > 2)
+			close(msh->out_fd);
 	}
 	if (msh->in_fd > 2)
 		close(msh->in_fd);
