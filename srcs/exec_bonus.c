@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 11:16:05 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:58:58 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,6 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 {
 	t_cmd *cmds;
 
-	(void)msh;
 	//printf("cmd : %s\n",cmd_str);
 	cmds = parsing_bonus(cmd_str);
 	//printf("%p\n", cmds);
@@ -24,25 +23,27 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	{
 		if (cmds->cmd_type == CMD)
 		{
-			msh->tokens = parse_command(cmds->value, msh->env);
+			if (cmds->next->cmd_type == PIPE)
+			{
+
+			}
+			msh->cmds = parse_command(cmds->value, msh->env);
 			print_parsed_cmd(cmds);
-			print_parsed_token(msh->tokens);
-			msh->cmds = cmds;
+			print_parsed_token(msh->cmds);
 			exec_commands(msh);
 		}
 		cmds = cmds->next;
 	}
 	if (cmds && cmds->cmd_type == CMD)
 	{
-		msh->tokens = parse_command(cmds->value, msh->env);
+		msh->cmds = parse_command(cmds->value, msh->env);
 		print_parsed_cmd(cmds);
-		print_parsed_token(msh->tokens);
-		msh->cmds = cmds;
+		print_parsed_token(msh->cmds);
 		exec_commands(msh);
 	}
 }
 
-int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count, int is_pipe)
+int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 {
 	pid_t	pid;
 
@@ -61,7 +62,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count, int is_pipe)
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
-		child(msh, cmd_args, i, is_pipe);
+		child(msh, cmd_args, i);
 	else
 	{
 		parent(msh, i, cmd_count);
@@ -79,19 +80,19 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		ft_exit(msh, 1);
 	if (first_is_in_type(msh))
 	{
-		get_in_type(msh, msh->tokens);
+		get_in_type(msh, msh->cmds);
 		if (!g_return_code)
-			get_out_type(msh, msh->tokens);
+			get_out_type(msh, msh->cmds);
 	}
 	else
 	{
-		get_out_type(msh, msh->tokens);
+		get_out_type(msh, msh->cmds);
 		if (!g_return_code)
-			get_in_type(msh, msh->tokens);
+			get_in_type(msh, msh->cmds);
 	}
 	if (!cmd_is_builtin(msh, msh->cmds->value))
 		get_cmd_path(msh);
-	exec(msh, get_cmd_args(msh), i, cmd_count, 1);
+	exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
 }
 

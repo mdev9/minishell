@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/30 18:44:30 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 13:21:28 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,9 @@ void	get_out_type(t_msh *msh, t_token *cmds)
 	msh->out_type = ARG;
 	msh->out_fd = 0;
 	cur_cmd = cmds;
-	if (cmds->type && msh->tokens == cmds)
+	if (cmds->type && msh->cmds == cmds)
 	{
-		while (msh->cmds->cmd_type != ARG && msh->cmds->next->next)
+		while (msh->cmds->type != ARG && msh->cmds->next->next)
 			msh->cmds = msh->cmds->next->next;
 	}
 	while (cur_cmd && cur_cmd->next && (cur_cmd->type == ARG
