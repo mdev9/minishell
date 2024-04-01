@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 20:15:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/01 21:56:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -58,9 +58,7 @@ typedef struct s_env
 typedef struct s_msh
 {
 	t_env			*env;
-	t_cmd			*cmds;
-	t_token			*tokens;
-	int				**fds;
+	t_token			*cmds;
 	int				*pids;
 	t_token_type	in_type;
 	t_token_type	out_type;
@@ -97,20 +95,20 @@ void	remove_command_from_msh(t_msh *msh);
 void	ft_exit(t_msh *msh, int error_code);
 void	signal_handler_command(int signum);
 void	ft_exit(t_msh *msh, int exit_code);
-void	redirect_output(t_msh *msh, int i);
+void	redirect_output(t_msh *msh);
 char	**split_paths_from_env(t_env *env);
 int		add_return_code_to_str(char *res);
-void	redirect_input(t_msh *msh, int i);
+void	redirect_input(t_msh *msh);
 void	parse_var(t_msh *msh, char *line);
 void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);
 t_cmd	*check_cmds_syntax(t_cmd *cmds);
 char	*get_tmp_file_name(t_msh *msh);
-int		get_args_count(t_cmd *cmds);
+int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);
 void	print_parsed_cmd(t_cmd *cmd);//debug
-int		get_cmd_count(t_cmd *cmds);
+int		get_cmd_count(t_token *cmds);
 int		first_is_in_type(t_msh *msh);
 int		contains_newline(char *str);
 int		check_var_name(char *name);

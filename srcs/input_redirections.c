@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/30 17:09:09 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:08:48 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	redirect_input(t_msh *msh, int i)
+void	redirect_input(t_msh *msh)
 {
 	if (/*msh->in_type != PIPE*/ 1)
 	{
@@ -22,7 +22,7 @@ void	redirect_input(t_msh *msh, int i)
 	}
 	else
 	{
-		if (dup2(msh->fds[i - 1][0], 0) < 0)
+		if (dup2(msh->in_fd, 0) < 0)
 			ft_exit(msh, 1);
 	}
 }
@@ -69,7 +69,7 @@ int	first_is_in_type(t_msh *msh)
 {
 	t_token	*cur_token;
 
-	cur_token = msh->tokens;
+	cur_token = msh->cmds;
 	while (cur_token && cur_token->type == ARG && cur_token->next)
 		cur_token = cur_token->next;
 	if (cur_token->type == RED_I || cur_token->type == HERE_DOC)
