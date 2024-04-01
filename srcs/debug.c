@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 14:29:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:07:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,4 +49,5 @@ void	print_parsed_cmd(t_cmd *cmd)
 			printf("[PIPE] ");
 		cmd = cmd->next;
 	}
+	printf("\n");
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 17:15:14 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:15:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -41,19 +41,9 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-typedef enum e_token_type
-{
-	ARG,
-	RED_O,
-	RED_O_APP,
-	RED_I,
-	HERE_DOC
-}	t_token_type;
-
 
 typedef struct s_token
 {
-	t_token_type	type;
 	char			*value;
 	struct s_token	*next;
 }	t_token;
@@ -115,6 +105,7 @@ void	parse_var(t_msh *msh, char *line);
 void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);
+t_cmd	*check_cmds_syntax(t_cmd *cmds);
 char	*get_tmp_file_name(t_msh *msh);
 int		get_args_count(t_cmd *cmds);
 char	**env_to_char_tab(t_env *env);
@@ -132,6 +123,8 @@ void	get_cmd_path(t_msh *msh);
 t_token	*free_token(t_token *cmd);
 int		set_echoctl(int value);
 int		print_env(t_env *env);
+t_cmd	*free_cmd(t_cmd *cmd);
+void	print_syntax_error_bonus(t_cmd *cmd);
 int		ft_export(t_msh *msh);
 void	free_env(t_env *env);
 int		ft_unset(t_msh *msh);

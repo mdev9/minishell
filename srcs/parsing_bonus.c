@@ -6,13 +6,13 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 16:44:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/01 20:04:55 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-int	check_syntax(char *cmd)
+int	check_str_syntax(char *cmd)
 {
 	int	in_quote;
 	int	in_dquote;
@@ -119,6 +119,45 @@ char	*get_cmd_value(char **cmd , t_cmd_type type)
 		(*cmd)++;
 	return(res);
 }
+void	print_syntax_error_bonus(t_cmd *cmd)
+{
+	if (cmd->cmd_type == CMD || cmd->cmd_type == PAREN)
+		return;
+
+	ft_printf_fd(2, "minishell : syntax error near unexpected token `");
+	if(cmd->cmd_type == AND)
+		ft_printf_fd(2, "AND");
+	if(cmd->cmd_type == OR)
+		ft_printf_fd(2, "OR");
+	if(cmd->cmd_type == PIPE)
+		ft_printf_fd(2, "PIPE");
+	ft_printf_fd(2, "'\n");
+}
+
+t_cmd	*check_cmds_syntax(t_cmd *cmds)
+{
+	t_cmd_type	last;
+	t_token		*token;
+
+	if(cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
+		return(cmds);
+	last = cmds->cmd_type;
+	cmds = cmds->next;
+	while(cmds)
+	{
+		if(cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
+			if((last != CMD && last != PAREN) || (!cmds->next && cmds->next->cmd_type != CMD && cmds->next->cmd_type != PAREN))
+				return(cmds);
+		if(cmds->cmd_type == CMD || cmds->cmd_type == PAREN)
+		{
+			token = parse_command(cmds->value, 0);
+			if(!token)
+				return(cmds);
+			free_token(token);
+		}
+	}
+	return(0); 
+}
 
 t_cmd	*parsing_bonus(char *cmd)
 {
@@ -127,7 +166,7 @@ t_cmd	*parsing_bonus(char *cmd)
 	char		*value;
 
 	res = 0;
-	if (!check_syntax(cmd))
+	if (!check_str_syntax(cmd))
 		return (0);
 	while (*cmd)
 	{

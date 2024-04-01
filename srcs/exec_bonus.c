@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 17:29:07 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 20:08:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,12 +14,21 @@
 
 void	exec_command_bonus(t_msh *msh, char *cmd_str)
 {
-	t_cmd *cmds;
+	t_cmd	*cmds;
+	t_cmd	*tmp;
 
 	(void)msh;
 	printf("cmd : %s\n",cmd_str);
 	cmds = parsing_bonus(cmd_str);
-	printf("%p\n", cmds);
+	tmp = check_cmds_syntax(cmds);
+	if(tmp)
+	{
+		print_syntax_error_bonus(tmp);
+		printf("error\n");
+		free_cmd(cmds);
+		return;
+	}
+	printf("has address : %d\n", cmds!=0);
 	msh->tokens = parse_command(cmd_str, msh->env);
 	msh->cmds = cmds;
 	print_parsed_cmd(cmds);
