@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 17:29:07 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/01 11:16:05 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,16 +17,32 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	t_cmd *cmds;
 
 	(void)msh;
-	printf("cmd : %s\n",cmd_str);
+	//printf("cmd : %s\n",cmd_str);
 	cmds = parsing_bonus(cmd_str);
-	printf("%p\n", cmds);
-	msh->tokens = parse_command(cmd_str, msh->env);
-	msh->cmds = cmds;
-	print_parsed_cmd(cmds);
-	exec_commands(msh);
+	//printf("%p\n", cmds);
+	while (cmds && cmds->next)
+	{
+		if (cmds->cmd_type == CMD)
+		{
+			msh->tokens = parse_command(cmds->value, msh->env);
+			print_parsed_cmd(cmds);
+			print_parsed_token(msh->tokens);
+			msh->cmds = cmds;
+			exec_commands(msh);
+		}
+		cmds = cmds->next;
+	}
+	if (cmds && cmds->cmd_type == CMD)
+	{
+		msh->tokens = parse_command(cmds->value, msh->env);
+		print_parsed_cmd(cmds);
+		print_parsed_token(msh->tokens);
+		msh->cmds = cmds;
+		exec_commands(msh);
+	}
 }
 
-int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
+int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count, int is_pipe)
 {
 	pid_t	pid;
 
@@ -45,7 +61,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
-		child(msh, cmd_args, i);
+		child(msh, cmd_args, i, is_pipe);
 	else
 	{
 		parent(msh, i, cmd_count);
@@ -75,7 +91,7 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	}
 	if (!cmd_is_builtin(msh, msh->cmds->value))
 		get_cmd_path(msh);
-	exec(msh, get_cmd_args(msh), i, cmd_count);
+	exec(msh, get_cmd_args(msh), i, cmd_count, 1);
 	remove_command_from_msh(msh);
 }
 
@@ -113,7 +129,6 @@ void	exec_commands(t_msh *msh)
 	int	i;
 
 	i = -1;
-	ft_printf("yes\n");
 	if (!msh->cmds)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
