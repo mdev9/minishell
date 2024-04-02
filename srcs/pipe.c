@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 13:24:17 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/03 01:25:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -54,7 +54,7 @@ void	child(t_msh *msh, char **cmd_args, int i)
 		redirect_input(msh);
 	if (msh->out_type == PIPE || msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
-		redirect_output(msh, i);
+		redirect_output(msh);
 	close_pipe_fds(msh, i);
 	execute_command(msh, cmd_args);
 	close(0);
