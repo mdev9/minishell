@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 02:08:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:41:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -164,6 +164,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 				return (cmds);
 			free_token(token);
 		}
+		cmds = cmds->next;
 	}
 	return (0);
 }
