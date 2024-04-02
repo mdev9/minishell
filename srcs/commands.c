@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 20:01:21 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/02 02:02:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,13 +19,13 @@ int	get_cmd_count(t_token *cmds)
 
 	count = 0;
 	cur_cmd = cmds;
-	while (cur_cmd->next != 0)
+	while (cur_cmd->next)
 	{
-		if (cur_cmd->type != PIPE)
+		if (/*cur_cmd->type != PIPE*/ 1)
 				count++;
 		cur_cmd = cur_cmd->next;
 	}
-	if (cur_cmd->type != PIPE)
+	if (/*cur_cmd->type != PIPE */ 1)
 		count++;
 	return (count);
 }
@@ -37,17 +37,12 @@ int	get_args_count(t_token *cmds)
 
 	count = 0;
 	cur_cmd = cmds;
-	if (cur_cmd->type == ARG)
+	if (cur_cmd)
 		count++;
 	while (cur_cmd->next)
 	{
-		if (/*cur_cmd->type == PIPE*/ 0)
-			break ;
 		cur_cmd = cur_cmd->next;
-		if (cur_cmd->type == ARG)
-			count++;
-		else if (/*cur_cmd->type != PIPE*/ 1)
-			cur_cmd = cur_cmd->next;
+		count++;
 	}
 	return (count);
 }
@@ -67,7 +62,7 @@ char	**get_cmd_args(t_msh *msh)
 	i = 0;
 	while (i < args_count)
 	{
-		if (cur_cmd->type == ARG)
+		if (cur_cmd)
 		{
 			if (!i)
 				cmd_args[i++] = remove_path(cur_cmd->value);

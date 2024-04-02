@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 13:20:34 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/02 02:16:18 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,10 +45,9 @@ int	ft_export(t_msh *msh)
 	int		len;
 
 	cmd = msh->cmds;
-	if (cmd && (!cmd->next || (cmd->next && cmd->next->type != ARG)))
+	if (cmd && cmd->next)
 		print_env_declare(msh->env);
-	if (cmd && cmd->next && cmd->next->type == ARG && (!cmd->next->next
-			|| (cmd->next->next && cmd->next->next->type != ARG)))
+	if (cmd && cmd->next && !cmd->next->next)
 	{
 		arg = cmd->next->value;
 		len = 0;
@@ -62,6 +61,8 @@ int	ft_export(t_msh *msh)
 		value = ft_strdup(arg + len);
 		msh->env = env_add_back(msh->env, name, value);
 	}
+//export +=
+//replacer si ça existe deja sauf si il y a pas de =
 	return (0);
 }
 
@@ -97,7 +98,7 @@ int	ft_unset(t_msh *msh)
 	cmd = msh->cmds;
 	if (cmd)
 		cmd = cmd->next;
-	while (cmd && cmd->type == ARG)
+	while (cmd)
 	{
 		delete_from_env(msh, cmd->value);
 		cmd = cmd->next;

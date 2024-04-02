@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/29 14:31:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:42:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -58,50 +58,22 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	return (res);
 }
 
-t_token_type	get_token_type(char **command)
-{
-	t_token_type	res;
-
-	while (ft_isspace(**command))
-		(*command)++;
-	if ((*command)[0] == '>' && (*command)[1] == '>')
-		res = RED_O_APP;
-	else if ((*command)[0] == '<' && (*command)[1] == '<')
-		res = HERE_DOC;
-	else if ((*command)[0] == '>')
-		res = RED_O;
-	else if ((*command)[0] == '<')
-		res = RED_I;
-	else
-		res = ARG;
-	if (res == RED_O_APP || res == HERE_DOC)
-		(*command) += 2;
-	if (res == RED_O || res == RED_I)
-		(*command)++;
-	return (res);
-}
-
 t_token	*parse_command(char *command, t_env *env)
 {
 	int				in_quote;
 	int				in_dquote;
 	t_token			*res;
 	char			*value;
-	t_token_type	type;
 
 	in_quote = 0;
 	in_dquote = 0;
 	res = 0;
 	while (command && *command)
 	{
-		type = get_token_type(&command);
-		if (type == ARG)
-			value = get_token(&command, &in_quote, &in_dquote, env);
-		else
-			value = 0;
-		if (type == ARG && value == 0)
+		value = get_token(&command, &in_quote, &in_dquote, env);
+		if (!value)
 			return (free_token(res));
-		res = token_add_back(res, value, type);
+		res = token_add_back(res, value);
 		while (ft_isspace(*command))
 			command++;
 	}

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/27 16:21:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:43:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,13 +16,13 @@ int	cd(t_token *args)
 {
 	char	*new_wd;
 
-	if (args->next && args->next->next && args->next->next->type == ARG)
+	if (args->next && args->next->next)
 	{
 		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		g_return_code = 1;
 		return (1);
 	}
-	if (!args->next || args->next->type != ARG)
+	if (!args->next)
 		new_wd = getenv("HOME");
 	else
 		new_wd = args->next->value;

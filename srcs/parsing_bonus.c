@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 20:04:55 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 02:08:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,37 +40,43 @@ t_cmd_type	get_cmd_type_bonus(char **cmd)
 {
 	t_cmd_type	res;
 
-	while (ft_isspace(**cmd))
-		(*cmd)++;
 	if (**cmd == '|' && (*cmd)[1] != '|')
 		res = PIPE;
 	else if (**cmd == '|' && (*cmd)[1] == '|')
 		res = OR;
 	else if (**cmd == '&' && (*cmd)[1] == '&')
 		res = AND;
+	else if (**cmd == '>' && (*cmd)[1] == '>')
+		res = RED_O_APP;
+	else if (**cmd == '<' && (*cmd)[1] == '<')
+		res = HERE_DOC;
+	else if (**cmd == '>')
+		res = RED_O;
+	else if (**cmd == '<')
+		res = RED_I;
 	else if (**cmd == '(')
 		res = PAREN;
 	else
 		res = CMD;
-	if(res != CMD)
+	if (res != CMD)
 		(*cmd)++;
-	if (res == OR || res == AND)
+	if (res == OR || res == AND || res == RED_O_APP || res == HERE_DOC)
 		(*cmd)++;
 	return (res);
 }
 
-int		get_parenthesis_cmd_len(char *cmd)
+int	get_parenthesis_cmd_len(char *cmd)
 {
-	int len;
-	int parenthesis;
-	int in_quote;
-	int in_dquote;
+	int	len;
+	int	parenthesis;
+	int	in_quote;
+	int	in_dquote;
 
 	len = 0;
 	parenthesis = 1;
 	in_quote = 0;
 	in_dquote = 0;
-	while(cmd[len] && parenthesis)
+	while (cmd[len] && parenthesis)
 	{
 		if (cmd[len] == '\'' && !in_dquote)
 			in_quote = !in_quote;
@@ -80,20 +86,21 @@ int		get_parenthesis_cmd_len(char *cmd)
 			parenthesis += 1 * (-(cmd[len] == ')'));
 		len++;
 	}
-	return(len - 1);
+	return (len - 1);
 }
 
-int		get_normal_cmd_len(char *cmd)
+int	get_normal_cmd_len(char *cmd)
 {
-	int len;
-	int in_quote;
-	int in_dquote;
+	int	len;
+	int	in_quote;
+	int	in_dquote;
 
 	len = 0;
 	in_quote = 0;
 	in_dquote = 0;
-	while(cmd[len] && (in_quote || in_dquote || (cmd[len] != '|' &&
-		cmd[len] != '&' && cmd[len] != '(' && cmd[len] != ')')))
+	while (cmd[len] && (in_quote || in_dquote || (cmd[len] != '|'
+				&& cmd[len] != '&' && cmd[len] != '(' && cmd[len] != ')'
+				&& cmd[len] != '<' && cmd[len] != '>')))
 	{
 		if (cmd[len] == '\'' && !in_dquote)
 			in_quote = !in_quote;
@@ -101,36 +108,35 @@ int		get_normal_cmd_len(char *cmd)
 			in_dquote = !in_dquote;
 		len++;
 	}
-	return(len);
+	return (len);
 }
 
-char	*get_cmd_value(char **cmd , t_cmd_type type)
-{	
-	int len;
-	char *res;
+char	*get_cmd_value(char **cmd, t_cmd_type type)
+{
+	int		len;
+	char	*res;
 
 	if (type == PAREN)
 		len = get_parenthesis_cmd_len(*cmd);
 	else
-		len =  get_normal_cmd_len(*cmd);
+		len = get_normal_cmd_len(*cmd);
 	res = ft_substr(*cmd, 0, len);
 	(*cmd) += len;
-	if(type == PAREN)
+	if (type == PAREN)
 		(*cmd)++;
-	return(res);
+	return (res);
 }
 void	print_syntax_error_bonus(t_cmd *cmd)
 {
 	if (cmd->cmd_type == CMD || cmd->cmd_type == PAREN)
-		return;
-
+		return ;
 	ft_printf_fd(2, "minishell : syntax error near unexpected token `");
-	if(cmd->cmd_type == AND)
-		ft_printf_fd(2, "AND");
-	if(cmd->cmd_type == OR)
-		ft_printf_fd(2, "OR");
-	if(cmd->cmd_type == PIPE)
-		ft_printf_fd(2, "PIPE");
+	if (cmd->cmd_type == AND)
+		ft_printf_fd(2, "&&");
+	if (cmd->cmd_type == OR)
+		ft_printf_fd(2, "||");
+	if (cmd->cmd_type == PIPE)
+		ft_printf_fd(2, "|");
 	ft_printf_fd(2, "'\n");
 }
 
@@ -139,24 +145,27 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 	t_cmd_type	last;
 	t_token		*token;
 
-	if(cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
-		return(cmds);
+	if (cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
+		return (cmds);
 	last = cmds->cmd_type;
 	cmds = cmds->next;
-	while(cmds)
+	while (cmds)
 	{
-		if(cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
-			if((last != CMD && last != PAREN) || (!cmds->next && cmds->next->cmd_type != CMD && cmds->next->cmd_type != PAREN))
-				return(cmds);
-		if(cmds->cmd_type == CMD || cmds->cmd_type == PAREN)
+		if (cmds->cmd_type == OR || cmds->cmd_type == AND
+			|| cmds->cmd_type == PIPE)
+			if ((last != CMD && last != PAREN) || (!cmds->next
+					&& cmds->next->cmd_type != CMD
+					&& cmds->next->cmd_type != PAREN))
+				return (cmds);
+		if (cmds->cmd_type == CMD || cmds->cmd_type == PAREN)
 		{
 			token = parse_command(cmds->value, 0);
-			if(!token)
-				return(cmds);
+			if (!token)
+				return (cmds);
 			free_token(token);
 		}
 	}
-	return(0); 
+	return (0);
 }
 
 t_cmd	*parsing_bonus(char *cmd)
@@ -170,9 +179,13 @@ t_cmd	*parsing_bonus(char *cmd)
 		return (0);
 	while (*cmd)
 	{
+		while (ft_isspace(*cmd))
+			cmd++;
 		type = get_cmd_type_bonus(&cmd);
 		if (type == CMD || type == PAREN)
 			value = get_cmd_value(&cmd, type);
+		else if (type == RED_O || type == RED_O_APP)
+			value = 0; // TODO: set value to the next argument
 		else
 			value = 0;
 		res = cmd_add_back(res, value, type);

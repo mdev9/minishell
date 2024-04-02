@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 21:56:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 02:07:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,7 +31,11 @@ typedef enum e_cmd_type
 	PAREN,
 	AND,
 	OR,
-	PIPE
+	PIPE,
+	RED_O_APP,
+	HERE_DOC,
+	RED_O,
+	RED_I
 }	t_cmd_type;
 
 typedef struct s_cmd
@@ -60,8 +64,8 @@ typedef struct s_msh
 	t_env			*env;
 	t_token			*cmds;
 	int				*pids;
-	t_token_type	in_type;
-	t_token_type	out_type;
+	t_cmd_type		in_type;
+	t_cmd_type		out_type;
 	int				in_fd;
 	int				out_fd;
 	int				locked_return_code;
@@ -70,7 +74,7 @@ typedef struct s_msh
 
 extern int	g_return_code;
 
-t_token	*token_add_back(t_token *res, char *token, t_token_type type);
+t_token	*token_add_back(t_token *res, char *token);
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
 void	*here_doc_variables(int write, int index, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
@@ -82,9 +86,9 @@ void	child(t_msh *msh, char **cmd_args, int i);
 t_token	*parse_command(char *command, t_env *env);
 void	parent(t_msh *msh, int i, int cmd_count);
 char	*ft_get_env(t_env *env, char *var_name);
-void	get_out_type(t_msh *msh, t_token *cmds);
+void	get_out_type(t_msh *msh, t_cmd *cmds);
 void	handle_here_doc(t_msh *msh, char *eof);
-void	get_in_type(t_msh *msh, t_token *tokens);
+void	get_in_type(t_msh *msh, t_cmd *tokens);
 void	signal_handler_interactive(int signum);
 int		get_token_len(char *cmd, t_env *env);
 void	signal_handler_here_doc(int signum);
@@ -95,7 +99,7 @@ void	remove_command_from_msh(t_msh *msh);
 void	ft_exit(t_msh *msh, int error_code);
 void	signal_handler_command(int signum);
 void	ft_exit(t_msh *msh, int exit_code);
-void	redirect_output(t_msh *msh);
+void	redirect_output(t_msh *msh, int i);
 char	**split_paths_from_env(t_env *env);
 int		add_return_code_to_str(char *res);
 void	redirect_input(t_msh *msh);
@@ -109,7 +113,7 @@ int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);
 void	print_parsed_cmd(t_cmd *cmd);//debug
 int		get_cmd_count(t_token *cmds);
-int		first_is_in_type(t_msh *msh);
+int		first_is_in_type(t_cmd *cmd);
 int		contains_newline(char *str);
 int		check_var_name(char *name);
 char	**get_cmd_args(t_msh *msh);

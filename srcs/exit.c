@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 20:07:47 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/02 00:42:19 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,9 +25,9 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 	t_token	*cur_cmd;
 
 	cur_cmd = msh->cmds->next;
-	if (cur_cmd && cur_cmd->type == ARG && !ft_strisnbr(cur_cmd->value))
+	if (cur_cmd && !ft_strisnbr(cur_cmd->value))
 		numeric_arg_err(cur_cmd->value, exit_code);
-	else if (cur_cmd && cur_cmd->type == ARG)
+	else if (cur_cmd)
 		*exit_code = (unsigned char)ft_atoi(cur_cmd->value);
 	else
 		*exit_code = g_return_code;
@@ -40,8 +40,7 @@ int	exit_bt(t_msh *msh)
 
 	cur_cmd = msh->cmds->next;
 	ft_printf("exit\n");
-	if (cur_cmd && cur_cmd->next && cur_cmd->next->type == ARG
-		&& ft_strisnbr(cur_cmd->value))
+	if (cur_cmd && cur_cmd->next && ft_strisnbr(cur_cmd->value))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);
 	else
 	{

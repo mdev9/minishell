@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 20:08:48 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/02 02:13:50 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,11 +27,11 @@ void	redirect_input(t_msh *msh)
 	}
 }
 
-void	open_input_file(t_msh *msh, t_token **cur_token)
+void	open_input_file(t_msh *msh, t_cmd **cur_token)
 {
-	if ((*cur_token)->type == HERE_DOC)
+	if ((*cur_token)->cmd_type == HERE_DOC)
 		handle_here_doc(msh, (*cur_token)->next->value);
-	if ((*cur_token)->type == RED_I)
+	if ((*cur_token)->cmd_type == RED_I)
 	{
 		if (msh->in_fd != 0)
 			close(msh->in_fd);
@@ -45,34 +45,39 @@ void	open_input_file(t_msh *msh, t_token **cur_token)
 	}
 }
 
-void	get_in_type(t_msh *msh, t_token *tokens)
+void	get_in_type(t_msh *msh, t_cmd *tokens)
 {
-	t_token	*cur_token;
+	t_cmd	*cur_token;
 
 	cur_token = tokens;
-	while (cur_token && cur_token->next && cur_token->type == ARG)
+	while (cur_token && cur_token->next && cur_token->cmd_type == CMD)
 		cur_token = cur_token->next;
-	if (cur_token->type)
+	// if (cur_token->type)
+	//{
+	//	msh->in_type = cur_token->type;
+	//	if (cur_token->type == HERE_DOC || cur_token->type == RED_I)
+	//		open_input_file(msh, &cur_token);
+	//} pas sur de ce que c'est censé faire , j'ai fais un truc différent en dessous
+	if (cur_token->cmd_type == HERE_DOC || cur_token->cmd_type == RED_I)
 	{
-		msh->in_type = cur_token->type;
-		if (cur_token->type == HERE_DOC || cur_token->type == RED_I)
-			open_input_file(msh, &cur_token);
+		msh->in_type = cur_token->cmd_type;
+		open_input_file(msh, &cur_token);
 	}
-	while (cur_token && cur_token->next && cur_token->next->type == ARG)
+	while (cur_token && cur_token->next && cur_token->next->cmd_type == CMD)
 		cur_token = cur_token->next;
-	if (cur_token->next && (cur_token->next->type == HERE_DOC
-			|| cur_token->next->type == RED_I))
+	if (cur_token->next && (cur_token->next->cmd_type == HERE_DOC
+			|| cur_token->next->cmd_type == RED_I))
 		get_in_type(msh, cur_token);
 }
 
-int	first_is_in_type(t_msh *msh)
+int	first_is_in_type(t_cmd *cmd)
 {
-	t_token	*cur_token;
+	t_cmd	*cur_token;
 
-	cur_token = msh->cmds;
-	while (cur_token && cur_token->type == ARG && cur_token->next)
+	cur_token = cmd;
+	while (cur_token && cur_token->cmd_type == CMD && cur_token->next)
 		cur_token = cur_token->next;
-	if (cur_token->type == RED_I || cur_token->type == HERE_DOC)
+	if (cur_token->cmd_type == RED_I || cur_token->cmd_type == HERE_DOC)
 		return (1);
 	return (0);
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 21:56:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:09:50 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,8 @@ void	end_execution(t_msh *msh, int cmd_count)
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		printf("Quit (core dumped)\n");
+		printf("Quit (core dumped)\n"); 
+	//TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
 	msh->pids = 0;
 	//signal(SIGINT, signal_handler_interactive); //enables ctrl-C

@@ -6,13 +6,13 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/28 12:34:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 00:44:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_add_back(t_token *token, char *value, t_token_type type)
+t_token	*token_add_back(t_token *token, char *value)
 {
 	t_token	*res;
 	t_token	*current;
@@ -26,7 +26,6 @@ t_token	*token_add_back(t_token *token, char *value, t_token_type type)
 	if (!res)
 		return (token);
 	res->value = value;
-	res->type = type;
 	if (!token)
 		return (res);
 	current = token;
