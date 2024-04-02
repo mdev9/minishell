@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 13:31:55 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:51:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -116,20 +116,4 @@ void	end_execution(t_msh *msh, int cmd_count)
 	//signal(SIGINT, signal_handler_interactive); //enables ctrl-C
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
-}
-
-void	exec_commands(t_msh *msh)
-{
-	int	cmd_count;
-	int	i;
-
-	i = -1;
-	cmd_count = get_cmd_count(msh->cmds);
-	ft_printf("cmd_count: %d\n", cmd_count);
-	msh->pids = ft_calloc(cmd_count, sizeof(int *));
-	if (!msh->pids)
-		ft_exit(msh, 1);
-	while (++i < cmd_count)
-		exec_command(msh, i, cmd_count);
-	end_execution(msh, cmd_count);
 }

@@ -6,29 +6,11 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 02:02:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:48:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-
-int	get_cmd_count(t_token *cmds)
-{
-	int		count;
-	t_token	*cur_cmd;
-
-	count = 0;
-	cur_cmd = cmds;
-	while (cur_cmd->next)
-	{
-		if (/*cur_cmd->type != PIPE*/ 1)
-				count++;
-		cur_cmd = cur_cmd->next;
-	}
-	if (/*cur_cmd->type != PIPE */ 1)
-		count++;
-	return (count);
-}
 
 int	get_args_count(t_token *cmds)
 {
