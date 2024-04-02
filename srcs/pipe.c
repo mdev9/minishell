@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 02:07:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:24:17 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,11 +48,11 @@ void	execute_command(t_msh *msh, char **cmd_args)
 
 void	child(t_msh *msh, char **cmd_args, int i)
 {
-	//  flemme
-	//if ((msh->in_type != ARG /*&& msh->in_type != PIPE*/)
-	//	|| (/*msh->in_type == PIPE &&*/ i > 0))
-	//	redirect_input(msh);
-	if (/*msh->out_type == PIPE ||*/ msh->out_type == RED_O
+	if ((msh->in_type != CMD && msh->in_type != PAREN && msh->in_type != AND
+		&& msh->in_type != OR && msh->in_type != PIPE)
+		|| (msh->in_type == PIPE && i > 0))
+		redirect_input(msh);
+	if (msh->out_type == PIPE || msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
 		redirect_output(msh, i);
 	close_pipe_fds(msh, i);
