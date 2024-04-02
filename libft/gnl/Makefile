@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/04 08:03:00 by tomoron           #+#    #+#              #
-#    Updated: 2023/12/04 09:49:24 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/02 16:03:57 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,10 +22,10 @@ OBJS = $(SRCS:.c=.o)
 FLAGS = -Wall -Wextra -Werror
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
 .c.o:
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 all: $(NAME)
 

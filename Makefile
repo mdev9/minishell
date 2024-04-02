@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/01 20:09:57 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/02 16:07:12 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -53,16 +53,19 @@ all:
 	@$(MAKE) --no-print-directory -j $(NAME)
 
 $(NAME) : $(LIBFT) $(OBJS)
-	$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
+	@echo project ready
 
 $(LIBFT):
-	make --no-print-directory -j -C ./libft
+	@echo compiling libft...
+	@make --no-print-directory -j -C ./libft
+	@echo done
 
 $(OBJS_DIR):
-	mkdir -p $(OBJS_DIR)
+	@mkdir -p $(OBJS_DIR)
 
 $(OBJS_DIR)%.o : $(SRCS_DIR)%.c | $(OBJS_DIR)
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
 	rm -rf $(OBJS_DIR)

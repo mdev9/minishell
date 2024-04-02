@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/11/04 08:03:00 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/16 14:22:14 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/02 16:02:53 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -34,10 +34,10 @@ OBJS = $(SRCS:.c=.o)
 FLAGS = -Wall -Wextra -Werror
 
 $(NAME): $(OBJS)
-	ar rcs $(NAME) $(OBJS)
+	@ar rcs $(NAME) $(OBJS)
 
 .c.o:
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 all: $(NAME)
 

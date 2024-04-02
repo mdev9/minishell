@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/02/11 17:41:50 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/02 16:02:33 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -73,14 +73,14 @@ all: $(NAME)
 
 
 $(NAME): ft_printf $(OBJS)
-	make --no-print-directory -C ./ft_printf
-	cp ./ft_printf/libftprintf.a ./gnl/gnl.a
-	make --no-print-directory -C ./gnl
-	cp ./gnl/gnl.a ./$(NAME)
-	ar rcs $(NAME) $(OBJS)
+	@make --no-print-directory -C ./ft_printf
+	@cp ./ft_printf/libftprintf.a ./gnl/gnl.a
+	@make --no-print-directory -C ./gnl
+	@cp ./gnl/gnl.a ./$(NAME)
+	@ar rcs $(NAME) $(OBJS)
 
 .c.o:
-	$(CC) $(FLAGS) -c $< -o $@
+	@$(CC) $(FLAGS) -c $< -o $@
 
 bonus: $(OBJS) $(OBJS_BONUS)
 	ar rcs $(NAME) $(OBJS) $(OBJS_BONUS)

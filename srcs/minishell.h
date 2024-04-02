@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 02:07:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 14:49:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,6 @@ int		first_is_in_type(t_cmd *cmd);
 int		contains_newline(char *str);
 int		check_var_name(char *name);
 char	**get_cmd_args(t_msh *msh);
-void	exec_commands(t_msh *msh);
 char	*remove_path(char *token);
 char	*get_var_name(char *str);
 int		exec_builtin(t_msh *msh);

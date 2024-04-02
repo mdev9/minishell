@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 13:41:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 15:17:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_str_syntax(char *cmd)
 		cmd++;
 	}
 	if (in_quote || in_dquote || parenthesis)
-		ft_putstr_fd("minishell: syntax error", 2);
+		ft_putstr_fd("minishell: syntax error\n", 2);
 	return (!(in_quote || in_dquote || parenthesis));
 }
 
@@ -145,7 +145,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 	t_cmd_type	last;
 	t_token		*token;
 
-	if (cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
+	if (!cmds || cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
 		return (cmds);
 	last = cmds->cmd_type;
 	cmds = cmds->next;
@@ -153,8 +153,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 	{
 		if (cmds->cmd_type == OR || cmds->cmd_type == AND
 			|| cmds->cmd_type == PIPE)
-			if ((last != CMD && last != PAREN) || (!cmds->next
-					&& cmds->next->cmd_type != CMD
+			if ((last != CMD && last != PAREN) || !cmds->next || (cmds->next->cmd_type != CMD
 					&& cmds->next->cmd_type != PAREN))
 				return (cmds);
 		if (cmds->cmd_type == CMD || cmds->cmd_type == PAREN)
@@ -167,6 +166,42 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 		cmds = cmds->next;
 	}
 	return (0);
+}
+
+int	get_next_arg_len(char *cmd)
+{
+	int	len;
+	int	in_quote;
+	int	in_dquote;
+
+	len = 0;
+	in_quote = 0;
+	in_dquote = 0;
+	while (cmd[len] && ((!ft_isspace(cmd[len]) && cmd[len] != '&'
+				&& cmd[len] != '|' && cmd[len] != '<' && cmd[len] != '>')
+			|| in_quote || in_dquote))
+	{
+		if (cmd[len] == '\'' && !in_dquote)
+			in_quote = !in_quote;
+		if (cmd[len] == '"' && !in_quote)
+			in_dquote = !in_dquote;
+		len++;
+	}
+	return(len);
+}
+char	*get_next_arg(char **cmd)
+{
+	int		len;
+	char	*res;
+
+	while(ft_isspace(**cmd))
+		(*cmd)++;
+	len = get_next_arg_len(*cmd);
+	if(!len)
+		return(0);
+	res = ft_substr(*cmd, 0, len);
+	*cmd += len;
+	return (res);
 }
 
 t_cmd	*parsing_bonus(char *cmd)
@@ -185,8 +220,9 @@ t_cmd	*parsing_bonus(char *cmd)
 		type = get_cmd_type_bonus(&cmd);
 		if (type == CMD || type == PAREN)
 			value = get_cmd_value(&cmd, type);
-		else if (type == RED_O || type == RED_O_APP)
-			value = 0; // TODO: set value to the next argument
+		else if (type == RED_O || type == RED_O_APP || type == RED_I
+			|| type == HERE_DOC)
+			value = get_next_arg(&cmd); 
 		else
 			value = 0;
 		res = cmd_add_back(res, value, type);
