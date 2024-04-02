@@ -6,25 +6,25 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 12:40:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:31:55 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	get_redirections(t_msh *msh)
+void	get_redirections(t_msh *msh, t_cmd *cmds)
 {
-	if (first_is_in_type(msh))
+	if (first_is_in_type(cmds))
 	{
-		get_in_type(msh, msh->cmds);
+		get_in_type(msh, cmds);
 		if (!g_return_code)
-			get_out_type(msh, msh->cmds);
+			get_out_type(msh, cmds);
 	}
 	else
 	{
-		get_out_type(msh, msh->cmds);
+		get_out_type(msh,cmds);
 		if (!g_return_code)
-			get_in_type(msh, msh->cmds);
+			get_in_type(msh, cmds);
 	}
 }
 
@@ -48,7 +48,7 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		if (cmds->cmd_type == CMD)
 		{
 			msh->cmds = parse_command(cmds->value, msh->env);
-			get_redirections(msh);
+			get_redirections(msh, cmds);
 			print_parsed_cmd(cmds);
 			print_parsed_token(msh->cmds);
 			exec_commands(msh);
