@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 02:13:50 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 13:28:32 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,7 +14,7 @@
 
 void	redirect_input(t_msh *msh)
 {
-	if (/*msh->in_type != PIPE*/ 1)
+	if (msh->in_type != PIPE)
 	{
 		if (dup2(msh->in_fd, 0) < 0)
 			ft_exit(msh, 1);
@@ -52,13 +52,7 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 	cur_token = tokens;
 	while (cur_token && cur_token->next && cur_token->cmd_type == CMD)
 		cur_token = cur_token->next;
-	// if (cur_token->type)
-	//{
-	//	msh->in_type = cur_token->type;
-	//	if (cur_token->type == HERE_DOC || cur_token->type == RED_I)
-	//		open_input_file(msh, &cur_token);
-	//} pas sur de ce que c'est censé faire , j'ai fais un truc différent en dessous
-	if (cur_token->cmd_type == HERE_DOC || cur_token->cmd_type == RED_I)
+	if (/*cur_token->type && */cur_token->cmd_type == HERE_DOC || cur_token->cmd_type == RED_I)
 	{
 		msh->in_type = cur_token->cmd_type;
 		open_input_file(msh, &cur_token);
