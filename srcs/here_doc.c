@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 20:06:47 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/02 17:04:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,6 +17,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 	char	*line;
 
 	line = NULL;
+	//TODO: parse eof sans parse les variables
 	while (1)
 	{
 		free(line);

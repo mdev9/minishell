@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 15:03:01 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/02 17:53:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,7 +48,8 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		if (cmds->cmd_type == CMD)
 		{
 			msh->cmds = parse_command(cmds->value, msh->env);
-//			get_redirections(msh, cmds);
+			get_redirections(msh, cmds);
+			print_msh_struct(msh);
 			print_parsed_cmd(cmds);
 			print_parsed_token(msh->cmds);
 //			exec_commands(msh);
@@ -109,7 +110,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		printf("Quit (core dumped)\n"); 
+		printf("Quit\n"); 
 	//TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
 	msh->pids = 0;
