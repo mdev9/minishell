@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/01 20:10:09 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/03 19:23:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,12 +57,16 @@ int	set_echoctl(int value)
 {
 	struct termios	t_p;
 
+	ft_printf("echoctl value : %d\n",value);
 	if (tcgetattr(1, &t_p))
 	{
-		ft_printf_fd(2, "minishell: an error occured while setting the local fl\
-ags");
+		ft_printf_fd(2, "minishell: an error occured while getting the local fl\
+ags\n");
 		return (1);
 	}
+	if (((t_p.c_lflag & ECHOCTL) != 0) == value)
+		return (0);
+	ft_printf("change\n");
 	if (value)
 		t_p.c_lflag = t_p.c_lflag | ECHOCTL;
 	else
@@ -70,7 +74,7 @@ ags");
 	if (tcsetattr(1, TCSANOW, &t_p))
 	{
 		ft_printf_fd(2, "minishell: an error occured while setting the local fl\
-ags");
+ags\n");
 		return (1);
 	}
 	return (0);

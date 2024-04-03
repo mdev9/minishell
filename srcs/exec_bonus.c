@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/03 17:46:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 19:37:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	if (tmp)
 	{
 		print_syntax_error_bonus(tmp);
-		printf("error\n");//debug
+		printf("error\n"); // debug
 		free_cmd(cmds);
 		return ;
 	}
@@ -48,16 +48,17 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		if ((cmds->cmd_type == AND && !g_return_code) || (cmds->cmd_type == OR
 				&& g_return_code) || !is_operand_type(cmds))
 		{
-			if(is_operand_type(cmds))
+			if (is_operand_type(cmds))
 				cmds = cmds->next;
 			msh->tokens = parse_command(cmds->value, msh->env);
 			msh->cmds = cmds;
 			get_redirections(msh, cmds);
-			print_msh_struct(msh);         // debug
+			print_msh_struct(msh);           // debug
 			print_parsed_token(msh->tokens); // debug
 			exec_commands(msh);
 		}
-		while(cmds && (is_cmd_type(cmds) || cmds->cmd_type == PIPE))
+		while (cmds && (is_cmd_type(cmds) || cmds->cmd_type == PIPE
+				|| is_output_type(cmds) || is_input_type(cmds)))
 			cmds = cmds->next;
 	}
 }
@@ -103,6 +104,20 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	remove_command_from_msh(msh);
 }
 
+int	get_cmd_count(t_cmd *cmds)
+{
+	int	nb;
+
+	nb = 0;
+	while (cmds && !is_operand_type(cmds))
+	{
+		if (is_cmd_type(cmds))
+			nb++;
+		cmds = cmds->next;
+	}
+	return (nb);
+}
+
 void	end_execution(t_msh *msh, int cmd_count)
 {
 	int	i;
@@ -123,25 +138,11 @@ void	end_execution(t_msh *msh, int cmd_count)
 	set_echoctl(0);
 }
 
-int	get_cmd_count(t_cmd *cmds)
-{
-	int	nb;
-
-	nb = 0;
-	while(cmds && !is_operand_type(cmds))
-	{
-		if(is_cmd_type(cmds))
-			nb++;
-		cmds = cmds->next;
-	}
-	return(nb);
-}
 
 void	exec_commands(t_msh *msh)
 {
 	int	cmd_count;
 	int	i;
-	int	status;
 
 	if (!msh->tokens)
 		return ;
@@ -150,32 +151,12 @@ void	exec_commands(t_msh *msh)
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
-
 	i = 0;
 	while (i < cmd_count)
 	{
 		exec_command(msh, i, cmd_count);
 		i++;
 	}
-	i = 0;
-	while (i < cmd_count)
-	{
-		waitpid(msh->pids[i], &status, 0);
-		i++;
-	}
-	if (!g_return_code && WIFEXITED(status))
-		g_return_code = WEXITSTATUS(status);
-	i = 0;
-	while (i < cmd_count)
-	{
-		free(msh->fds[i]);
-		msh->fds[i] = 0;
-		i++;
-	}
-	free(msh->fds);
-	msh->fds = 0;
-	free(msh->pids);
-	msh->pids = 0;
-	//signal(SIGINT, signal_handler_interactive);
-	signal(SIGQUIT, signal_handler_interactive);		
+	end_execution(msh, cmd_count);	
 }
+
