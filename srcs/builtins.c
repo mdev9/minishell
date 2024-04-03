@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 13:22:14 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:46:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 		return (0);
 	else if (!ft_strcmp(cmd_token, "cd"))
 	{
-		cd(msh->cmds);
+		cd(msh->tokens);
 		return (1);
 	}
 	else if (!ft_strcmp(cmd_token, "exit"))
@@ -51,20 +51,20 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 
 int	exec_builtin(t_msh *msh)
 {
-	if (!msh->cmds->value)
+	if (!msh->tokens->value)
 		return (0);
-	if (!ft_strcmp(msh->cmds->value, "echo"))
-		g_return_code = echo(msh->cmds->next);
-	else if (!ft_strcmp(msh->cmds->value, "ret"))
-		g_return_code = ft_atoi(msh->cmds->next->value);
-	else if (!ft_strcmp(msh->cmds->value, "env"))
+	if (!ft_strcmp(msh->tokens->value, "echo"))
+		g_return_code = echo(msh->tokens->next);
+	else if (!ft_strcmp(msh->tokens->value, "ret"))
+		g_return_code = ft_atoi(msh->tokens->next->value);
+	else if (!ft_strcmp(msh->tokens->value, "env"))
 		g_return_code = print_env(msh->env);
-	else if (!ft_strcmp(msh->cmds->value, "exit"))
+	else if (!ft_strcmp(msh->tokens->value, "exit"))
 		exit_bt(msh);
-	else if (!ft_strcmp(msh->cmds->value, "pwd"))
+	else if (!ft_strcmp(msh->tokens->value, "pwd"))
 		g_return_code = pwd();
-	else if (!ft_strcmp(msh->cmds->value, "cd"))
-		g_return_code = cd(msh->cmds);
+	else if (!ft_strcmp(msh->tokens->value, "cd"))
+		g_return_code = cd(msh->tokens);
 	else
 		return (0);
 	return (1);

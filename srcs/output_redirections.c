@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 01:25:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:09:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ void	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 	if (msh->out_fd == -1)
 	{
 		g_return_code = 1;
-		perror("open");
+		ft_putstr_fd("minishell: ", 2);
+		perror(filename);
 		return ;
 	}
 	if ((*cur_cmd)->cmd_type != PIPE)
@@ -59,7 +60,7 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 		cur_cmd = cur_cmd->next;
 	if (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN)
 		msh->out_type = 0;
-	else
+	else if(cur_cmd && !is_operand_type(cur_cmd))
 	{
 		msh->out_type = cur_cmd->cmd_type;
 		filename = parse_command(cur_cmd->value, msh->env);

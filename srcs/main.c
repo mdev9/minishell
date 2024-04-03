@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 17:21:23 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:46:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,11 +107,11 @@ int	main(int argc, char **argv, char **envp)
 		commands = readline(prompt);
 		free(prompt);
 		add_history(commands);
-		msh->cmds = parse_command(commands, msh->env);
-		print_parsed_cmd(msh->cmds);
+		msh->tokens = parse_command(commands, msh->env);
+		print_parsed_cmd(msh->tokens);
 		free(commands);
 		exec_commands(msh);
-		free_token(msh->cmds);
+		free_token(msh->tokens);
 		
 	}
 	rl_clear_history();

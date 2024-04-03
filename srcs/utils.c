@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/01 20:06:36 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/03 15:46:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	free_msh(t_msh *msh)
 	{
 		free_env(msh->env);
 		free(msh->pids);
-		free_token(msh->cmds);
+		free_token(msh->tokens);
 		set_echoctl(msh->echoctl);
 		free(msh);
 	}
@@ -63,22 +63,22 @@ int	file_access(t_msh *msh, int *found)
 {
 	int	fd;
 
-	fd = open(msh->cmds->value, O_DIRECTORY);
+	fd = open(msh->tokens->value, O_DIRECTORY);
 	if (fd != -1)
 	{
 		close(fd);
-		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->cmds->value);
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->tokens->value);
 		g_return_code = 126;
 		return (0);
 	}
-	if (access(msh->cmds->value, X_OK) != -1)
+	if (access(msh->tokens->value, X_OK) != -1)
 		*found = 1;
 	else
 	{
-		ft_printf_fd(2, "minishell: %s: ", msh->cmds->value);
+		ft_printf_fd(2, "minishell: %s: ", msh->tokens->value);
 		perror("");
 		g_return_code = 127;
-		if (access(msh->cmds->value, F_OK) != -1)
+		if (access(msh->tokens->value, F_OK) != -1)
 			g_return_code = 126;
 		return (0);
 	}

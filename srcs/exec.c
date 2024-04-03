@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 14:12:49 by tomoron           #+#    #+#             */
-/*   Updated: 2024/03/30 16:55:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/03 17:21:57 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -51,17 +51,17 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		ft_exit(msh, 1);
 	if (first_is_in_type(msh))
 	{
-		get_in_type(msh, msh->cmds);
+		get_in_type(msh, msh->tokens);
 		if (!g_return_code)
-			get_out_type(msh, msh->cmds);
+			get_out_type(msh, msh->tokens);
 	}
 	else
 	{
-		get_out_type(msh, msh->cmds);
+		get_out_type(msh, msh->tokens);
 		if (!g_return_code)
-			get_in_type(msh, msh->cmds);
+			get_in_type(msh, msh->tokens);
 	}
-	if (!cmd_is_builtin(msh, msh->cmds->value))
+	if (!cmd_is_builtin(msh, msh->tokens->value))
 		get_cmd_path(msh);
 	exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
@@ -90,7 +90,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	msh->fds = 0;
 	free(msh->pids);
 	msh->pids = 0;
-	signal(SIGINT, signal_handler_interactive);
+	//signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
 }
@@ -101,9 +101,9 @@ void	exec_commands(t_msh *msh)
 	int	i;
 
 	i = -1;
-	if (!msh->cmds)
+	if (!msh->tokens)
 		return ;
-	cmd_count = get_cmd_count(msh->cmds);
+	cmd_count = get_cmd_count(msh->tokens);
 	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)

@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 15:17:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:00:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,29 +140,44 @@ void	print_syntax_error_bonus(t_cmd *cmd)
 	ft_printf_fd(2, "'\n");
 }
 
+int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
+{
+	t_token	*token;
+
+	if (is_cmd_type(last))
+	{
+		ft_putstr_fd("minishell : syntax error\n", 2);
+		return (0);
+	}
+	token = parse_command(cmd->value, 0);
+	if (!token)
+		return (0);
+	free_token(token);
+	return (1);
+}
+
 t_cmd	*check_cmds_syntax(t_cmd *cmds)
 {
-	t_cmd_type	last;
-	t_token		*token;
+	t_cmd	*last;
 
-	if (!cmds || cmds->cmd_type == OR || cmds->cmd_type == AND || cmds->cmd_type == PIPE)
+	if (!cmds || is_operand_type(cmds) || cmds->cmd_type == PIPE)
 		return (cmds);
-	last = cmds->cmd_type;
+	if (!is_operand_type(cmds) && cmds->cmd_type != PIPE && cmds->value == 0)
+		return (cmds);
+	last = cmds;
 	cmds = cmds->next;
 	while (cmds)
 	{
-		if (cmds->cmd_type == OR || cmds->cmd_type == AND
-			|| cmds->cmd_type == PIPE)
-			if ((last != CMD && last != PAREN) || !cmds->next || (cmds->next->cmd_type != CMD
-					&& cmds->next->cmd_type != PAREN))
+		if (!is_operand_type(cmds) && cmds->cmd_type != PIPE
+			&& cmds->value == 0)
+			return (cmds);
+		if (is_operand_type(cmds) || cmds->cmd_type == PIPE)
+			if (!is_cmd_type(last) || !cmds->next || !is_cmd_type(cmds->next))
 				return (cmds);
-		if (cmds->cmd_type == CMD || cmds->cmd_type == PAREN)
-		{
-			token = parse_command(cmds->value, 0);
-			if (!token)
+		if (is_cmd_type(cmds))
+			if (!check_tokens_syntax(cmds, last))
 				return (cmds);
-			free_token(token);
-		}
+		last = cmds;
 		cmds = cmds->next;
 	}
 	return (0);
@@ -187,18 +202,18 @@ int	get_next_arg_len(char *cmd)
 			in_dquote = !in_dquote;
 		len++;
 	}
-	return(len);
+	return (len);
 }
 char	*get_next_arg(char **cmd)
 {
 	int		len;
 	char	*res;
 
-	while(ft_isspace(**cmd))
+	while (ft_isspace(**cmd))
 		(*cmd)++;
 	len = get_next_arg_len(*cmd);
-	if(!len)
-		return(0);
+	if (!len)
+		return (0);
 	res = ft_substr(*cmd, 0, len);
 	*cmd += len;
 	return (res);
@@ -222,7 +237,7 @@ t_cmd	*parsing_bonus(char *cmd)
 			value = get_cmd_value(&cmd, type);
 		else if (type == RED_O || type == RED_O_APP || type == RED_I
 			|| type == HERE_DOC)
-			value = get_next_arg(&cmd); 
+			value = get_next_arg(&cmd);
 		else
 			value = 0;
 		res = cmd_add_back(res, value, type);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/03 01:24:10 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 16:52:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -62,7 +62,9 @@ typedef struct s_env
 typedef struct s_msh
 {
 	t_env			*env;
-	t_token			*cmds;
+	t_token			*tokens;
+	t_cmd			*cmds;
+	int				**fds;
 	int				*pids;
 	t_cmd_type		in_type;
 	t_cmd_type		out_type;
@@ -87,6 +89,7 @@ t_token	*parse_command(char *command, t_env *env);
 void	parent(t_msh *msh, int i, int cmd_count);
 char	*ft_get_env(t_env *env, char *var_name);
 void	get_out_type(t_msh *msh, t_cmd *cmds);
+void	exec_commands(t_msh *msh);
 void	handle_here_doc(t_msh *msh, char *eof);
 void	get_in_type(t_msh *msh, t_cmd *tokens);
 void	signal_handler_interactive(int signum);
@@ -112,7 +115,7 @@ char	*get_tmp_file_name(t_msh *msh);
 int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);
 void	print_parsed_cmd(t_cmd *cmd);//debug
-int		get_cmd_count(t_token *cmds);
+int		get_cmd_count(t_cmd *cmds);
 int		first_is_in_type(t_cmd *cmd);
 int		contains_newline(char *str);
 int		check_var_name(char *name);

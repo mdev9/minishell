@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 23:39:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:46:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,15 +26,15 @@ void	find_cmd_path(t_msh *msh, char **paths, int *found)
 		tmp = ft_strjoin(path, "/");
 		if (!tmp)
 			ft_exit(msh, 1);
-		path = ft_strjoin(tmp, msh->cmds->value);
+		path = ft_strjoin(tmp, msh->tokens->value);
 		if (!path)
 			ft_exit(msh, 1);
 		free(tmp);
 		if (access(path, X_OK) != -1)
 		{
 			*found = 1;
-			free(msh->cmds->value);
-			msh->cmds->value = path;
+			free(msh->tokens->value);
+			msh->tokens->value = path;
 			break ;
 		}
 		free(path);
@@ -81,7 +81,7 @@ void	get_cmd_path(t_msh *msh)
 	int	found;
 
 	found = 0;
-	if (ft_strchr(msh->cmds->value, '/'))
+	if (ft_strchr(msh->tokens->value, '/'))
 	{
 		if (!file_access(msh, &found))
 			return ;
@@ -90,9 +90,9 @@ void	get_cmd_path(t_msh *msh)
 		get_path(msh, &found);
 	if (!found)
 	{
-		ft_printf_fd(2, "%s: command not found\n", msh->cmds->value);
-		free(msh->cmds->value);
-		msh->cmds->value = 0;
+		ft_printf_fd(2, "%s: command not found\n", msh->tokens->value);
+		free(msh->tokens->value);
+		msh->tokens->value = 0;
 		g_return_code = 127;
 	}
 }

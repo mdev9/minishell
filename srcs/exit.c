@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 00:42:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 15:44:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 {
 	t_token	*cur_cmd;
 
-	cur_cmd = msh->cmds->next;
+	cur_cmd = msh->tokens->next;
 	if (cur_cmd && !ft_strisnbr(cur_cmd->value))
 		numeric_arg_err(cur_cmd->value, exit_code);
 	else if (cur_cmd)
@@ -38,7 +38,7 @@ int	exit_bt(t_msh *msh)
 	t_token	*cur_cmd;
 	int		exit_code;
 
-	cur_cmd = msh->cmds->next;
+	cur_cmd = msh->tokens->next;
 	ft_printf("exit\n");
 	if (cur_cmd && cur_cmd->next && ft_strisnbr(cur_cmd->value))
 		ft_putstr_fd("minishell: exit: too many arguments\n", 2);

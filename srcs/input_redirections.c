@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/02 17:40:33 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/03 12:32:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -64,7 +64,7 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 		open_input_file(msh, &cur_token);
 	}
 	if(cur_token && cur_token->next && !is_operand_type(cur_token->next))
-		get_in_type(msh, cur_token);
+		get_in_type(msh, cur_token->next);
 }
 
 int	first_is_in_type(t_cmd *cmd)
