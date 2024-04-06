@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 15:45:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/06 12:18:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,28 +60,8 @@ char	**get_cmd_args(t_msh *msh)
 
 void	remove_command_from_msh(t_msh *msh)
 {
-	t_token	*cur_cmd;
-	t_token	*cmd_tmp;
-
-	cur_cmd = msh->tokens;
-	while (cur_cmd && cur_cmd->next)
-	{
-		if (/*cur_cmd->type == PIPE*/ 0)
-		{
-			cmd_tmp = cur_cmd;
-			cur_cmd = cur_cmd->next;
-			//msh->in_type = cmd_tmp->type;
-			free(cmd_tmp->value);
-			free(cmd_tmp);
-			msh->tokens = cur_cmd;
-			return ;
-		}
-		cmd_tmp = cur_cmd;
-		cur_cmd = cur_cmd->next;
-		//msh->in_type = cur_cmd->type;
-		free(cmd_tmp->value);
-		free(cmd_tmp);
-		msh->tokens = cur_cmd;
-	}
-	//msh->in_type = msh->tokens->type;
+	free_token(msh->tokens);
+	while(msh->cmds && !is_cmd_type(msh->cmds))
+		msh->cmds = msh->cmds->next;
+	msh->tokens = parse_command(msh->cmds->value, msh->env);
 }

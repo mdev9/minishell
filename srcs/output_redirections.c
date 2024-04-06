@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 15:09:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/04 16:44:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,11 +56,11 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 	msh->out_type = CMD;
 	msh->out_fd = 0;
 	cur_cmd = cmds;
-	while (cur_cmd && cur_cmd->next && !is_operand_type(cur_cmd))
+	while (cur_cmd && cur_cmd->next && !is_output_type(cur_cmd) && !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
 		cur_cmd = cur_cmd->next;
 	if (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN)
 		msh->out_type = 0;
-	else if(cur_cmd && !is_operand_type(cur_cmd))
+	else if(cur_cmd && !is_output_type(cur_cmd) && !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
 	{
 		msh->out_type = cur_cmd->cmd_type;
 		filename = parse_command(cur_cmd->value, msh->env);
@@ -69,4 +69,6 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 		open_out_file(msh, &cur_cmd, filename->value);
 		free_token(filename);
 	}
+	else if(cur_cmd && cur_cmd->cmd_type == PIPE)
+		msh->out_type = PIPE;
 }
