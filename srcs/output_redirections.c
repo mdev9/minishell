@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/04 16:44:37 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/07 17:34:58 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 		cur_cmd = cur_cmd->next;
 	if (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN)
 		msh->out_type = 0;
-	else if(cur_cmd && !is_output_type(cur_cmd) && !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
+	else if(cur_cmd && is_output_type(cur_cmd) && !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
 	{
 		msh->out_type = cur_cmd->cmd_type;
 		filename = parse_command(cur_cmd->value, msh->env);
