@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/13 12:47:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/13 13:28:48 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -78,9 +78,6 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 			perror("minishell: pipe");
 			ft_exit(msh, 1);
 		}
-		msh->in_fd = fds[0];
-		msh->out_fd = fds[1];
-		print_msh_struct(msh);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -102,6 +99,9 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
 	g_return_code = 0;
+	msh->fds[i] = ft_calloc(2, sizeof(int *));
+	if (!msh->fds[i])
+		ft_exit(msh, 1);
 	if (!cmd_is_builtin(msh, msh->tokens->value))
 		get_cmd_path(msh);
 	exec(msh, get_cmd_args(msh), i, cmd_count);
@@ -137,6 +137,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	// TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
 	msh->pids = 0;
+	free(msh->fds);
 	// signal(SIGINT, signal_handler_interactive); //enables ctrl-C
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
@@ -160,6 +161,7 @@ void	exec_commands(t_msh *msh)
 	while (i < cmd_count)
 	{
 		exec_command(msh, i, cmd_count);
+		free(msh->fds[i]);
 		i++;
 	}
 	end_execution(msh, cmd_count);	

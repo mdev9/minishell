@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/13 12:56:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/13 13:31:40 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,10 +103,10 @@ void	remove_command_from_msh(t_msh *msh);
 void	ft_exit(t_msh *msh, int error_code);
 void	signal_handler_command(int signum);
 void	ft_exit(t_msh *msh, int exit_code);
-void	redirect_output(t_msh *msh);
+void	redirect_output(t_msh *msh, int i);
 char	**split_paths_from_env(t_env *env);
 int		add_return_code_to_str(char *res);
-void	redirect_input(t_msh *msh);
+void	redirect_input(t_msh *msh, int i);
 void	parse_var(t_msh *msh, char *line);
 void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);

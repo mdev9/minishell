@@ -6,25 +6,25 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/13 13:21:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/13 13:39:31 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	close_pipe_fds(t_msh *msh)
+void	close_pipe_fds(t_msh *msh, int i)
 {
-	if (msh->in_fd > 2)
+	if (i != 0)
 	{
-		close(msh->in_fd);
-		printf("close in");
+		if (msh->fds[i - 1][0] > 2)
+			close(msh->fds[i - 1][0]);
+		if (msh->fds[i - 1][1] > 2)
+			close(msh->fds[i - 1][1]);
 	}
-	if (msh->out_fd > 2)
-	{
-		close(msh->out_fd);
-		printf("close out");
-	}
-	//double close
+	if (msh->fds[i][0] > 2)
+		close(msh->fds[i][0]);
+	if (msh->fds[i][1] > 2)
+		close(msh->fds[i][1]);
 }
 
 void	execute_command(t_msh *msh, char **cmd_args)
@@ -52,11 +52,11 @@ void	child(t_msh *msh, char **cmd_args, int i)
 	if ((msh->in_type != CMD && msh->in_type != PAREN && msh->in_type != AND
 		&& msh->in_type != OR && msh->in_type != PIPE)
 		|| (msh->in_type == PIPE && i > 0))
-		redirect_input(msh);
+		redirect_input(msh, i);
 	if (msh->out_type == PIPE || msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
-		redirect_output(msh);
-	close_pipe_fds(msh);
+		redirect_output(msh, i);
+	close_pipe_fds(msh, i);
 	execute_command(msh, cmd_args);
 	close(0);
 	close(1);
@@ -69,10 +69,6 @@ void	parent(t_msh *msh, int i, int cmd_count)
 {
 	//signal(SIGINT, signal_handler_command);
 	signal(SIGQUIT, signal_handler_command);
-	(void)msh;
-	(void) i;
-	(void) cmd_count;
-	printf("i : %d\n", i);
 	if (i != 0)
 	{
 			if (msh->fds[i - 1][0] > 2)
