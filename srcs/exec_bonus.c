@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/13 13:28:48 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/13 16:22:58 by babonnet         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,16 +68,16 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 {
 	pid_t	pid;
-	int		fds[2];
 
 	if (i != cmd_count - 1)
 	{
 		printf("pipe\n");
-		if (pipe(fds) == -1)
+		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
 			ft_exit(msh, 1);
 		}
+		ft_printf_fd(2, "msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -160,6 +160,8 @@ void	exec_commands(t_msh *msh)
 	i = 0;
 	while (i < cmd_count)
 	{
+		if (i != 0)
+			get_redirections(msh, msh->cmds);
 		exec_command(msh, i, cmd_count);
 		free(msh->fds[i]);
 		i++;
