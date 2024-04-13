@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 17:20:55 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/13 12:58:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,6 +43,7 @@ void	here_doc_child(t_msh *msh, char *eof, char *here_doc_file)
 	//signal(SIGINT, signal_handler_here_doc);
 	get_here_doc_input(msh, eof);
 	close(msh->in_fd);
+	printf("close2");
 	free(here_doc_file);
 	ft_exit(msh, 0);
 }
@@ -57,6 +58,7 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 	//signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	close(msh->in_fd);
+	printf("close 1\n");
 	if (WIFEXITED(status) && WEXITSTATUS(status))
 		unlink(here_doc_file);
 	msh->in_fd = open(here_doc_file, O_RDWR, 0644);
