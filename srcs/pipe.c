@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/04 13:23:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/07 18:49:09 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,7 @@ void	close_pipe_fds(t_msh *msh, int i)
 		close(msh->out_fd);
 	if (msh->in_fd > 2)
 		close(msh->in_fd);
+	//double close
 }
 
 void	execute_command(t_msh *msh, char **cmd_args)

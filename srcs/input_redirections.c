@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/04 13:48:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/07 19:51:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,7 +23,10 @@ void	redirect_input(t_msh *msh)
 	else
 	{
 		if (dup2(msh->in_fd, 0) < 0)
+		{
+			perror("dup2");
 			ft_exit(msh, 1);
+		}
 	}
 }
 
