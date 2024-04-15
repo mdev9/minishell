@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/13 12:56:12 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/15 16:41:54 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -32,6 +32,7 @@ SRCS_RAW =	main.c\
 			input_redirections.c\
 			output_redirections.c\
 			builtins.c\
+			wildcards.c\
 			commands.c\
 			pipe.c\
 			utils.c\

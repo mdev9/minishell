@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/02 00:42:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/15 15:56:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -73,7 +73,7 @@ t_token	*parse_command(char *command, t_env *env)
 		value = get_token(&command, &in_quote, &in_dquote, env);
 		if (!value)
 			return (free_token(res));
-		res = token_add_back(res, value);
+		res = expand_wildcards(res, value);
 		while (ft_isspace(*command))
 			command++;
 	}

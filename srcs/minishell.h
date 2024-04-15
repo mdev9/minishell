@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/13 13:31:40 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:42:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,6 +24,7 @@
 # include <signal.h>
 # include <stdint.h>
 # include <termios.h>
+# include <dirent.h>
 
 typedef enum e_cmd_type
 {
@@ -100,6 +101,7 @@ t_token	*parsing_syntax_error(t_token *res);
 t_cmd	*parsing_bonus(char *cmd);
 int		file_access(t_msh *msh, int *found);
 void	remove_command_from_msh(t_msh *msh);
+t_token	*expand_wildcards(t_token *res, char *value);
 void	ft_exit(t_msh *msh, int error_code);
 void	signal_handler_command(int signum);
 void	ft_exit(t_msh *msh, int exit_code);
