@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/13 12:56:12 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/14 11:30:37 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -56,7 +56,7 @@ all:
 $(NAME) : $(LIBFT) $(OBJS)
 	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo project ready
-	@timeout 2 bash -c 'while :; do r=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);g=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l); b=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);xrandr --output "HDMI-1-2" --gamma $$r:$$g:$$b;sleep 0.05;done' || true && xrandr --output HDMI-1-2 --brightness 1&
+	#@timeout 2 bash -c 'while :; do r=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);g=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l); b=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);xrandr --output "HDMI-1-2" --gamma $$r:$$g:$$b;sleep 0.05;done' || true && xrandr --output HDMI-1-2 --brightness 1&
 
 $(LIBFT):
 	@echo compiling libft...

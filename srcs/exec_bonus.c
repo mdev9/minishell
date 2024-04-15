@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/14 11:41:29 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/15 16:54:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -159,8 +159,7 @@ void	exec_commands(t_msh *msh)
 	i = 0;
 	while (i < cmd_count)
 	{
-		if (i != 0)
-			get_redirections(msh, msh->cmds);
+		get_redirections(msh, msh->cmds);
 		ft_printf_fd(2, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
 		exec_command(msh, i, cmd_count);
 		free(msh->fds[i]);
