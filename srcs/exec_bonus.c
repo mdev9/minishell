@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/13 16:22:58 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/14 11:41:29 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,8 +53,8 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 			msh->tokens = parse_command(cmds->value, msh->env);
 			msh->cmds = cmds;
 			get_redirections(msh, cmds);
-			print_msh_struct(msh);           // debug
-			print_parsed_token(msh->tokens); // debug
+			//print_msh_struct(msh);           // debug
+			//print_parsed_token(msh->tokens); // debug
 			exec_commands(msh);
 			msh->in_fd = 0;
 			msh->out_fd = 0;
@@ -71,13 +71,12 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 	if (i != cmd_count - 1)
 	{
-		printf("pipe\n");
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
 			ft_exit(msh, 1);
 		}
-		ft_printf_fd(2, "msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
+		ft_printf_fd(2, "pipe: msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -162,6 +161,7 @@ void	exec_commands(t_msh *msh)
 	{
 		if (i != 0)
 			get_redirections(msh, msh->cmds);
+		ft_printf_fd(2, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
 		exec_command(msh, i, cmd_count);
 		free(msh->fds[i]);
 		i++;

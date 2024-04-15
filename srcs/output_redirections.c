@@ -6,11 +6,12 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/13 21:25:23 by babonnet         ###   ########.fr       */
+/*   Updated: 2024/04/15 12:36:18 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+#include <stdio.h>
 
 void	redirect_output(t_msh *msh, int i)
 {
@@ -22,10 +23,19 @@ void	redirect_output(t_msh *msh, int i)
 	}
 	else
 	{
-		ft_printf_fd(0, "redirecting pipe output\n");
-		ft_printf_fd(0, "output of cmd %d: 1 -> %d\n", i, msh->fds[i - 1][1]);
+		ft_printf_fd(2, "redirecting pipe output\n");
+		ft_printf_fd(2, "%p\n", msh->fds[i]);
+		//ft_printf_fd(2, "output of cmd %d: 1 -> %d\n", i, msh->fds[i - 1][1]);
+		ft_printf_fd(2, "yes\n");
+		//sleep(1);
 		if (dup2(msh->fds[i][1], 1) < 0)
-			ft_exit(msh, 1);
+		{
+			perror("dup2");
+			ft_printf_fd(2, "exiting\n");
+			//ft_exit(msh, 1);
+		}
+		ft_printf_fd(2,"help pls\n");
+		fflush(stdout); // Flush stdout
 	}
 }
 

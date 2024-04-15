@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 15:46:38 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/14 11:29:02 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,7 @@ void	free_msh(t_msh *msh)
 
 void	ft_exit(t_msh *msh, int exit_code)
 {
+	ft_printf("exiting");
 	free_msh(msh);
 	exit(exit_code);
 }

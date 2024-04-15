@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/03 19:23:33 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/14 11:41:06 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	set_echoctl(int value)
 {
 	struct termios	t_p;
 
-	ft_printf("echoctl value : %d\n",value);
+	//ft_printf("echoctl value : %d\n",value);
 	if (tcgetattr(1, &t_p))
 	{
 		ft_printf_fd(2, "minishell: an error occured while getting the local fl\
