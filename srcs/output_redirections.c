@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/15 17:02:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:33:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -69,6 +69,8 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 	msh->out_type = CMD;
 	msh->out_fd = 0;
 	cur_cmd = cmds;
+	while(cur_cmd && !is_cmd_type(cur_cmd))
+		cur_cmd = cur_cmd->next;
 	while (cur_cmd && cur_cmd->next && !is_output_type(cur_cmd) && !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
 	{
 		ft_printf_fd(2, "%s: %d\n", cur_cmd->value, cur_cmd->cmd_type);

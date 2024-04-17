@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/07 18:40:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/17 18:29:07 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,13 +60,18 @@ char	**get_cmd_args(t_msh *msh)
 
 void	remove_command_from_msh(t_msh *msh)
 {
+	t_cmd *tmp;
+
 	free_token(msh->tokens);
-	while(msh->cmds && is_cmd_type(msh->cmds))
-		msh->cmds = msh->cmds->next;
 	while(msh->cmds && !is_cmd_type(msh->cmds))
 		msh->cmds = msh->cmds->next;
-	if(msh->cmds)
-		msh->tokens = parse_command(msh->cmds->value, msh->env);
+	while(msh->cmds && is_cmd_type(msh->cmds))
+		msh->cmds = msh->cmds->next;
+	tmp = msh->cmds;
+	while(tmp && !is_cmd_type(tmp))
+		tmp = tmp->next;
+	if(tmp)
+		msh->tokens = parse_command(tmp->value, msh->env);
 	else
 		msh->tokens = 0;
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/15 17:13:30 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/17 16:45:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,15 +59,14 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 	t_cmd	*cur_token;
 
 	cur_token = tokens;
-	//if (cur_token->cmd_type == PIPE)
-	while (cur_token && (cur_token->cmd_type == CMD || cur_token->cmd_type == PAREN))
+	if (cur_token && cur_token->cmd_type == PIPE)
 	{
-		ft_printf_fd(2, "%s: %d\n", cur_token->value, cur_token->cmd_type);
-		cur_token = cur_token->next;
+		msh->in_type = PIPE;
+		return ;
 	}
-	if (cur_token)
-		ft_printf_fd(2, "%s: %d\n", cur_token->value, cur_token->cmd_type);
-	if (cur_token && (is_input_type(cur_token) || cur_token->cmd_type == PIPE))
+	while (cur_token && (cur_token->cmd_type == CMD || cur_token->cmd_type == PAREN))
+		cur_token = cur_token->next;
+	if (cur_token && is_input_type(cur_token))
 	{
 		msh->in_type = cur_token->cmd_type;
 		open_input_file(msh, &cur_token);

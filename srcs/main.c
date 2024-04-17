@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/03 19:29:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/17 14:24:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ char	*get_prompt(t_env *env)
 		res = ft_strjoin_free(res, getenv("USER"), 1);
 		res = ft_strjoin_free(res, "@", 1);
 	}
-	res = ft_strjoin_free(res, "minishell\001\033[0m\002:\001", 1);
+	res = ft_strjoin_free(res, "hell\001\033[0m\002:\001", 1);
 	res = ft_strjoin_free(res, ft_get_color(80, 80, 255), 3);
 	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	cwd = getcwd(cwd_buffer, 99);

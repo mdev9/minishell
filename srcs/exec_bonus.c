@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/15 16:54:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/17 18:29:30 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,6 +14,8 @@
 
 void	get_redirections(t_msh *msh, t_cmd *cmds)
 {
+	msh->in_type = 0;
+	msh->out_type = 0;
 	if (first_is_in_type(cmds))
 	{
 		get_in_type(msh, cmds);
@@ -52,7 +54,6 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 				cmds = cmds->next;
 			msh->tokens = parse_command(cmds->value, msh->env);
 			msh->cmds = cmds;
-			get_redirections(msh, cmds);
 			//print_msh_struct(msh);           // debug
 			//print_parsed_token(msh->tokens); // debug
 			exec_commands(msh);
