@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/16 09:34:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/17 10:16:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -32,14 +32,38 @@ int		filename_corresponds(char *wildcard, char *value)
 	return(!*wildcard && !*value);
 }
 
+t_token *get_all_files(DIR *dir, char *wildcard)
+{
+	struct dirent *content;
+	t_token *res;
+
+	res = 0;
+	content = readdir(dir);
+	while(content)
+	{
+		if(filename_corresponds(wildcard, content->d_name))
+			res = token_add_back(res,ft_strdup(content->d_name));
+		content = readdir(dir);
+	}
+	return(res);
+}
+
+t_token	*wildcards_add_back(t_token *res, t_token *next)
+{
+	if(!res)
+		return(next);
+	while(res->next)
+		res = res->next;
+	res->next = next;
+	return(res);
+}
+
 t_token	*expand_wildcards(t_token *res, char *value)
 {
 	DIR *dir;
 	char *cwd;
-	struct dirent *content;
-	int	found;
+	t_token	*new;
 
-	found = 0;
 	if(!ft_strchr(value, '*'))
 		return(token_add_back(res, value));
 	cwd = getcwd(NULL, 100000);
@@ -49,19 +73,12 @@ t_token	*expand_wildcards(t_token *res, char *value)
 	free(cwd);
 	if(!dir)
 		return(token_add_back(res, value));
-	content = readdir(dir);
-	while(content)
-	{
-		if(filename_corresponds(value, content->d_name))
-		{
-			res = token_add_back(res,ft_strdup(content->d_name));
-			found = 1;
-		}
-		content = readdir(dir);
-	}
+	new = get_all_files(dir, value);
 	closedir(dir);
-	if(!found)
+	if(!new)
 		return(token_add_back(res, value));
 	free(value);
+	sort_wildcards_token(new);
+	res = wildcards_add_back(res, new);
 	return(res);
 }

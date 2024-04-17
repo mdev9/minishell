@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/15 16:42:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/17 10:13:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -134,6 +134,7 @@ int is_output_type(t_cmd *cmd);
 int is_cmd_type(t_cmd *cmd);
 int is_operand_type(t_cmd *cmd);
 int		set_echoctl(int value);
+void	sort_wildcards_token(t_token *list);
 int		print_env(t_env *env);
 t_cmd	*free_cmd(t_cmd *cmd);
 void	print_syntax_error_bonus(t_cmd *cmd);
