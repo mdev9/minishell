@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 18:29:10 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,6 +72,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 	if (i != cmd_count - 1)
 	{
+		fprintf(stderr, "piping %d", i);
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
@@ -163,7 +164,7 @@ void	exec_commands(t_msh *msh)
 		get_redirections(msh, msh->cmds);
 		fprintf(stderr, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
 		exec_command(msh, i, cmd_count);
-		free(msh->fds[i]);
+		//free(msh->fds[i]);
 		i++;
 	}
 	end_execution(msh, cmd_count);	
