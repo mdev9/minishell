@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/17 10:13:40 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/18 23:04:47 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -58,7 +58,9 @@ all:
 $(NAME) : $(LIBFT) $(OBJS)
 	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)
 	@echo project ready
-	@timeout 2 bash -c 'if [ "$$USER" == marde-vr ];then exit;fi;while :; do r=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);g=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l); b=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);xrandr --output "HDMI-1-2" --gamma $$r:$$g:$$b;sleep 0.05;done' || true && xrandr --output HDMI-1-2 --brightness 1&
+	@if [ ! $(USER) = "marde-vr" ];then\
+		timeout 2 bash -c 'while :; do r=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);g=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l); b=$$(echo "scale=2;($$RANDOM / 16384) + 0.01" | bc -l);xrandr --output "HDMI-1-2" --gamma $$r:$$g:$$b;sleep 0.05;done' || true && xrandr --output HDMI-1-2 --brightness 1&\
+	fi
 
 $(LIBFT):
 	@echo compiling libft...
@@ -72,10 +74,14 @@ $(OBJS_DIR)%.o : $(SRCS_DIR)%.c | $(OBJS_DIR)
 	@$(CC) $(FLAGS) -c $< -o $@
 
 clean:
-	@bash -c 'gamma=1;while (( $$(echo "$$gamma > 0" | bc -l) )); do gamma=$$(echo "$$gamma - 0.1" | bc); xrandr --output "HDMI-1-2" --brightness $$gamma; done;sleep 0.1'
-	rm -rf $(OBJS_DIR)
-	make --no-print-directory -C ./libft fclean
-	@bash -c 'gamma=0;while (( $$(echo "$$gamma < 1" | bc -l) )); do gamma=$$(echo "$$gamma + 0.1" | bc);xrandr --output "HDMI-1-2" --brightness $$gamma;done'
+	@if [ ! $(USER) = "marde-vr" ];then\
+		bash -c 'gamma=1;while (( $$(echo "$$gamma > 0" | bc -l) )); do gamma=$$(echo "$$gamma - 0.1" | bc); xrandr --output "HDMI-1-2" --brightness $$gamma; done;sleep 0.1';\
+	fi
+	@rm -rf $(OBJS_DIR)
+	@make --no-print-directory -C ./libft fclean
+	@if [ ! $(USER) = "marde-vr" ];then\
+		bash -c 'gamma=0;while (( $$(echo "$$gamma < 1" | bc -l) )); do gamma=$$(echo "$$gamma + 0.1" | bc);xrandr --output "HDMI-1-2" --brightness $$gamma;done';\
+	fi
 
 bonus: all
 
