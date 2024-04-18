@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/03 15:45:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,8 +61,8 @@ int	ft_export(t_msh *msh)
 		value = ft_strdup(arg + len);
 		msh->env = env_add_back(msh->env, name, value);
 	}
-//export +=
-//replacer si ça existe deja sauf si il y a pas de =
+	//export +=
+	//replacer si ça existe deja sauf si il y a pas de =
 	return (0);
 }
 

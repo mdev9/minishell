@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 18:25:20 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,15 +16,15 @@ void	redirect_input(t_msh *msh, int i)
 {
 	if (msh->in_type != PIPE)
 	{
-		fprintf(stderr, "redirecting input\n");
+		//fprintf(stderr, "redirecting input\n");
 		if (dup2(msh->in_fd, 0) < 0)
 			ft_exit(msh, 1);
 		close(msh->in_fd);
 	}
 	else
 	{
-		fprintf(stderr, "redirecting pipe input\n");
-		fprintf(stderr, "input of cmd %d: %d -> 0\n", i, msh->fds[i - 1][0]);
+		//fprintf(stderr, "redirecting pipe input\n");
+		//fprintf(stderr, "input of cmd %d: %d -> 0\n", i, msh->fds[i - 1][0]);
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
 		{
 			perror("dup2"); //debug
@@ -35,7 +35,7 @@ void	redirect_input(t_msh *msh, int i)
 
 void	open_input_file(t_msh *msh, t_cmd **cur_token)
 {
-	t_token *filename;
+	t_token	*filename;
 
 	if ((*cur_token)->cmd_type == HERE_DOC)
 		handle_here_doc(msh, (*cur_token)->value);
@@ -44,7 +44,7 @@ void	open_input_file(t_msh *msh, t_cmd **cur_token)
 		if (msh->in_fd != 0)
 			close(msh->in_fd);
 		filename = parse_command((*cur_token)->value, msh->env);
-		if(!filename)
+		if (!filename)
 			ft_exit(msh, 1);
 		msh->in_fd = open(filename->value, O_RDONLY);
 		free_token(filename);
@@ -67,14 +67,15 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 		msh->in_type = PIPE;
 		return ;
 	}
-	while (cur_token && (cur_token->cmd_type == CMD || cur_token->cmd_type == PAREN))
+	while (cur_token && (cur_token->cmd_type == CMD
+			|| cur_token->cmd_type == PAREN))
 		cur_token = cur_token->next;
 	if (cur_token && is_input_type(cur_token))
 	{
 		msh->in_type = cur_token->cmd_type;
 		open_input_file(msh, &cur_token);
 	}
-	if(cur_token && cur_token->next && !is_operand_type(cur_token->next))
+	if (cur_token && cur_token->next && !is_operand_type(cur_token->next))
 		get_in_type(msh, cur_token->next);
 }
 
@@ -85,7 +86,7 @@ int	first_is_in_type(t_cmd *cmd)
 	cur_token = cmd;
 	while (cur_token && cur_token->cmd_type == CMD && cur_token->next)
 		cur_token = cur_token->next;
-	if ( is_input_type(cur_token) || cur_token->cmd_type == PIPE)
+	if (is_input_type(cur_token) || cur_token->cmd_type == PIPE)
 		return (1);
 	return (0);
 }

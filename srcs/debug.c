@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 15:46:50 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/07 17:27:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:51 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,29 +24,29 @@ void	print_parsed_token(t_token *token)
 
 void	print_cmd_type(t_cmd_type type, char *value)
 {
-	if(type == CMD)
+	if (type == CMD)
 		printf("[CMD : %s] ", value);
-	if(type == PAREN)
+	if (type == PAREN)
 		printf("[PAREN : %s] ", value);
-	if(type == AND)
+	if (type == AND)
 		printf("[AND] ");
-	if(type == OR)
+	if (type == OR)
 		printf("[OR] ");
-	if(type == PIPE)
+	if (type == PIPE)
 		printf("[PIPE] ");
-	if(type == RED_O_APP)
+	if (type == RED_O_APP)
 		printf("[RED_O_APP : %s] ", value);
-	if(type == RED_O)
+	if (type == RED_O)
 		printf("[RED_O : %s] ", value);
-	if(type == RED_I)
+	if (type == RED_I)
 		printf("[RED_I : %s] ", value);
-	if(type == HERE_DOC)
+	if (type == HERE_DOC)
 		printf("[HERE_DOC : %s] ", value);
 }
 
 void	print_parsed_cmd(t_cmd *cmd)
 {
-	while(cmd)
+	while (cmd)
 	{
 		print_cmd_type(cmd->cmd_type, cmd->value);
 		cmd = cmd->next;

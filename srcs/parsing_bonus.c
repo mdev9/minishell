@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -236,7 +236,7 @@ t_cmd	*parsing_bonus(char *cmd)
 		if (type == CMD || type == PAREN)
 			value = get_cmd_value(&cmd, type);
 		else if (type == RED_O || type == RED_O_APP || type == RED_I
-			|| type == HERE_DOC)
+				|| type == HERE_DOC)
 			value = get_next_arg(&cmd);
 		else
 			value = 0;
