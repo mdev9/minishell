@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,7 @@ void	here_doc_child(t_msh *msh, char *eof, char *here_doc_file)
 
 void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 {
-	int		status;
+	int	status;
 
 	//signal(SIGINT, signal_handler_command);
 	signal(SIGQUIT, signal_handler_here_doc);

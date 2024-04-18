@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 18:29:10 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/18 21:06:26 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,12 +36,12 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	t_cmd	*tmp;
 
 	cmds = parsing_bonus(cmd_str);
-	print_parsed_cmd(cmds); // debug
+	//print_parsed_cmd(cmds); // debug
 	tmp = check_cmds_syntax(cmds);
 	if (tmp)
 	{
 		print_syntax_error_bonus(tmp);
-		printf("error\n"); // debug
+		//printf("error\n"); // debug
 		free_cmd(cmds);
 		return ;
 	}
@@ -72,13 +72,13 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 	if (i != cmd_count - 1)
 	{
-		fprintf(stderr, "piping %d", i);
+		//fprintf(stderr, "piping %d", i);
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
 			ft_exit(msh, 1);
 		}
-		fprintf(stderr, "pipe: msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
+		//fprintf(stderr, "pipe: msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -99,7 +99,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
-	g_return_code = 0;
+	//g_return_code = 0;
 	msh->fds[i] = ft_calloc(2, sizeof(int *));
 	if (!msh->fds[i])
 		ft_exit(msh, 1);
@@ -153,7 +153,7 @@ void	exec_commands(t_msh *msh)
 	if (!msh->tokens)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
-	printf("cmd_count : %d\n", cmd_count);
+	//printf("cmd_count : %d\n", cmd_count);
 	msh->fds = ft_calloc(cmd_count, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
@@ -162,7 +162,7 @@ void	exec_commands(t_msh *msh)
 	while (i < cmd_count)
 	{
 		get_redirections(msh, msh->cmds);
-		fprintf(stderr, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
+		//fprintf(stderr, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
 		exec_command(msh, i, cmd_count);
 		//free(msh->fds[i]);
 		i++;

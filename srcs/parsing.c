@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/15 15:56:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 20:48:57 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 		else if (**cmd == '~' && !*in_quote && !*in_dquote)
 			i += add_home_to_str(res + i);
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
-					|| (**cmd != '\'' && **cmd != '"'))
+						|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
 	}
@@ -60,10 +60,10 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 
 t_token	*parse_command(char *command, t_env *env)
 {
-	int				in_quote;
-	int				in_dquote;
-	t_token			*res;
-	char			*value;
+	int		in_quote;
+	int		in_dquote;
+	t_token	*res;
+	char	*value;
 
 	in_quote = 0;
 	in_dquote = 0;
