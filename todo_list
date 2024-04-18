@@ -5,3 +5,4 @@ export sort
 fix exit | exit
 exec export in fork when piped
 here doc in fork
+LEAKS
