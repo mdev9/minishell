@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/14 11:41:06 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,7 @@ int	set_echoctl(int value)
 	//ft_printf("echoctl value : %d\n",value);
 	if (tcgetattr(1, &t_p))
 	{
-		ft_printf_fd(2, "minishell: an error occured while getting the local fl\
+		fprintf(stderr, "minishell: an error occured while getting the local fl\
 ags\n");
 		return (1);
 	}
@@ -73,7 +73,7 @@ ags\n");
 		t_p.c_lflag = t_p.c_lflag & (~ECHOCTL);
 	if (tcsetattr(1, TCSANOW, &t_p))
 	{
-		ft_printf_fd(2, "minishell: an error occured while setting the local fl\
+		fprintf(stderr, "minishell: an error occured while setting the local fl\
 ags\n");
 		return (1);
 	}

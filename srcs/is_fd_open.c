@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 17:31:53 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/03/05 17:35:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,9 +16,9 @@ int	is_fd_open(int fd)
 {
 	if (fcntl(fd, F_GETFL) == -1)
 	{
-		ft_printf_fd(2, "%d:closed\n", fd);
+		fprintf(stderr, "%d:closed\n", fd);
 		return (0);
 	}
-	ft_printf_fd(2, "%d:open\n", fd);
+	fprintf(stderr, "%d:open\n", fd);
 	return (1);
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 17:37:19 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/18 17:56:05 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,23 +18,23 @@ void	close_pipe_fds(t_msh *msh, int i)
 	{
 		if (msh->fds[i - 1][0] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in child\n", msh->fds[i-1][0]);
+			fprintf(stderr, "closing fd %d in child\n", msh->fds[i-1][0]);
 			close(msh->fds[i - 1][0]);
 		}
 		if (msh->fds[i - 1][1] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in child\n", msh->fds[i-1][1]);
+			fprintf(stderr, "closing fd %d in child\n", msh->fds[i-1][1]);
 			close(msh->fds[i - 1][1]);
 		}
 	}
 	if (msh->fds[i][0] > 2)
 	{
-		ft_printf_fd(2, "closing fd %d in child\n", msh->fds[i][0]);
+		fprintf(stderr, "closing fd %d in child\n", msh->fds[i][0]);
 		close(msh->fds[i][0]);
 	}
 	if (msh->fds[i][1] > 2)
 	{
-		ft_printf_fd(2, "closing fd %d in child\n", msh->fds[i][1]);
+		fprintf(stderr, "closing fd %d in child\n", msh->fds[i][1]);
 		close(msh->fds[i][1]);
 	}
 }
@@ -55,7 +55,7 @@ void	execute_command(t_msh *msh, char **cmd_args)
 		env = env_to_char_tab(msh->env);
 		if(env)
 		{
-			ft_printf_fd(2, "execveing %s\n", msh->tokens->value);
+			fprintf(stderr, "execveing %s\n", msh->tokens->value);
 			execve(msh->tokens->value, cmd_args, env);
 		}
 		ft_free_str_arr(env);
@@ -71,7 +71,7 @@ void	child(t_msh *msh, char **cmd_args, int i)
 	if (msh->out_type == PIPE || msh->out_type == RED_O
 		|| msh->out_type == RED_O_APP)
 		redirect_output(msh, i);
-	ft_printf_fd(2, "closing fds\n");
+	fprintf(stderr, "closing fds\n");
 	close_pipe_fds(msh, i);
 	execute_command(msh, cmd_args);
 	close(0);
@@ -89,12 +89,12 @@ void	parent(t_msh *msh, int i, int cmd_count)
 	{
 		if (msh->fds[i - 1][0] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in parent\n", msh->fds[i - 1][0]);
+			fprintf(stderr, "closing fd %d in parent\n", msh->fds[i - 1][0]);
 			close(msh->fds[i - 1][0]);
 		}
 		if (msh->fds[i - 1][1] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in parent\n", msh->fds[i - 1][1]);
+			fprintf(stderr, "closing fd %d in parent\n", msh->fds[i - 1][1]);
 			close(msh->fds[i - 1][1]);
 		}
 	}
@@ -102,23 +102,23 @@ void	parent(t_msh *msh, int i, int cmd_count)
 	{
 		if (msh->fds[i][0] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in parent\n", msh->fds[i][0]);
+			fprintf(stderr, "closing fd %d in parent\n", msh->fds[i][0]);
 			close(msh->fds[i][0]);
 		}
 		if (msh->fds[i][1] > 2)
 		{
-			ft_printf_fd(2, "closing fd %d in parent\n", msh->fds[i][1]);
+			fprintf(stderr, "closing fd %d in parent\n", msh->fds[i][1]);
 			close(msh->fds[i][1]);
 		}
 	}
 	if (msh->in_fd > 2)
 	{
-		ft_printf_fd(2, "closing in_fd %d in parent\n", msh->in_fd);
+		fprintf(stderr, "closing in_fd %d in parent\n", msh->in_fd);
 		close(msh->in_fd);
 	}
 	if (msh->out_fd > 2)
 	{
-		ft_printf_fd(2, "closing in_fd %d in parent\n", msh->out_fd);
+		fprintf(stderr, "closing in_fd %d in parent\n", msh->out_fd);
 		close(msh->out_fd);	
 	}
 }
