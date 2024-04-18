@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/17 16:45:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:22:28 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,7 +26,10 @@ void	redirect_input(t_msh *msh, int i)
 		ft_printf_fd(2, "redirecting pipe input\n");
 		ft_printf_fd(2, "input of cmd %d: 0 -> %d\n", i, msh->fds[i - 1][0]);
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
+		{
+			perror("dup2"); //debug
 			ft_exit(msh, 1);
+		}
 	}
 }
 

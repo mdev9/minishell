@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/17 18:33:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/18 17:23:18 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,9 +24,6 @@ void	redirect_output(t_msh *msh, int i)
 	else
 	{
 		ft_printf_fd(2, "redirecting pipe output\n");
-		ft_printf_fd(2, "%p\n", msh->fds[i]);
-		//ft_printf_fd(2, "output of cmd %d: 1 -> %d\n", i, msh->fds[i - 1][1]);
-		ft_printf_fd(2, "yes\n");
 		//sleep(1);
 		if (dup2(msh->fds[i][1], 1) < 0)
 		{
@@ -34,8 +31,6 @@ void	redirect_output(t_msh *msh, int i)
 			ft_printf_fd(2, "exiting\n");
 			//ft_exit(msh, 1);
 		}
-		ft_printf_fd(2,"help pls\n");
-		fflush(stdout); // Flush stdout
 	}
 }
 
