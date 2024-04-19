@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:48 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 19:36:51 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,6 +25,8 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 {
 	if (!cmd_token)
 		return (0);
+	else if (msh->in_type == PIPE || msh->out_type == PIPE)
+		return (1);
 	else if (!ft_strcmp(cmd_token, "cd"))
 	{
 		cd(msh->tokens);
