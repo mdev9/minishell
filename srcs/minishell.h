@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 14:09:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:49:27 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ typedef struct s_msh
 	t_env			*env;
 	t_token			*tokens;
 	t_cmd			*cmds;
+	t_cmd			*cmds_head;
 	int				**fds;
 	int				*pids;
 	t_cmd_type		in_type;
@@ -143,6 +144,7 @@ int		ft_export(t_msh *msh);
 int is_input_type(t_cmd *cmd);
 void	free_env(t_env *env);
 int		ft_unset(t_msh *msh);
+void	free_fds(t_msh *msh);
 void	free_msh(t_msh *msh);
 void	free_msh(t_msh *msh);
 int		echo(t_token *args);

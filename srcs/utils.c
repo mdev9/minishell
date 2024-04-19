@@ -6,11 +6,29 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:49:01 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 18:52:13 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
+
+void	free_fds(t_msh *msh)
+{
+	int i;
+
+	if (msh->fds)
+	{
+		i = 0;
+		while (msh->fds[i])
+		{
+			free(msh->fds[i]);
+			msh->fds[i] = 0;
+			i++;
+		}
+		free(msh->fds);
+		msh->fds = 0;
+	}
+}
 
 void	free_msh(t_msh *msh)
 {
@@ -18,6 +36,8 @@ void	free_msh(t_msh *msh)
 	{
 		free_env(msh->env);
 		free(msh->pids);
+		free_cmd(msh->cmds_head);
+		free_fds(msh);
 		free_token(msh->tokens);
 		set_echoctl(msh->echoctl);
 		free(msh);

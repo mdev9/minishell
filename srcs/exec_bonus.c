@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 17:59:31 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 18:49:33 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,18 +61,20 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		free_cmd(cmds);
 		return ;
 	}
+	msh->cmds_head = cmds;
 	while (cmds)
 	{
-		print_parsed_cmd(cmds); // debug
+		//print_parsed_cmd(cmds); // debug
 		msh->tokens = parse_cmds_to_token(cmds, msh->env);
 		msh->cmds = cmds;
 		//print_msh_struct(msh);           // debug
-	//	print_parsed_token(msh->tokens); // debug
+		//print_parsed_token(msh->tokens); // debug
 		exec_commands(msh);
 		msh->in_fd = 0;
 		msh->out_fd = 0;
 		cmds = get_next_command(cmds);
 	}
+	free_cmd(msh->cmds_head);
 }
 
 int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
@@ -180,6 +182,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 		print_signaled(status);
 	// TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
+	free_fds(msh);
 	msh->pids = 0;
 	free(msh->fds);
 	// signal(SIGINT, signal_handler_interactive); //enables ctrl-C
@@ -197,7 +200,7 @@ void	exec_commands(t_msh *msh)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
 	//printf("cmd_count : %d\n", cmd_count);
-	msh->fds = ft_calloc(cmd_count, sizeof(int **));
+	msh->fds = ft_calloc(cmd_count + 1, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
