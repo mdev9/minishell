@@ -6,6 +6,7 @@ fix exit | exit
 exec export in fork when piped
 here doc in fork
 
+pipe with parenthesis
 
 LEAKS
 add cmds_head in msh_struct to free in runtime

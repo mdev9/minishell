@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 13:46:21 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 14:53:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -28,6 +28,22 @@ void	get_redirections(t_msh *msh, t_cmd *cmds)
 	}
 }
 
+t_cmd	*get_next_command(t_cmd *cmd)
+{
+	while(cmd)
+	{
+		while(cmd && !is_operand_type(cmd))
+			cmd = cmd->next;
+		if(cmd && cmd->cmd_type == AND && !g_return_code)
+			return(cmd->next);
+		if(cmd && cmd->cmd_type == OR && g_return_code)
+			return(cmd->next);
+		if(cmd)
+			cmd = cmd->next;
+	}
+	return(0);
+}
+
 void	exec_command_bonus(t_msh *msh, char *cmd_str)
 {
 	t_cmd	*cmds;
@@ -45,22 +61,15 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	}
 	while (cmds)
 	{
-		if ((cmds->cmd_type == AND && !g_return_code) || (cmds->cmd_type == OR
-				&& g_return_code) || !is_operand_type(cmds))
-		{
-			if (is_operand_type(cmds))
-				cmds = cmds->next;
-			msh->tokens = parse_cmds_to_token(cmds, msh->env);
-			msh->cmds = cmds;
-			//print_msh_struct(msh);           // debug
-			print_parsed_token(msh->tokens); // debug
-			exec_commands(msh);
-			msh->in_fd = 0;
-			msh->out_fd = 0;
-		}
-		while (cmds && (is_cmd_type(cmds) || cmds->cmd_type == PIPE
-				|| is_output_type(cmds) || is_input_type(cmds)))
-			cmds = cmds->next;
+		print_parsed_cmd(cmds); // debug
+		msh->tokens = parse_cmds_to_token(cmds, msh->env);
+		msh->cmds = cmds;
+		//print_msh_struct(msh);           // debug
+	//	print_parsed_token(msh->tokens); // debug
+		exec_commands(msh);
+		msh->in_fd = 0;
+		msh->out_fd = 0;
+		cmds = get_next_command(cmds);
 	}
 }
 
@@ -131,8 +140,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 
 	i = 0;
 	while (i < cmd_count)
-		waitpid(msh->pids[i++], &status, 0);
-	if (!g_return_code && WIFEXITED(status))
+		waitpid(msh->pids[i++], WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
 		printf("Quit\n");
