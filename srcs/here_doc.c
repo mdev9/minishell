@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 20:00:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,7 @@ void	here_doc_child(t_msh *msh, char *eof, char *here_doc_file)
 {
 	here_doc_variables(1, 0, msh);
 	here_doc_variables(1, 1, here_doc_file);
-	//signal(SIGINT, signal_handler_here_doc);
+	signal(SIGINT, signal_handler_here_doc);
 	get_here_doc_input(msh, eof);
 	close(msh->in_fd);
 	printf("close2");
@@ -52,10 +52,10 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 {
 	int	status;
 
-	//signal(SIGINT, signal_handler_command);
+	signal(SIGINT, signal_handler_command);
 	signal(SIGQUIT, signal_handler_here_doc);
 	waitpid(child_pid, &status, 0);
-	//signal(SIGINT, signal_handler_interactive);
+	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	close(msh->in_fd);
 	printf("close 1\n");

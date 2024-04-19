@@ -1,9 +1,7 @@
-print message quand segfault et "(core dumped)" si WCOREDUMP 
+ "(core dumped)" si WCOREDUMP 
 
 export += 
 export sort
-fix exit | exit
-exec export in fork when piped
 here doc in fork
 
 pipe with parenthesis
