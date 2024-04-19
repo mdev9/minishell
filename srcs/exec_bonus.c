@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 10:44:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 13:46:21 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,14 +18,12 @@ void	get_redirections(t_msh *msh, t_cmd *cmds)
 	msh->out_type = 0;
 	if (first_is_in_type(cmds))
 	{
-		get_in_type(msh, cmds);
-		if (!g_return_code)
+		if (!get_in_type(msh, cmds))
 			get_out_type(msh, cmds);
 	}
 	else
 	{
-		get_out_type(msh, cmds);
-		if (!g_return_code)
+		if (!get_out_type(msh, cmds))
 			get_in_type(msh, cmds);
 	}
 }
