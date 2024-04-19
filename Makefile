@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/18 23:06:00 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/19 20:50:56 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -16,7 +16,6 @@ SRCS_RAW =	main.c\
 			cd.c\
 			lst_env.c\
 			lst_token.c\
-			exec.c\
 			exit.c\
 			is_fd_open.c\
 			echo.c\
