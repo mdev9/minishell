@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 14:53:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:56:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -133,6 +133,37 @@ int	get_cmd_count(t_cmd *cmds)
 	return (nb);
 }
 
+void	print_signaled(int status)
+{
+	int signal;
+	int print;
+	static const char *sigmsg[] = {0, "Hangup",0, "Quit", "Illegal instruction",\
+	"Trace/breakpoint trap", "Aborted", "Bus error",\
+	"Floating point exception", "Killed", "User defined signal 1",\
+	"Segmentation fault","User defined signal 2", 0, "Alarm clock",\
+	"Terminated","Stack fault" , 0 , 0, "Stopped", "Stopped","Stopped",\
+	"Stopped",0 , "CPU time limit exceeded","File size limit exceeded", \
+	"Virtual time expired", "Profiling timer expired",\
+	"I/O possible", "Power failure", "Bad system call"};
+
+	signal = WTERMSIG(status);
+	print = 0;
+	if(signal < 31 && sigmsg[signal])
+	{
+		ft_putstr_fd((char *)sigmsg[signal], 2);
+		print = 1;
+	}
+	if(signal >= 34 && signal <= 64)
+	{
+		ft_putstr_fd("Real-time signal ", 2);
+		ft_putnbr_fd(signal - 34, 2);
+		print = 1;
+
+	}
+	if(print)
+		ft_putstr_fd("\n", 2);
+}
+
 void	end_execution(t_msh *msh, int cmd_count)
 {
 	int	i;
@@ -140,10 +171,11 @@ void	end_execution(t_msh *msh, int cmd_count)
 
 	i = 0;
 	while (i < cmd_count)
-		waitpid(msh->pids[i++], WIFEXITED(status))
+			waitpid(msh->pids[i++], &status, 0);
+	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
-	if (WIFSIGNALED(status) && WTERMSIG(status) == SIGQUIT)
-		printf("Quit\n");
+	if (WIFSIGNALED(status))
+		print_signaled(status);
 	// TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
 	msh->pids = 0;
