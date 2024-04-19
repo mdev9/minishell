@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/19 09:43:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 13:46:32 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	redirect_input(t_msh *msh, int i)
 	}
 }
 
-void	open_input_file(t_msh *msh, t_cmd **cur_token)
+int	open_input_file(t_msh *msh, t_cmd **cur_token)
 {
 	t_token	*filename;
 
@@ -52,12 +52,13 @@ void	open_input_file(t_msh *msh, t_cmd **cur_token)
 		{
 			fprintf(stderr, "minishell: %s: ", (*cur_token)->next->value);
 			perror("");
-			g_return_code = 1;
+			return (1);
 		}
 	}
+	return (0);
 }
 
-void	get_in_type(t_msh *msh, t_cmd *tokens)
+int	get_in_type(t_msh *msh, t_cmd *tokens)
 {
 	t_cmd	*cur_token;
 
@@ -65,7 +66,7 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 	if (cur_token && cur_token->cmd_type == PIPE)
 	{
 		msh->in_type = PIPE;
-		return ;
+		return (0);
 	}
 	while (cur_token && (cur_token->cmd_type == CMD
 			|| cur_token->cmd_type == PAREN))
@@ -73,10 +74,12 @@ void	get_in_type(t_msh *msh, t_cmd *tokens)
 	if (cur_token && is_input_type(cur_token))
 	{
 		msh->in_type = cur_token->cmd_type;
-		open_input_file(msh, &cur_token);
+		if (open_input_file(msh, &cur_token))
+			return (1);
 	}
 	if (cur_token && cur_token->next && !is_operand_type(cur_token->next))
-		get_in_type(msh, cur_token->next);
+		return (get_in_type(msh, cur_token->next));
+	return (0);
 }
 
 int	first_is_in_type(t_cmd *cmd)

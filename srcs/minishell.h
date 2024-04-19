@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 13:19:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 13:51:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,8 +92,11 @@ void	child(t_msh *msh, char **cmd_args, int i);
 t_token	*parse_tokens(char *command, t_env *env);
 void	parent(t_msh *msh, int i, int cmd_count);
 char	*ft_get_env(t_env *env, char *var_name);
+int		is_fd_open(int fd);
+int		get_out_type(t_msh *msh, t_cmd *cmds);
+void	exec_commands(t_msh *msh);
 void	handle_here_doc(t_msh *msh, char *eof);
-void	get_in_type(t_msh *msh, t_cmd *tokens);
+int		get_in_type(t_msh *msh, t_cmd *tokens);
 void	signal_handler_interactive(int signum);
 void	get_out_type(t_msh *msh, t_cmd *cmds);
 int		get_token_len(char *cmd, t_env *env);

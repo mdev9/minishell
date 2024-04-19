@@ -6,7 +6,11 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
+<<<<<<< HEAD
 /*   Updated: 2024/04/19 09:45:21 by tomoron          ###   ########.fr       */
+=======
+/*   Updated: 2024/04/19 13:33:50 by marde-vr         ###   ########.fr       */
+>>>>>>> 7ae7a09 (fixed priorities and return codes)
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,7 +38,7 @@ void	redirect_output(t_msh *msh, int i)
 	}
 }
 
-void	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
+int	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 {
 	if (msh->out_type == RED_O)
 		msh->out_fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
@@ -42,10 +46,9 @@ void	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 		msh->out_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
 	if (msh->out_fd == -1)
 	{
-		g_return_code = 1;
 		ft_putstr_fd("minishell: ", 2);
 		perror(filename);
-		return ;
+		return (1);
 	}
 	if ((*cur_cmd)->cmd_type != PIPE)
 	{
@@ -54,6 +57,7 @@ void	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 		if ((*cur_cmd)->next && is_output_type((*cur_cmd)->next))
 			get_out_type(msh, *cur_cmd);
 	}
+	return (0);
 }
 
 void	get_out_type(t_msh *msh, t_cmd *cmds)
