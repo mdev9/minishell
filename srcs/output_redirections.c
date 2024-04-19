@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 19:10:52 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 09:45:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,7 +80,7 @@ void	get_out_type(t_msh *msh, t_cmd *cmds)
 			&& cur_cmd->cmd_type != PIPE)
 	{
 		msh->out_type = cur_cmd->cmd_type;
-		filename = parse_command(cur_cmd->value, msh->env);
+		filename = parse_tokens(cur_cmd->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
 		open_out_file(msh, &cur_cmd, filename->value);

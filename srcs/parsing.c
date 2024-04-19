@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:43:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -58,7 +58,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	return (res);
 }
 
-t_token	*parse_command(char *command, t_env *env)
+t_token	*parse_tokens(char *command, t_env *env)
 {
 	int		in_quote;
 	int		in_dquote;
@@ -80,4 +80,22 @@ t_token	*parse_command(char *command, t_env *env)
 	if (command && (in_quote || in_dquote))
 		return (parsing_syntax_error(res));
 	return (res);
+}
+
+t_token *parse_cmds_to_token(t_cmd *command, t_env *env)
+{
+	t_token *res;
+	t_token *new;
+
+	res = 0;
+	while(command && (is_cmd_type(command) || is_output_type(command) || is_input_type(command)))
+	{
+		if(is_cmd_type(command))
+		{
+			new = parse_tokens(command->value, env); 
+			res = add_token_back(res, new);
+		}
+		command = command->next;
+	}
+	return(res);
 }

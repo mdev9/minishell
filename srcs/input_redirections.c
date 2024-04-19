@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 09:43:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	open_input_file(t_msh *msh, t_cmd **cur_token)
 	{
 		if (msh->in_fd != 0)
 			close(msh->in_fd);
-		filename = parse_command((*cur_token)->value, msh->env);
+		filename = parse_tokens((*cur_token)->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
 		msh->in_fd = open(filename->value, O_RDONLY);

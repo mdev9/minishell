@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 21:06:26 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:44:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -52,10 +52,10 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		{
 			if (is_operand_type(cmds))
 				cmds = cmds->next;
-			msh->tokens = parse_command(cmds->value, msh->env);
+			msh->tokens = parse_cmds_to_token(cmds, msh->env);
 			msh->cmds = cmds;
 			//print_msh_struct(msh);           // debug
-			//print_parsed_token(msh->tokens); // debug
+			print_parsed_token(msh->tokens); // debug
 			exec_commands(msh);
 			msh->in_fd = 0;
 			msh->out_fd = 0;
@@ -118,7 +118,10 @@ int	get_cmd_count(t_cmd *cmds)
 	{
 		if (is_cmd_type(cmds))
 			nb++;
-		cmds = cmds->next;
+		while(cmds && (is_output_type(cmds) || is_input_type(cmds) || is_cmd_type(cmds)))
+			cmds=cmds->next;
+		if(cmds && cmds->cmd_type == PIPE)
+			cmds = cmds->next;
 	}
 	return (nb);
 }

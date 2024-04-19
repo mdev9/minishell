@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:57 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:40:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -149,7 +149,7 @@ int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
 		ft_putstr_fd("minishell : syntax error\n", 2);
 		return (0);
 	}
-	token = parse_command(cmd->value, 0);
+	token = parse_cmds_to_token(cmd, 0);
 	if (!token)
 		return (0);
 	free_token(token);
@@ -172,7 +172,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 			&& cmds->value == 0)
 			return (cmds);
 		if (is_operand_type(cmds) || cmds->cmd_type == PIPE)
-			if (!is_cmd_type(last) || !cmds->next || !is_cmd_type(cmds->next))
+			if ((!is_cmd_type(last) && !is_output_type(last) && !is_input_type(last)) || !cmds->next || (!is_cmd_type(cmds->next) && !is_output_type(cmds->next) && !is_input_type(cmds->next)))
 				return (cmds);
 		if (is_cmd_type(cmds))
 			if (!check_tokens_syntax(cmds, last))

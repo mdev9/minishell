@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/17 10:13:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 10:39:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,7 +86,9 @@ t_env	*env_add_back(t_env *env, char *name, char *value);
 void	exec_command_bonus(t_msh *msh, char *cmd_str);
 int		cmd_is_builtin(t_msh *msh, char *cmd_token);
 void	child(t_msh *msh, char **cmd_args, int i);
-t_token	*parse_command(char *command, t_env *env);
+t_token	*parse_tokens(char *command, t_env *env);
+t_token	*add_token_back(t_token *res, t_token *next);
+t_token *parse_cmds_to_token(t_cmd *command, t_env *env);
 void	parent(t_msh *msh, int i, int cmd_count);
 char	*ft_get_env(t_env *env, char *var_name);
 int		is_fd_open(int fd);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:22:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:51 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:40:13 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,7 @@ void	remove_command_from_msh(t_msh *msh)
 	while (tmp && !is_cmd_type(tmp))
 		tmp = tmp->next;
 	if (tmp)
-		msh->tokens = parse_command(tmp->value, msh->env);
+		msh->tokens = parse_cmds_to_token(tmp, msh->env);
 	else
 		msh->tokens = 0;
 }

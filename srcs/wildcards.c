@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/19 10:55:20 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -49,14 +49,17 @@ t_token	*get_all_files(DIR *dir, char *wildcard)
 	return (res);
 }
 
-t_token	*wildcards_add_back(t_token *res, t_token *next)
+t_token	*add_token_back(t_token *res, t_token *next)
 {
+	t_token *start;
+
 	if (!res)
 		return (next);
+	start = res;
 	while (res->next)
 		res = res->next;
 	res->next = next;
-	return (res);
+	return (start);
 }
 
 t_token	*expand_wildcards(t_token *res, char *value)
@@ -80,6 +83,6 @@ t_token	*expand_wildcards(t_token *res, char *value)
 		return (token_add_back(res, value));
 	free(value);
 	sort_wildcards_token(new);
-	res = wildcards_add_back(res, new);
+	res = add_token_back(res, new);
 	return (res);
 }
