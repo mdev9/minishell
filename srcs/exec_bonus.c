@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 17:56:35 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/19 17:59:31 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -49,6 +49,8 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	t_cmd	*cmds;
 	t_cmd	*tmp;
 
+	if(!cmd_str)
+		return ;
 	cmds = parsing_bonus(cmd_str);
 	//print_parsed_cmd(cmds); // debug
 	tmp = check_cmds_syntax(cmds);
