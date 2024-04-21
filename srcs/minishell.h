@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 18:49:27 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/21 23:24:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -140,7 +140,7 @@ int		set_echoctl(int value);
 int is_output_type(t_cmd *cmd);
 int		print_env(t_env *env);
 t_cmd	*free_cmd(t_cmd *cmd);
-int		ft_export(t_msh *msh);
+int		ft_export(t_token *cmd, t_env *env);
 int is_input_type(t_cmd *cmd);
 void	free_env(t_env *env);
 int		ft_unset(t_msh *msh);

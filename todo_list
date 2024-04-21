@@ -1,10 +1,3 @@
- "(core dumped)" si WCOREDUMP 
-
-export += 
 export sort
-here doc in fork
 
 pipe with parenthesis
-
-LEAKS
-add cmds_head in msh_struct to free in runtime

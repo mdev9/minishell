@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/19 18:52:13 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/21 21:56:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,6 @@ void	free_msh(t_msh *msh)
 		free_cmd(msh->cmds_head);
 		free_fds(msh);
 		free_token(msh->tokens);
-		set_echoctl(msh->echoctl);
 		free(msh);
 	}
 }
@@ -48,6 +47,7 @@ void	ft_exit(t_msh *msh, int exit_code)
 {
 	//ft_printf("exiting");
 	free_msh(msh);
+	set_echoctl(msh->echoctl);
 	exit(exit_code);
 }
 

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/19 19:55:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/21 23:46:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ void	print_env_declare(t_env *env)
 	{
 		if (strcmp(env->name, "_"))
 		{
-			if (*(env->value))
+			if (env->value && *(env->value))
 				printf("declare -x %s=\"%s\"\n", env->name, env->value);
 			else
 				printf("declare -x %s\n", env->name);
@@ -36,33 +36,65 @@ int	export_invalid_identifier(char *arg, char *name)
 	return (1);
 }
 
-int	ft_export(t_msh *msh)
+t_env *export_set_env(t_env *env, char *name, char *value, int append)
 {
-	t_token	*cmd;
+	t_env *tmp;
+
+	tmp = env;
+	if(!value)
+	{
+		free(name);
+		ft_printf_fd(2, "minishell: malloc failed");
+		return(env);
+	}
+	while(tmp)
+	{
+		if(!ft_strcmp(name, tmp->name))
+		{
+			free(name);
+			if(!*value)
+			{
+				free(value);
+				return(env);
+			}
+			if(append)
+				value = ft_strjoin_free(tmp->value, value, 2);
+			if(!value)
+				return(env);
+			free(tmp->value);
+			tmp->value = value;
+			return(env);
+		}
+		tmp = tmp->next;
+	}
+	return(env_add_back(env, name, value));
+}
+
+int	ft_export(t_token *cmd, t_env *env)
+{
 	char	*arg;
 	char	*name;
 	char	*value;
 	int		len;
+	int		append;
 
-	cmd = msh->tokens;
 	if (cmd && !cmd->next)
-		print_env_declare(msh->env);
+		print_env_declare(env);
 	if (cmd && cmd->next && !cmd->next->next)
 	{
 		arg = cmd->next->value;
 		len = 0;
-		while (arg[len] && arg[len] != '=')
+		while (arg[len] && arg[len] != '=' && arg[len] != '+')
 			len++;
 		name = ft_substr(arg, 0, len);
-		if (!name || !check_var_name(name))
+		append = arg[len] == '+';
+		if (arg[len] == '=' || (arg[len] == '+' && arg[len + 1] == '='))
+			len += 1 + (arg[len] == '+');
+		if (!name || !check_var_name(name) || arg[len] == '+')
 			return (export_invalid_identifier(arg, name));
-		if (arg[len])
-			len++;
 		value = ft_strdup(arg + len);
-		msh->env = env_add_back(msh->env, name, value);
+		env = export_set_env(env, name, value, append);
 	}
-	//export +=
-	//replacer si ça existe deja sauf si il y a pas de =
 	return (0);
 }
 

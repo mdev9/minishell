@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 20:50:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/21 21:52:10 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,32 +142,29 @@ int	get_cmd_count(t_cmd *cmds)
 void	print_signaled(int status)
 {
 	int signal;
-	int print;
-	static const char *sigmsg[] = {0, "Hangup",0, "Quit", "Illegal instruction",\
-	"Trace/breakpoint trap", "Aborted", "Bus error",\
-	"Floating point exception", "Killed", "User defined signal 1",\
-	"Segmentation fault","User defined signal 2", 0, "Alarm clock",\
-	"Terminated","Stack fault" , 0 , 0, "Stopped", "Stopped","Stopped",\
-	"Stopped",0 , "CPU time limit exceeded","File size limit exceeded", \
-	"Virtual time expired", "Profiling timer expired",\
+	static const char *sigmsg[] = {0,  "Hangup", 0,  "Quit", \
+	"Illegal instruction", "Trace/breakpoint trap", "Aborted", "Bus error", \
+	"Floating point exception", "Killed", "User defined signal 1", \
+	"Segmentation fault", "User defined signal 2", 0, "Alarm clock", \
+	"Terminated", "Stack fault" ,0 ,0, "Stopped", "Stopped","Stopped", \
+	"Stopped", 0, "CPU time limit exceeded","File size limit exceeded", \
+	"Virtual time expired", "Profiling timer expired", \
 	"I/O possible", "Power failure", "Bad system call"};
 
 	signal = WTERMSIG(status);
-	print = 0;
 	if(signal < 31 && sigmsg[signal])
 	{
 		ft_putstr_fd((char *)sigmsg[signal], 2);
-		print = 1;
 	}
 	if(signal >= 34 && signal <= 64)
 	{
 		ft_putstr_fd("Real-time signal ", 2);
 		ft_putnbr_fd(signal - 34, 2);
-		print = 1;
-
 	}
-	if(print)
-		ft_putstr_fd("\n", 2);
+	if(WCOREDUMP(status))
+		ft_putstr_fd(" (core dumped)", 2);
+	ft_putstr_fd("\n", 2);
+	g_return_code = signal + 128; 
 }
 
 void	end_execution(t_msh *msh, int cmd_count)
@@ -178,20 +175,26 @@ void	end_execution(t_msh *msh, int cmd_count)
 	i = 0;
 	while (i < cmd_count)
 			waitpid(msh->pids[i++], &status, 0);
-	if (!g_return_code && WIFEXITED(status))
+	if (WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		print_signaled(status);
-	// TODO: (core dumped) WCOREDUMP
 	free(msh->pids);
 	free_fds(msh);
 	msh->pids = 0;
 	free(msh->fds);
-	// signal(SIGINT, signal_handler_interactive); //enables ctrl-C
+	signal(SIGINT, signal_handler_interactive); //enables ctrl-C
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
 }
 
+int handle_parenthesis(t_msh *msh)
+{
+	if(!(msh->cmds->cmd_type == PAREN || (msh->cmds->cmd_type == PIPE && msh->cmds->next->cmd_type == PAREN)))
+		return(0);
+	
+	return(1);	
+}
 
 void	exec_commands(t_msh *msh)
 {
@@ -201,7 +204,6 @@ void	exec_commands(t_msh *msh)
 	if (!msh->tokens)
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
-	//printf("cmd_count : %d\n", cmd_count);
 	msh->fds = ft_calloc(cmd_count + 1, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
@@ -210,11 +212,8 @@ void	exec_commands(t_msh *msh)
 	while (i < cmd_count)
 	{
 		get_redirections(msh, msh->cmds);
-		//fprintf(stderr, "command: %s, in_type: %d, out_type: %d\n", msh->cmds->value, msh->in_type, msh->out_type);
 		exec_command(msh, i, cmd_count);
-		//free(msh->fds[i]);
 		i++;
 	}
 	end_execution(msh, cmd_count);	
 }
-
