@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/19 20:50:56 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/21 23:58:44 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -79,7 +79,7 @@ clean:
 	@rm -rf $(OBJS_DIR)
 	@make --no-print-directory -C ./libft fclean
 	@if [ ! $(USER) = "marde-vr" ];then\
-		bash -c 'gamma=0;while (( $$(echo "$$gamma < 1" | bc -l) )); do gamma=$$(echo "$$gamma + 0.1" | bc);xrandr --output "HDMI-1-2" --brightness $$gamma;done';\
+		bash -c 'gamma=0;while (( $$(echo "$$gamma < 1" | bc -l) )); do gamma=$$(echo "$$gamma + 0.1" | bc);xrandr --output "HDMI-1-2" --brightness $$gamma;done&';\
 	fi
 
 bonus: all
