@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 10:43:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:37:26 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 		else if (**cmd == '~' && !*in_quote && !*in_dquote)
 			i += add_home_to_str(res + i);
 		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
-						|| (**cmd != '\'' && **cmd != '"'))
+			|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
 	}
@@ -82,20 +82,21 @@ t_token	*parse_tokens(char *command, t_env *env)
 	return (res);
 }
 
-t_token *parse_cmds_to_token(t_cmd *command, t_env *env)
+t_token	*parse_cmds_to_token(t_cmd *command, t_env *env)
 {
-	t_token *res;
-	t_token *new;
+	t_token	*res;
+	t_token	*new;
 
 	res = 0;
-	while(command && (is_cmd_type(command) || is_output_type(command) || is_input_type(command)))
+	while (command && (is_cmd_type(command) || is_output_type(command)
+			|| is_input_type(command)))
 	{
-		if(is_cmd_type(command))
+		if (is_cmd_type(command))
 		{
-			new = parse_tokens(command->value, env); 
+			new = parse_tokens(command->value, env);
 			res = add_token_back(res, new);
 		}
 		command = command->next;
 	}
-	return(res);
+	return (res);
 }

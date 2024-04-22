@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:12:32 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:42:05 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,6 @@ void	redirect_output(t_msh *msh, int i, char **cmd_args)
 			free(cmd_args);
 			ft_exit(msh, 1);
 		}
-
 	}
 	else
 	{
@@ -66,7 +65,8 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 	msh->out_fd = 0;
 	ret = 0;
 	cur_cmd = cmds;
-	while (cur_cmd && cur_cmd->next && (!is_cmd_type(cur_cmd) && !is_output_type(cur_cmd)))
+	while (cur_cmd && cur_cmd->next && (!is_cmd_type(cur_cmd)
+			&& !is_output_type(cur_cmd)))
 		cur_cmd = cur_cmd->next;
 	while (cur_cmd && cur_cmd->next && !is_output_type(cur_cmd)
 		&& !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
@@ -74,7 +74,7 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 	if (cur_cmd && (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN))
 		msh->out_type = 0;
 	else if (cur_cmd && is_output_type(cur_cmd) && !is_operand_type(cur_cmd)
-			&& cur_cmd->cmd_type != PIPE)
+		&& cur_cmd->cmd_type != PIPE)
 	{
 		msh->out_type = cur_cmd->cmd_type;
 		filename = parse_tokens(cur_cmd->value, msh->env);
@@ -85,5 +85,5 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 	}
 	else if (cur_cmd && cur_cmd->cmd_type == PIPE)
 		msh->out_type = PIPE;
-	return(ret);
+	return (ret);
 }

@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 10:55:20 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:28:13 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -51,7 +51,7 @@ t_token	*get_all_files(DIR *dir, char *wildcard)
 
 t_token	*add_token_back(t_token *res, t_token *next)
 {
-	t_token *start;
+	t_token	*start;
 
 	if (!res)
 		return (next);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/21 23:46:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:31:12 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,38 +36,38 @@ int	export_invalid_identifier(char *arg, char *name)
 	return (1);
 }
 
-t_env *export_set_env(t_env *env, char *name, char *value, int append)
+t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 {
-	t_env *tmp;
+	t_env	*tmp;
 
 	tmp = env;
-	if(!value)
+	if (!value)
 	{
 		free(name);
 		ft_printf_fd(2, "minishell: malloc failed");
-		return(env);
+		return (env);
 	}
-	while(tmp)
+	while (tmp)
 	{
-		if(!ft_strcmp(name, tmp->name))
+		if (!ft_strcmp(name, tmp->name))
 		{
 			free(name);
-			if(!*value)
+			if (!*value)
 			{
 				free(value);
-				return(env);
+				return (env);
 			}
-			if(append)
+			if (append)
 				value = ft_strjoin_free(tmp->value, value, 2);
-			if(!value)
-				return(env);
+			if (!value)
+				return (env);
 			free(tmp->value);
 			tmp->value = value;
-			return(env);
+			return (env);
 		}
 		tmp = tmp->next;
 	}
-	return(env_add_back(env, name, value));
+	return (env_add_back(env, name, value));
 }
 
 int	ft_export(t_token *cmd, t_env *env)

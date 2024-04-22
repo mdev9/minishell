@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:13:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:30:03 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,6 @@ typedef struct s_cmd
 	struct s_cmd	*next;
 }	t_cmd;
 
-
 typedef struct s_token
 {
 	char			*value;
@@ -83,7 +82,7 @@ void	*here_doc_variables(int write, int index, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 t_env	*env_add_back(t_env *env, char *name, char *value);
-t_token *parse_cmds_to_token(t_cmd *command, t_env *env);
+t_token	*parse_cmds_to_token(t_cmd *command, t_env *env);
 void	exec_command_bonus(t_msh *msh, char *cmd_str);
 t_token	*add_token_back(t_token *res, t_token *next);
 t_token	*expand_wildcards(t_token *res, char *value);
@@ -137,13 +136,13 @@ void	exec_commands(t_msh *msh);
 char	*get_var_name(char *str);
 int		exec_builtin(t_msh *msh);
 void	get_cmd_path(t_msh *msh);
-int is_operand_type(t_cmd *cmd);
+int		is_operand_type(t_cmd *cmd);
 int		set_echoctl(int value);
-int is_output_type(t_cmd *cmd);
+int		is_output_type(t_cmd *cmd);
 int		print_env(t_env *env);
 t_cmd	*free_cmd(t_cmd *cmd);
 int		ft_export(t_token *cmd, t_env *env);
-int is_input_type(t_cmd *cmd);
+int		is_input_type(t_cmd *cmd);
 void	free_env(t_env *env);
 int		ft_unset(t_msh *msh);
 void	free_fds(t_msh *msh);
@@ -151,7 +150,7 @@ void	free_msh(t_msh *msh);
 void	free_msh(t_msh *msh);
 int		echo(t_token *args);
 int		exit_bt(t_msh *msh);
-int is_cmd_type(t_cmd *cmd);
+int		is_cmd_type(t_cmd *cmd);
 int		is_cmd_char(char c);
 int		cd(t_token *args);
 int		pwd(void);

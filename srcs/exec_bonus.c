@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:18:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:55:41 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,28 +26,22 @@ void	get_redirections(t_msh *msh, t_cmd *cmds)
 		if (!get_out_type(msh, cmds))
 			get_in_type(msh, cmds);
 	}
-	/*
-	printf("in_type:");
-	print_cmd_type(msh->in_type, 0);
-	printf("\nout_type:");
-	print_cmd_type(msh->out_type, 0);
-	printf("\n");*/
 }
 
 t_cmd	*get_next_command(t_cmd *cmd)
 {
-	while(cmd)
+	while (cmd)
 	{
-		while(cmd && !is_operand_type(cmd))
+		while (cmd && !is_operand_type(cmd))
 			cmd = cmd->next;
-		if(cmd && cmd->cmd_type == AND && !g_return_code)
-			return(cmd->next);
-		if(cmd && cmd->cmd_type == OR && g_return_code)
-			return(cmd->next);
-		if(cmd)
+		if (cmd && cmd->cmd_type == AND && !g_return_code)
+			return (cmd->next);
+		if (cmd && cmd->cmd_type == OR && g_return_code)
+			return (cmd->next);
+		if (cmd)
 			cmd = cmd->next;
 	}
-	return(0);
+	return (0);
 }
 
 void	exec_command_bonus(t_msh *msh, char *cmd_str)
@@ -55,26 +49,21 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 	t_cmd	*cmds;
 	t_cmd	*tmp;
 
-	if(!cmd_str)
+	if (!cmd_str)
 		return ;
 	cmds = parsing_bonus(cmd_str);
-	//print_parsed_cmd(cmds); // debug
 	tmp = check_cmds_syntax(cmds);
 	if (tmp)
 	{
 		print_syntax_error_bonus(tmp);
-		//printf("error\n"); // debug
 		free_cmd(cmds);
 		return ;
 	}
 	msh->cmds_head = cmds;
 	while (cmds)
 	{
-		//print_parsed_cmd(cmds); // debug
 		msh->tokens = parse_cmds_to_token(cmds, msh->env);
 		msh->cmds = cmds;
-		//print_msh_struct(msh);           // debug
-		//print_parsed_token(msh->tokens); // debug
 		exec_commands(msh);
 		msh->in_fd = 0;
 		msh->out_fd = 0;
@@ -89,14 +78,12 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 	if (i != cmd_count - 1)
 	{
-		//fprintf(stderr, "piping %d", i);
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
 			free(cmd_args);
 			ft_exit(msh, 1);
 		}
-		//fprintf(stderr, "pipe: msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
 	}
 	pid = fork();
 	if (pid == -1)
@@ -136,13 +123,14 @@ int	get_cmd_count(t_cmd *cmds)
 	nb = 0;
 	while (cmds && !is_operand_type(cmds))
 	{
-		while(cmds && (is_output_type(cmds) || is_input_type(cmds)))
-			cmds=cmds->next;
+		while (cmds && (is_output_type(cmds) || is_input_type(cmds)))
+			cmds = cmds->next;
 		if (is_cmd_type(cmds))
 			nb++;
-		while(cmds && (is_output_type(cmds) || is_input_type(cmds) || is_cmd_type(cmds)))
-			cmds=cmds->next;
-		if(cmds && cmds->cmd_type == PIPE)
+		while (cmds && (is_output_type(cmds) || is_input_type(cmds)
+				|| is_cmd_type(cmds)))
+			cmds = cmds->next;
+		if (cmds && cmds->cmd_type == PIPE)
 			cmds = cmds->next;
 	}
 	return (nb);
@@ -150,31 +138,31 @@ int	get_cmd_count(t_cmd *cmds)
 
 void	print_signaled(int status)
 {
-	int signal;
-	static const char *sigmsg[] = {0,  "Hangup", 0,  "Quit", \
-	"Illegal instruction", "Trace/breakpoint trap", "Aborted", "Bus error", \
-	"Floating point exception", "Killed", "User defined signal 1", \
-	"Segmentation fault (skill issue)", "User defined signal 2", 0,\
-	"Alarm clock",	"Terminated", "Stack fault" ,0 ,0, "Stopped", "Stopped",\
-	"Stopped", "Stopped", 0, "CPU time limit exceeded",\
-		"File size limit exceeded", "Virtual time expired",\
-	"Profiling timer expired","I/O possible", "Power failure",\
-	"Bad system call"};
+	int					signal;
+	static const char	*sigmsg[] = {0, "Hangup", 0, "Quit", "Illegal \
+		instruction", "Trace/breakpoint trap", "Aborted", "Bus error",
+		"Floating point exception", "Killed", "User defined signal 1",
+		"Segmentation fault (skill issue)", "User defined signal 2", 0,
+		"Alarm clock", "Terminated", "Stack fault", 0, 0, "Stopped", "Stopped",
+		"Stopped", "Stopped", 0, "CPU time limit exceeded",
+		"File size limit exceeded", "Virtual time expired",
+		"Profiling timer expired", "I/O possible", "Power failure",
+		"Bad system call"};
 
 	signal = WTERMSIG(status);
-	if(signal < 31 && sigmsg[signal])
+	if (signal < 31 && sigmsg[signal])
 	{
 		ft_putstr_fd((char *)sigmsg[signal], 2);
 	}
-	if(signal >= 34 && signal <= 64)
+	if (signal >= 34 && signal <= 64)
 	{
 		ft_putstr_fd("Real-time signal ", 2);
 		ft_putnbr_fd(signal - 34, 2);
 	}
-	if(WCOREDUMP(status))
+	if (WCOREDUMP(status))
 		ft_putstr_fd(" (core dumped)", 2);
 	ft_putstr_fd("\n", 2);
-	g_return_code = signal + 128; 
+	g_return_code = signal + 128;
 }
 
 void	end_execution(t_msh *msh, int cmd_count)
@@ -185,7 +173,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	i = 0;
 	status = 0;
 	while (i < cmd_count)
-			waitpid(msh->pids[i++], &status, 0);
+		waitpid(msh->pids[i++], &status, 0);
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
@@ -194,17 +182,17 @@ void	end_execution(t_msh *msh, int cmd_count)
 	free_fds(msh);
 	msh->pids = 0;
 	free(msh->fds);
-	signal(SIGINT, signal_handler_interactive); //enables ctrl-C
+	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	set_echoctl(0);
 }
 
-int handle_parenthesis(t_msh *msh)
+int	handle_parenthesis(t_msh *msh)
 {
-	if(!(msh->cmds->cmd_type == PAREN || (msh->cmds->cmd_type == PIPE && msh->cmds->next->cmd_type == PAREN)))
-		return(0);
-	
-	return(1);	
+	if (!(msh->cmds->cmd_type == PAREN || (msh->cmds->cmd_type == PIPE
+				&& msh->cmds->next->cmd_type == PAREN)))
+		return (0);
+	return (1);
 }
 
 void	exec_commands(t_msh *msh)
@@ -226,5 +214,5 @@ void	exec_commands(t_msh *msh)
 		exec_command(msh, i, cmd_count);
 		i++;
 	}
-	end_execution(msh, cmd_count);	
+	end_execution(msh, cmd_count);
 }

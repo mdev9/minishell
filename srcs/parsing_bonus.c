@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 10:40:51 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:38:45 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -126,6 +126,7 @@ char	*get_cmd_value(char **cmd, t_cmd_type type)
 		(*cmd)++;
 	return (res);
 }
+
 void	print_syntax_error_bonus(t_cmd *cmd)
 {
 	if (cmd->cmd_type == CMD || cmd->cmd_type == PAREN)
@@ -204,6 +205,7 @@ int	get_next_arg_len(char *cmd)
 	}
 	return (len);
 }
+
 char	*get_next_arg(char **cmd)
 {
 	int		len;
@@ -236,7 +238,7 @@ t_cmd	*parsing_bonus(char *cmd)
 		if (type == CMD || type == PAREN)
 			value = get_cmd_value(&cmd, type);
 		else if (type == RED_O || type == RED_O_APP || type == RED_I
-				|| type == HERE_DOC)
+			|| type == HERE_DOC)
 			value = get_next_arg(&cmd);
 		else
 			value = 0;

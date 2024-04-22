@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/17 09:12:33 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:49:00 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 19:30:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,8 +42,8 @@ void	sort_wildcards_token(t_token *list)
 		list = start;
 		while (list->next)
 		{
-			if (wildcard_cmp(list->value, list->next->value,
-					"zZyYxXwWvVuUtTsSrRqQpPoOnNmMlLkKjJiIhHgGfFeEdDcCbBaA9876543210") > 0)
+			if (wildcard_cmp(list->value, list->next->value, \
+"zZyYxXwWvVuUtTsSrRqQpPoOnNmMlLkKjJiIhHgGfFeEdDcCbBaA9876543210") > 0)
 			{
 				swap = list->value;
 				list->value = list->next->value;
