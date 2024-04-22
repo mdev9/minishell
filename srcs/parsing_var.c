@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 14:46:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:31:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,5 +103,5 @@ int	add_var_to_str(char *res, char **command, t_env *env)
 	while (var && var[i++])
 		res[i - 1] = var[i - 1];
 	*command += get_var_name_len(*command) - 1;
-	return (i);
+	return (i - 1);
 }
