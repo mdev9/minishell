@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 15:39:40 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 16:43:18 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -152,11 +152,12 @@ void	print_signaled(int status)
 	static const char *sigmsg[] = {0,  "Hangup", 0,  "Quit", \
 	"Illegal instruction", "Trace/breakpoint trap", "Aborted", "Bus error", \
 	"Floating point exception", "Killed", "User defined signal 1", \
-	"Segmentation fault", "User defined signal 2", 0, "Alarm clock", \
-	"Terminated", "Stack fault" ,0 ,0, "Stopped", "Stopped","Stopped", \
-	"Stopped", 0, "CPU time limit exceeded","File size limit exceeded", \
-	"Virtual time expired", "Profiling timer expired", \
-	"I/O possible", "Power failure", "Bad system call"};
+	"Segmentation fault (skill issue)", "User defined signal 2", 0,\
+	"Alarm clock",	"Terminated", "Stack fault" ,0 ,0, "Stopped", "Stopped",\
+	"Stopped", "Stopped", 0, "CPU time limit exceeded",\
+		"File size limit exceeded", "Virtual time expired",\
+	"Profiling timer expired","I/O possible", "Power failure",\
+	"Bad system call"};
 
 	signal = WTERMSIG(status);
 	if(signal < 31 && sigmsg[signal])
