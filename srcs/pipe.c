@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/21 23:49:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 12:47:51 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,8 +31,7 @@ void	execute_command(t_msh *msh, char **cmd_args)
 {
 	char	**env;
 
-	if (msh->tokens->value && (!ft_strcmp(msh->tokens->value, "cd")
-			|| !ft_strcmp(msh->tokens->value, "exit") || exec_builtin(msh)))
+	if (exec_builtin(msh))
 	{
 		free(cmd_args);
 		ft_exit(msh, g_return_code);
