@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 12:47:51 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:20:25 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,6 +31,7 @@ void	execute_command(t_msh *msh, char **cmd_args)
 {
 	char	**env;
 
+	//if (cmd_is_forkable_builtin(msh->tokens->value))
 	if (exec_builtin(msh))
 	{
 		free(cmd_args);

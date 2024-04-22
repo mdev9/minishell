@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:50 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:28:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,6 @@ int	cd(t_token *args)
 	if (args->next && args->next->next)
 	{
 		fprintf(stderr, "minishell: cd: too many arguments\n");
-		g_return_code = 1;
 		return (1);
 	}
 	if (!args->next)
@@ -29,7 +28,7 @@ int	cd(t_token *args)
 	if (chdir(new_wd) == -1)
 	{
 		perror("minishell: cd");
-		g_return_code = 1;
+		return (1);
 	}
 	return (0);
 }
