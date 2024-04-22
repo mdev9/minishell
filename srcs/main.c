@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 20:01:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 18:39:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,6 +20,8 @@ char	*get_prompt(t_env *env)
 	char	cwd_buffer[100];
 	char	*cwd;
 
+	if(!isatty(0))
+		return(ft_strdup(""));
 	res = ft_strjoin_free("\001", ft_get_color(10, 255, 80), 2);
 	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	if (getenv("USER"))
