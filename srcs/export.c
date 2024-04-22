@@ -6,14 +6,59 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 19:31:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 23:02:44 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_env_declare(t_env *env)
+t_env	*dup_env(t_env *env)
 {
+	t_env *res;
+
+	res = 0;
+	while(env)
+	{
+		res = env_add_back(res, env->name, env->value);
+		env = env->next;
+	}
+	return(res);
+}
+
+void	sort_env(t_env *env)
+{
+	t_env *tmp;
+	t_env *start;
+	char *tmp_str;
+
+	tmp = env;
+	start = env;
+	while(tmp)
+	{
+		env = start;
+		while(env)
+		{
+			if(ft_strcmp(tmp->name, env->name) < 0)
+			{
+				tmp_str = tmp->name;
+				tmp->name = env->name;
+				env->name = tmp_str;
+				tmp_str = tmp->value;
+				tmp->value = env->value;
+				env->value = tmp_str;
+			}
+			env = env->next;
+		}
+		tmp = tmp->next;
+	}
+}
+
+void	print_env_declare(t_env *env_orig)
+{
+	t_env *env;
+
+	env = dup_env(env_orig);
+	sort_env(env);
 	while (env)
 	{
 		if (strcmp(env->name, "_"))
