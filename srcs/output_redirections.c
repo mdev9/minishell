@@ -6,30 +6,30 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/19 14:10:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:12:32 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
-#include <stdio.h>
 
-void	redirect_output(t_msh *msh, int i)
+void	redirect_output(t_msh *msh, int i, char **cmd_args)
 {
 	if (msh->out_type != PIPE)
 	{
-		//fprintf(stderr, "redirecting output\n");
 		if (dup2(msh->out_fd, 1) < 0)
+		{
+			free(cmd_args);
 			ft_exit(msh, 1);
+		}
+
 	}
 	else
 	{
-		//fprintf(stderr, "redirecting pipe output\n");
-		//sleep(1);
 		if (dup2(msh->fds[i][1], 1) < 0)
 		{
 			perror("dup2");
-			//fprintf(stderr, "exiting\n");
-			//ft_exit(msh, 1);
+			free(cmd_args);
+			ft_exit(msh, 1);
 		}
 	}
 }
@@ -51,7 +51,7 @@ int	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 		while ((*cur_cmd)->next && is_cmd_type((*cur_cmd)->next))
 			*cur_cmd = (*cur_cmd)->next;
 		if ((*cur_cmd)->next && is_output_type((*cur_cmd)->next))
-			get_out_type(msh, *cur_cmd);
+			get_out_type(msh, (*cur_cmd)->next);
 	}
 	return (0);
 }
@@ -66,17 +66,12 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 	msh->out_fd = 0;
 	ret = 0;
 	cur_cmd = cmds;
-	while (cur_cmd && !is_cmd_type(cur_cmd))
+	while (cur_cmd && cur_cmd->next && (!is_cmd_type(cur_cmd) && !is_output_type(cur_cmd)))
 		cur_cmd = cur_cmd->next;
 	while (cur_cmd && cur_cmd->next && !is_output_type(cur_cmd)
 		&& !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
-	{
-		//fprintf(stderr, "%s: %d\n", cur_cmd->value, cur_cmd->cmd_type);
 		cur_cmd = cur_cmd->next;
-	}
-	//if (cur_cmd)
-	//fprintf(stderr, "%s: %d\n", cur_cmd->value, cur_cmd->cmd_type);
-	if (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN)
+	if (cur_cmd && (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN))
 		msh->out_type = 0;
 	else if (cur_cmd && is_output_type(cur_cmd) && !is_operand_type(cur_cmd)
 			&& cur_cmd->cmd_type != PIPE)

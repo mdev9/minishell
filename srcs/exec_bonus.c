@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 16:43:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 19:18:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,12 +26,12 @@ void	get_redirections(t_msh *msh, t_cmd *cmds)
 		if (!get_out_type(msh, cmds))
 			get_in_type(msh, cmds);
 	}
-
+	/*
 	printf("in_type:");
 	print_cmd_type(msh->in_type, 0);
 	printf("\nout_type:");
 	print_cmd_type(msh->out_type, 0);
-	printf("\n");
+	printf("\n");*/
 }
 
 t_cmd	*get_next_command(t_cmd *cmd)
@@ -93,6 +93,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 		if (pipe(msh->fds[i]) == -1)
 		{
 			perror("minishell: pipe");
+			free(cmd_args);
 			ft_exit(msh, 1);
 		}
 		//fprintf(stderr, "pipe: msh->fds[%d][0]: %d, msh->fds[%d][1]: %d\n", i, msh->fds[i][0], i, msh->fds[i][1]);
@@ -101,6 +102,7 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	if (pid == -1)
 	{
 		perror("minishell: fork");
+		free(cmd_args);
 		ft_exit(msh, 1);
 	}
 	if (pid == 0)
@@ -132,10 +134,10 @@ int	get_cmd_count(t_cmd *cmds)
 	int	nb;
 
 	nb = 0;
-	while(cmds && (is_output_type(cmds) || is_input_type(cmds)))
-		cmds=cmds->next;
 	while (cmds && !is_operand_type(cmds))
 	{
+		while(cmds && (is_output_type(cmds) || is_input_type(cmds)))
+			cmds=cmds->next;
 		if (is_cmd_type(cmds))
 			nb++;
 		while(cmds && (is_output_type(cmds) || is_input_type(cmds) || is_cmd_type(cmds)))
