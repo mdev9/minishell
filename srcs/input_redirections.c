@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 16:42:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/22 16:47:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,6 +65,7 @@ int	get_in_type(t_msh *msh, t_cmd *tokens)
 
 	cur_token = tokens;
 	if (cur_token && cur_token->cmd_type == PIPE)
+	{
 		msh->in_type = PIPE;
 		cur_token = cur_token->next;
 	}
