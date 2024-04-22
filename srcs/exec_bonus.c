@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 12:40:41 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 15:39:40 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -26,6 +26,12 @@ void	get_redirections(t_msh *msh, t_cmd *cmds)
 		if (!get_out_type(msh, cmds))
 			get_in_type(msh, cmds);
 	}
+
+	printf("in_type:");
+	print_cmd_type(msh->in_type, 0);
+	printf("\nout_type:");
+	print_cmd_type(msh->out_type, 0);
+	printf("\n");
 }
 
 t_cmd	*get_next_command(t_cmd *cmd)
@@ -110,13 +116,14 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
-	//g_return_code = 0;
+	g_return_code = 0;
 	msh->fds[i] = ft_calloc(2, sizeof(int *));
 	if (!msh->fds[i])
 		ft_exit(msh, 1);
 	if (!cmd_is_builtin(msh, msh->tokens->value))
 		get_cmd_path(msh);
-	exec(msh, get_cmd_args(msh), i, cmd_count);
+	if (msh->tokens->value)
+		exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
 }
 
@@ -173,9 +180,10 @@ void	end_execution(t_msh *msh, int cmd_count)
 	int	status;
 
 	i = 0;
+	status = 0;
 	while (i < cmd_count)
 			waitpid(msh->pids[i++], &status, 0);
-	if (WIFEXITED(status))
+	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		print_signaled(status);

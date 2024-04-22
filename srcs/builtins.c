@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 13:38:41 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/22 13:40:49 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -59,6 +59,8 @@ int	exec_builtin(t_msh *msh)
 	else if (!ft_strcmp(msh->tokens->value, "cd"))
 		return (1);
 	else if (!ft_strcmp(msh->tokens->value, "export"))
+		return (1);
+	else if (!ft_strcmp(msh->tokens->value, "unset"))
 		return (1);
 	else
 		return (0);
