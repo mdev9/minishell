@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 19:39:03 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 10:56:19 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,12 +27,15 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	if (!cmd_token)
 		return (0);
 	else if ((msh->in_type == PIPE || msh->out_type == PIPE)
-		&& cmd_is_forkable_builtin(cmd_token))
+		&& cmd_is_forkable_builtin(cmd_token) && ft_strcmp(cmd_token, "export"))
 		return (1);
 	else if (!ft_strcmp(cmd_token, "cd"))
 		g_return_code = cd(msh->tokens);
 	else if (!ft_strcmp(cmd_token, "exit"))
 		g_return_code = exit_bt(msh);
+	else if (!ft_strcmp(cmd_token, "export") && (msh->out_type == PIPE 
+			|| msh->out_type == RED_O || msh->out_type == RED_O_APP))
+		ft_printf_fd(2, "print the thing into the pipe\n");
 	else if (!ft_strcmp(cmd_token, "export"))
 		g_return_code = ft_export(msh->tokens, msh->env);
 	else if (!ft_strcmp(cmd_token, "unset"))
@@ -58,7 +61,11 @@ int	exec_builtin(t_msh *msh)
 		g_return_code = pwd();
 	else if (!ft_strcmp(msh->tokens->value, "cd"))
 		return (1);
+	else if (!ft_strcmp(msh->tokens->value, "export") && (msh->out_type == PIPE 
+			|| msh->out_type == RED_O || msh->out_type == RED_O_APP))
+		ft_printf_fd(2, "catch the printed stuff and put it write it into file\n");
 	else if (!ft_strcmp(msh->tokens->value, "export"))
+		//g_return_code = ft_export(msh->tokens, msh->env);
 		return (1);
 	else if (!ft_strcmp(msh->tokens->value, "unset"))
 		return (1);
