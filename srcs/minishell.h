@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 13:44:49 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:31:56 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -118,7 +118,7 @@ void	parse_var(t_msh *msh, char *line);
 void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);
-t_cmd	*check_cmds_syntax(t_cmd *cmds);
+t_cmd	*check_cmds_syntax(t_cmd *cmds, t_env *env);
 char	*get_tmp_file_name(t_msh *msh);
 int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);

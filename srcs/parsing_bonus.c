@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 16:00:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:34:20 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -142,7 +142,7 @@ void	print_syntax_error_bonus(t_cmd *cmd)
 }
 
 
-int check_parens_syntax(t_cmd *cmd, t_cmd *last)
+int check_parens_syntax(t_cmd *cmd, t_cmd *last, t_env *env)
 {
 	t_cmd *parsed_cmd;
 	t_cmd *tmp;
@@ -158,14 +158,14 @@ int check_parens_syntax(t_cmd *cmd, t_cmd *last)
 		ft_putstr_fd("minishell: syntax error\n", 2);
 		return(0);
 	}
-	tmp = check_cmds_syntax(parsed_cmd);
+	tmp = check_cmds_syntax(parsed_cmd, env);
 	if(tmp)
 		print_syntax_error_bonus(tmp);
 	free_cmd(parsed_cmd);
 	return(tmp == 0);
 }
 
-int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
+int	check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env)
 {
 	t_token	*token;
 
@@ -174,29 +174,29 @@ int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
 		ft_putstr_fd("minishell : syntax error\n", 2);
 		return (0);
 	}
-	token = parse_cmds_to_token(cmd, 0);
+	token = parse_cmds_to_token(cmd, env);
 	if (!token)
 		return (0);
 	free_token(token);
 	return (1);
 }
 
-int		check_cmd_type_syntax(t_cmd *cmds, t_cmd *last)
+int		check_cmd_type_syntax(t_cmd *cmds, t_cmd *last, t_env *env)
 {
 	if (cmds->cmd_type == CMD)
 	{
-		if (!check_tokens_syntax(cmds, last))
+		if (!check_tokens_syntax(cmds, last, env))
 			return (0);
 	}
 	else if(cmds->cmd_type == PAREN)
 	{
-		if(!check_parens_syntax(cmds, last))
+		if(!check_parens_syntax(cmds, last, env))
 			return(0);	
 	}
 	return(1);
 }
 
-t_cmd	*check_cmds_syntax(t_cmd *cmds)
+t_cmd	*check_cmds_syntax(t_cmd *cmds, t_env *env)
 {
 	t_cmd	*last;
 
@@ -205,7 +205,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 	if (!is_operand_type(cmds) && cmds->cmd_type != PIPE && cmds->value == 0)
 		return (cmds);
 	last = cmds;
-	if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, 0))
+	if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, 0, env))
 		return(cmds);
 	cmds = cmds->next;
 	while (cmds)
@@ -216,7 +216,7 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 		if (is_operand_type(cmds) || cmds->cmd_type == PIPE)
 			if ((!is_cmd_type(last) && !is_output_type(last) && !is_input_type(last)) || !cmds->next || (!is_cmd_type(cmds->next) && !is_output_type(cmds->next) && !is_input_type(cmds->next)))
 				return (cmds);
-		if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, last))
+		if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, last, env))
 			return(cmds);
 		last = cmds;
 		cmds = cmds->next;
