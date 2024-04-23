@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 19:53:16 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:41:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,7 +87,7 @@ int	file_access(t_msh *msh, int *found)
 	if (fd != -1)
 	{
 		close(fd);
-		fprintf(stderr, "minishell: %s: Is a directory\n", msh->tokens->value);
+		ft_printf_fd(2, "minishell: %s: Is a directory\n", msh->tokens->value);
 		g_return_code = 126;
 		return (0);
 	}
@@ -95,7 +95,7 @@ int	file_access(t_msh *msh, int *found)
 		*found = 1;
 	else
 	{
-		fprintf(stderr, "minishell: %s: ", msh->tokens->value);
+		ft_printf_fd(2, "minishell: %s: ", msh->tokens->value);
 		perror("");
 		g_return_code = 127;
 		if (access(msh->tokens->value, F_OK) != -1)

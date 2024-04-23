@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 19:50:00 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:41:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,7 +53,7 @@ int	open_input_file(t_msh *msh, t_cmd **cur_token)
 			filename = parse_tokens((*cur_token)->value, msh->env);
 			if (!filename)
 				ft_exit(msh, 1);
-			fprintf(stderr, "minishell: %s: ", filename->value);
+			ft_printf_fd(2, "minishell: %s: ", filename->value);
 			perror("");
 			free_token(filename);
 			return (1);

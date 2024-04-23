@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 13:28:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:41:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,7 +18,7 @@ int	cd(t_token *args)
 
 	if (args->next && args->next->next)
 	{
-		fprintf(stderr, "minishell: cd: too many arguments\n");
+		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		return (1);
 	}
 	if (!args->next)
