@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 14:47:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:51:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,8 +99,9 @@ void	child(t_msh *msh, char **cmd_args, int i)
 	ft_exit(msh, g_return_code);
 }
 
-void	parent(t_msh *msh, int i, int cmd_count)
+void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args)
 {
+	free(cmd_args);
 	signal(SIGINT, signal_handler_command);
 	signal(SIGQUIT, signal_handler_command);
 	if (i != 0)

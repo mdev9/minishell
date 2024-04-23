@@ -1,1 +1,2 @@
-pipe with parenthesis
+unset HOME
+cd | lolcat

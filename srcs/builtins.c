@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 12:50:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:08:20 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -30,7 +30,7 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 		&& cmd_is_forkable_builtin(cmd_token) && ft_strcmp(cmd_token, "export"))
 		return (1);
 	else if (!ft_strcmp(cmd_token, "cd"))
-		g_return_code = cd(msh->tokens);
+		g_return_code = cd(msh->tokens, msh->env, msh);
 	else if (!ft_strcmp(cmd_token, "exit"))
 		g_return_code = exit_bt(msh);
 	else if (!ft_strcmp(cmd_token, "export") && msh->out_type != PIPE)

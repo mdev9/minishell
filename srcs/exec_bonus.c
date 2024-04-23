@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 17:07:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:43:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,12 +95,10 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	}
 	if (pid == 0)
 		child(msh, cmd_args, i);
-	else
-	{
-		parent(msh, i, cmd_count);
+	if(pid != 0)
 		msh->pids[i] = pid;
-		free(cmd_args);
-	}
+	if(pid != 0)
+		parent(msh, i, cmd_count, cmd_args);
 	return (0);
 }
 
@@ -137,11 +135,12 @@ int	get_cmd_count(t_cmd *cmds)
 	return (nb);
 }
 
-int		is_parenthesis(t_cmd *cmd)
+int	is_parenthesis(t_cmd *cmd)
 {
-	if(!cmd)
-		return(0);
-	return(cmd->cmd_type == PAREN || (cmd->cmd_type == PIPE && cmd->next->cmd_type == PAREN));
+	if (!cmd)
+		return (0);
+	return (cmd->cmd_type == PAREN || (cmd->cmd_type == PIPE
+			&& cmd->next->cmd_type == PAREN));
 }
 
 void	print_signaled(int status)
@@ -186,7 +185,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		print_signaled(status);
-	if(msh->here_doc_filename)
+	if (msh->here_doc_filename)
 	{
 		unlink(msh->here_doc_filename);
 		free(msh->here_doc_filename);

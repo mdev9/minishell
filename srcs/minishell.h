@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 17:05:54 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 18:42:10 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,8 @@ typedef enum e_cmd_type
 	RED_O_APP,
 	HERE_DOC,
 	RED_O,
-	RED_I
+	RED_I,
+	ERR
 }	t_cmd_type;
 
 typedef struct s_cmd
@@ -79,6 +80,7 @@ typedef struct s_msh
 extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
+t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 void	*here_doc_variables(int write, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
@@ -91,7 +93,7 @@ int		cmd_is_builtin(t_msh *msh, char *cmd_token);
 t_token	*token_add_back(t_token *res, char *token);
 void	child(t_msh *msh, char **cmd_args, int i);
 t_token	*parse_tokens(char *command, t_env *env);
-void	parent(t_msh *msh, int i, int cmd_count);
+void	parent(t_msh *msh, int i, int cmd_count,char **cmd_args);
 char	*ft_get_env(t_env *env, char *var_name);
 int		is_fd_open(int fd);
 int		get_out_type(t_msh *msh, t_cmd *cmds);
@@ -154,7 +156,7 @@ int		echo(t_token *args);
 int		exit_bt(t_msh *msh);
 int		is_cmd_type(t_cmd *cmd);
 int		is_cmd_char(char c);
-int		cd(t_token *args);
+int		cd(t_token *args, t_env *env, t_msh *msh);
 int		pwd(void);
 
 #endif
