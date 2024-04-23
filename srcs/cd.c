@@ -6,18 +6,18 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 18:34:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 19:52:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	cd_update_pwd(char *new_path, t_msh *msh)
+void	cd_update_pwd(t_msh *msh)
 {
 	char	*pwd;
 	char	*new;
 
-	new = ft_strdup(new_path);
+	new = getcwd(0, 16382);
 	if (!new)
 		return ;
 	pwd = ft_get_env(msh->env, "PWD");
@@ -33,7 +33,34 @@ void	cd_update_pwd(char *new_path, t_msh *msh)
 		msh->env = export_set_env(msh->env, ft_strdup("PWD"), new, 0);
 }
 
-int	cd(t_token *args, t_env *env, t_msh *msh)
+char 	*get_new_wd(t_token *arg, t_msh *msh)
+{
+	char *new_wd;
+
+	if (arg)
+	{
+		new_wd = arg->value;
+		if(ft_strcmp("-", new_wd))
+		{
+			new_wd = ft_get_env(msh->env, "OLDPWD");
+			if(!new_wd)
+				ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
+			if(!new_wd)
+				return(0);
+		}
+	}
+	else
+	{
+		new_wd = ft_get_env(msh->env, "HOME");
+		if (!new_wd)
+			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
+		if (!new_wd)
+			return (0);
+	}
+	return(new_wd);
+}
+
+int	cd(t_token *args, t_msh *msh)
 {
 	char	*new_wd;
 
@@ -42,21 +69,14 @@ int	cd(t_token *args, t_env *env, t_msh *msh)
 		ft_printf_fd(2, "minishell: cd: too many arguments\n");
 		return (1);
 	}
-	if (!args->next)
-	{
-		new_wd = ft_get_env(env, "HOME");
-		if (!new_wd)
-			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		if (!new_wd)
-			return (1);
-	}
-	else
-		new_wd = args->next->value;
-	cd_update_pwd(new_wd, msh);
+	new_wd = get_new_wd(args->next, msh);
+	if(!new_wd)
+		return(1);
 	if (chdir(new_wd) == -1)
 	{
 		perror("minishell: cd");
 		return (1);
 	}
+	cd_update_pwd(msh);
 	return (0);
 }
