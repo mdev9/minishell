@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 16:31:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 16:52:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,6 +73,7 @@ typedef struct s_msh
 	int				out_fd;
 	int				locked_return_code;
 	int				echoctl;
+	char 			*here_doc_filename;
 }	t_msh;
 
 extern int	g_return_code;

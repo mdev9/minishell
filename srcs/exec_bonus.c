@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 16:32:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:01:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -186,6 +186,12 @@ void	end_execution(t_msh *msh, int cmd_count)
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
 		print_signaled(status);
+	if(msh->here_doc_filename)
+	{
+		unlink(msh->here_doc_filename)
+		free(msh->here_doc_filename);
+		msh->here_doc_filename = 0;
+	{
 	free(msh->pids);
 	free_fds(msh);
 	msh->pids = 0;
