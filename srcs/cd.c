@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 19:52:01 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 20:06:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,29 +35,30 @@ void	cd_update_pwd(t_msh *msh)
 
 char 	*get_new_wd(t_token *arg, t_msh *msh)
 {
-	char *new_wd;
+	char *nw_wd;
 
 	if (arg)
 	{
-		new_wd = arg->value;
-		if(ft_strcmp("-", new_wd))
+		nw_wd = arg->value;
+		if(!ft_strcmp("-", nw_wd))
 		{
-			new_wd = ft_get_env(msh->env, "OLDPWD");
-			if(!new_wd)
+			nw_wd = ft_get_env(msh->env, "OLDPWD");
+			if(!nw_wd)
 				ft_putstr_fd("minishell: cd: OLDPWD not set\n", 2);
-			if(!new_wd)
+			if(!nw_wd)
 				return(0);
+			ft_printf_fd((1 * (msh->out_fd == 0)) + msh->out_fd, "%s\n", nw_wd);
 		}
 	}
 	else
 	{
-		new_wd = ft_get_env(msh->env, "HOME");
-		if (!new_wd)
+		nw_wd = ft_get_env(msh->env, "HOME");
+		if (!nw_wd)
 			ft_putstr_fd("minishell: cd: HOME not set\n", 2);
-		if (!new_wd)
+		if (!nw_wd)
 			return (0);
 	}
-	return(new_wd);
+	return(nw_wd);
 }
 
 int	cd(t_token *args, t_msh *msh)
