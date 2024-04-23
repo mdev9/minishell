@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 16:52:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:05:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -79,7 +79,7 @@ typedef struct s_msh
 extern int	g_return_code;
 
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
-void	*here_doc_variables(int write, int index, void *data);
+void	*here_doc_variables(int write, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 t_env	*env_add_back(t_env *env, char *name, char *value);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 16:59:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:07:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 	free(line);
 }
 
-void	here_doc_child(t_msh *msh, char *eof, char *here_doc_file)
+void	here_doc_child(t_msh *msh, char *eof)
 {
 	here_doc_variables(1, msh);
 	signal(SIGINT, signal_handler_here_doc);
@@ -77,7 +77,7 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	}
 	pid = fork();
 	if (pid == 0)
-		here_doc_child(msh, eof, here_doc_file);
+		here_doc_child(msh, eof);
 	else
 		here_doc_signal(msh, pid, here_doc_file);
 }

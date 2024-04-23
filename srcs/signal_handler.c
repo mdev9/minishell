@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 16:59:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 17:05:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -31,9 +31,9 @@ void	*here_doc_variables(int write, void *data)
 	static void	*variable;
 
 	if (write)
-		variables = data;
+		variable = data;
 	else
-		return (variables);
+		return (variable);
 	return (0);
 }
 
