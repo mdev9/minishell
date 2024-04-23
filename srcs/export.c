@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/22 23:02:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 12:49:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,20 +53,22 @@ void	sort_env(t_env *env)
 	}
 }
 
-void	print_env_declare(t_env *env_orig)
+void	print_env_declare(t_msh *msh, t_env *env_orig)
 {
 	t_env *env;
 
 	env = dup_env(env_orig);
 	sort_env(env);
+	if(!msh->out_fd)
+		msh->out_fd = 1;
 	while (env)
 	{
 		if (strcmp(env->name, "_"))
 		{
 			if (env->value && *(env->value))
-				printf("declare -x %s=\"%s\"\n", env->name, env->value);
+				ft_printf_fd(msh->out_fd, "declare -x %s=\"%s\"\n", env->name, env->value);
 			else
-				printf("declare -x %s\n", env->name);
+				ft_printf_fd(msh->out_fd, "declare -x %s\n", env->name);
 		}
 		env = env->next;
 	}
@@ -115,7 +117,7 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 	return (env_add_back(env, name, value));
 }
 
-int	ft_export(t_token *cmd, t_env *env)
+int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
 {
 	char	*arg;
 	char	*name;
@@ -124,7 +126,7 @@ int	ft_export(t_token *cmd, t_env *env)
 	int		append;
 
 	if (cmd && !cmd->next)
-		print_env_declare(env);
+		print_env_declare(msh, env);
 	if (cmd && cmd->next && !cmd->next->next)
 	{
 		arg = cmd->next->value;
