@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 14:40:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:38:45 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 16:00:00 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -141,11 +141,35 @@ void	print_syntax_error_bonus(t_cmd *cmd)
 	fprintf(stderr, "'\n");
 }
 
+
+int check_parens_syntax(t_cmd *cmd, t_cmd *last)
+{
+	t_cmd *parsed_cmd;
+	t_cmd *tmp;
+
+	if(last && is_cmd_type(last))
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		return(0);
+	}
+	parsed_cmd = parsing_bonus(cmd->value);
+	if(!parsed_cmd)
+	{
+		ft_putstr_fd("minishell: syntax error\n", 2);
+		return(0);
+	}
+	tmp = check_cmds_syntax(parsed_cmd);
+	if(tmp)
+		print_syntax_error_bonus(tmp);
+	free_cmd(parsed_cmd);
+	return(tmp == 0);
+}
+
 int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
 {
 	t_token	*token;
 
-	if (is_cmd_type(last))
+	if (last && is_cmd_type(last))
 	{
 		ft_putstr_fd("minishell : syntax error\n", 2);
 		return (0);
@@ -157,6 +181,21 @@ int	check_tokens_syntax(t_cmd *cmd, t_cmd *last)
 	return (1);
 }
 
+int		check_cmd_type_syntax(t_cmd *cmds, t_cmd *last)
+{
+	if (cmds->cmd_type == CMD)
+	{
+		if (!check_tokens_syntax(cmds, last))
+			return (0);
+	}
+	else if(cmds->cmd_type == PAREN)
+	{
+		if(!check_parens_syntax(cmds, last))
+			return(0);	
+	}
+	return(1);
+}
+
 t_cmd	*check_cmds_syntax(t_cmd *cmds)
 {
 	t_cmd	*last;
@@ -166,6 +205,8 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 	if (!is_operand_type(cmds) && cmds->cmd_type != PIPE && cmds->value == 0)
 		return (cmds);
 	last = cmds;
+	if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, 0))
+		return(cmds);
 	cmds = cmds->next;
 	while (cmds)
 	{
@@ -175,9 +216,8 @@ t_cmd	*check_cmds_syntax(t_cmd *cmds)
 		if (is_operand_type(cmds) || cmds->cmd_type == PIPE)
 			if ((!is_cmd_type(last) && !is_output_type(last) && !is_input_type(last)) || !cmds->next || (!is_cmd_type(cmds->next) && !is_output_type(cmds->next) && !is_input_type(cmds->next)))
 				return (cmds);
-		if (is_cmd_type(cmds))
-			if (!check_tokens_syntax(cmds, last))
-				return (cmds);
+		if(is_cmd_type(cmds) && !check_cmd_type_syntax(cmds, last))
+			return(cmds);
 		last = cmds;
 		cmds = cmds->next;
 	}

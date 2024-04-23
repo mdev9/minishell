@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:37:26 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 13:32:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -88,10 +88,10 @@ t_token	*parse_cmds_to_token(t_cmd *command, t_env *env)
 	t_token	*new;
 
 	res = 0;
-	while (command && (is_cmd_type(command) || is_output_type(command)
+	while (command && (command->cmd_type == CMD || is_output_type(command)
 			|| is_input_type(command)))
 	{
-		if (is_cmd_type(command))
+		if (command->cmd_type == CMD)
 		{
 			new = parse_tokens(command->value, env);
 			res = add_token_back(res, new);

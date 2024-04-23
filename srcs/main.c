@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 18:41:29 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/23 14:33:16 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -144,5 +144,5 @@ int	main(int argc, char **argv, char **envp)
 		free(commands);
 	}
 	printf("exit\n");
-	return(g_return_code);
+	ft_exit(msh, g_return_code);
 }

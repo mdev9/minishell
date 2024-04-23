@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 13:21:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 14:45:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,6 +70,7 @@ void	exec_command_bonus(t_msh *msh, char *cmd_str)
 		cmds = get_next_command(cmds);
 	}
 	free_cmd(msh->cmds_head);
+	msh->cmds_head = 0;
 }
 
 int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
@@ -109,9 +110,9 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 	msh->fds[i] = ft_calloc(2, sizeof(int *));
 	if (!msh->fds[i])
 		ft_exit(msh, 1);
-	if (!cmd_is_builtin(msh, msh->tokens->value))
+	if (msh->tokens && !cmd_is_builtin(msh, msh->tokens->value))
 		get_cmd_path(msh);
-	if (msh->tokens->value)
+	if ((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds))
 		exec(msh, get_cmd_args(msh), i, cmd_count);
 	remove_command_from_msh(msh);
 }
@@ -136,7 +137,7 @@ int	get_cmd_count(t_cmd *cmds)
 	return (nb);
 }
 
-int		is_parentethis(t_cmd *cmd)
+int		is_parenthesis(t_cmd *cmd)
 {
 	if(!cmd)
 		return(0);
@@ -194,20 +195,12 @@ void	end_execution(t_msh *msh, int cmd_count)
 	set_echoctl(0);
 }
 
-int	handle_parenthesis(t_msh *msh)
-{
-	if (!(msh->cmds->cmd_type == PAREN || (msh->cmds->cmd_type == PIPE
-				&& msh->cmds->next->cmd_type == PAREN)))
-		return (0);
-	return (1);
-}
-
 void	exec_commands(t_msh *msh)
 {
 	int	cmd_count;
 	int	i;
 
-	if (!msh->tokens)
+	if (!msh->tokens && !is_parenthesis(msh->cmds))
 		return ;
 	cmd_count = get_cmd_count(msh->cmds);
 	msh->fds = ft_calloc(cmd_count + 1, sizeof(int **));
