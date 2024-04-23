@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 18:08:20 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/23 19:03:22 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,7 +29,7 @@ int	cmd_is_builtin(t_msh *msh, char *cmd_token)
 	else if ((msh->in_type == PIPE || msh->out_type == PIPE)
 		&& cmd_is_forkable_builtin(cmd_token) && ft_strcmp(cmd_token, "export"))
 		return (1);
-	else if (!ft_strcmp(cmd_token, "cd"))
+	else if (!ft_strcmp(cmd_token, "cd") && msh->out_type != PIPE)
 		g_return_code = cd(msh->tokens, msh->env, msh);
 	else if (!ft_strcmp(cmd_token, "exit"))
 		g_return_code = exit_bt(msh);
@@ -56,6 +56,8 @@ int	exec_builtin(t_msh *msh)
 		return (1);
 	else if (!ft_strcmp(msh->tokens->value, "pwd"))
 		g_return_code = pwd();
+	else if (!ft_strcmp(msh->tokens->value, "cd") && msh->out_type == PIPE)
+		g_return_code = cd(msh->tokens, msh->env, msh);
 	else if (!ft_strcmp(msh->tokens->value, "cd"))
 		return (1);
 	else if (!ft_strcmp(msh->tokens->value, "export") && msh->out_type == PIPE)
