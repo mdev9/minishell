@@ -1,2 +1,6 @@
 unset HOME
 cd | lolcat
+double here_doc and manual here_doc tests
+$OLDPWD and $PWD (manual tests)
+potential ft_exit that doesnt unlink tmp here_doc files
+$EMPTY (manual tests)
