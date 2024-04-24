@@ -1,8 +1,3 @@
-unset HOME
-cd | lolcat
-$SHLVL
-
-
 cat <minishell.h <<HERE <missing <<DOC | echo oi
 
 #invalid command, followed by empty variable, should clear the exit code
@@ -16,16 +11,9 @@ echo - "" "  " hello
 
 NORME :c
 
+
+To test:
+
 test signals
 test and verify all malocs
 verify forbidden functions
-
-
-Not mandatory ig? # Empty export isn't set on `env` but is set on `export`
-export hello
-env | grep hello
-export | grep hello
-
-
-potential ft_exit that doesnt unlink tmp here_doc files
-parse eof sans parse les variables
