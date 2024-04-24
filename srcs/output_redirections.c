@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 21:14:15 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 21:25:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,16 +65,14 @@ void	go_to_next_out_type(t_cmd **cur_cmd)
 		*cur_cmd = (*cur_cmd)->next;
 }
 
-int	get_out_type(t_msh *msh, t_cmd *cmds)
+int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
 {
-	t_cmd	*cur_cmd;
 	t_token	*filename;
 	int		ret;
 
 	msh->out_type = CMD;
 	msh->out_fd = 0;
 	ret = 0;
-	cur_cmd = cmds;
 	go_to_next_out_type(&cur_cmd);
 	if (cur_cmd && (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN))
 		msh->out_type = 0;
@@ -85,10 +83,13 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 		filename = parse_tokens(cur_cmd->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
-		ret = open_out_file(msh, &cur_cmd, filename->value);
+		if(filename->next)
+			ambiguous_redirect(cur_cmd->value, msh);
+		if(!filename->next)
+			ret = open_out_file(msh, &cur_cmd, filename->value);
 		free_token(filename);
 	}
 	else if (cur_cmd && cur_cmd->cmd_type == PIPE)
 		msh->out_type = PIPE;
-	return (ret);
+	return (ret || msh->in_fd == -2);
 }
