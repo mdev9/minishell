@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 14:04:30 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 14:41:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,8 +75,8 @@ int	get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc)
 	while (cur_token && (cur_token->cmd_type == CMD
 			|| cur_token->cmd_type == PAREN))
 		cur_token = cur_token->next;
-	if (cur_token && ((cur_token->cmd_type == HERE_DOC && here_doc) 
-		|| (cur_token->cmd_type == RED_I && !here_doc)))
+	if (cur_token && ((cur_token->cmd_type == HERE_DOC && here_doc)
+			|| (cur_token->cmd_type == RED_I && !here_doc)))
 	{
 		msh->in_type = cur_token->cmd_type;
 		if (open_input_file(msh, &cur_token))
@@ -86,7 +86,7 @@ int	get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc)
 		&& cur_token->cmd_type != PIPE && cur_token->next->cmd_type != PIPE)
 		return (get_in_type(msh, t_strt, cur_token->next, here_doc));
 	if (here_doc)
-		return(get_in_type(msh, t_strt, t_strt, 0));
+		return (get_in_type(msh, t_strt, t_strt, 0));
 	return (0);
 }
 

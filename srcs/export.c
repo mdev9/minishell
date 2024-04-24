@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 13:45:58 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:41:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,7 +46,7 @@ t_env	*set_env(t_env *env, char *name, char *value, int append)
 		}
 		tmp = tmp->next;
 	}
-	return (env);
+	return (env_add_back(env, name, value));
 }
 
 t_env	*export_set_env(t_env *env, char *name, char *value, int append)
@@ -58,8 +58,7 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 		ft_printf_fd(2, "minishell: malloc failed");
 		return (env);
 	}
-	set_env(env, name, value, append);
-	return (env_add_back(env, name, value));
+	return (set_env(env, name, value, append));
 }
 
 int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
