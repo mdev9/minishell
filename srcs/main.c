@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 14:33:16 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:05:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,21 @@ t_env	*get_env(char **envp)
 	return (env);
 }
 
+t_env	*add_shlvl(t_env *env)
+{
+	int		nb;
+	char	*tmp;
+
+	tmp = ft_get_env(env, "SHLVL");
+	if(!tmp)
+		nb = 0;
+	else
+		nb = ft_atoi(tmp);
+	nb++;
+	env = export_set_env(env, ft_strdup("SHLVL"), ft_itoa(nb), 0);
+	return(env);
+}
+
 int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 {
 	struct termios	t_p;
@@ -81,6 +96,7 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(void)argc;
 	(void)argv;
 	(*msh)->env = get_env(envp);
+	(*msh)->env = add_shlvl((*msh)->env);
 	tcgetattr(1, &t_p);
 	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
 	signal(SIGINT, signal_handler_interactive); //enables ctrl-C

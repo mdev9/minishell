@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 12:49:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:03:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -88,9 +88,10 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 	t_env	*tmp;
 
 	tmp = env;
-	if (!value)
+	if (!value || !name)
 	{
 		free(name);
+		free(value);
 		ft_printf_fd(2, "minishell: malloc failed");
 		return (env);
 	}
