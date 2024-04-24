@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 13:07:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:55:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 
 	*msh = ft_calloc(1, sizeof(t_msh));
 	if (!*msh)
-		ft_exit(*msh, 1);
+		exit(1);
 	(void)argc;
 	(void)argv;
 	(*msh)->env = get_env(envp);
@@ -118,7 +118,7 @@ int	main(int argc, char **argv, char **envp)
 	{
 		prompt = get_prompt(msh->env);
 		if (!prompt)
-			exit(1);
+			ft_exit(msh, 1);
 		commands = readline(prompt);
 		free(prompt);
 		add_history(commands);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 10:59:46 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 14:03:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,7 +99,7 @@ int		is_fd_open(int fd);
 int		get_out_type(t_msh *msh, t_cmd *cmds);
 void	exec_commands(t_msh *msh);
 void	handle_here_doc(t_msh *msh, char *eof);
-int		get_in_type(t_msh *msh, t_cmd *tokens);
+int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
 void	signal_handler_interactive(int signum);
 int		get_token_len(char *cmd, t_env *env);
 void	print_syntax_error_bonus(t_cmd *cmd);
