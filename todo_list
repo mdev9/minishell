@@ -14,15 +14,18 @@ echo $?
 echo - "" "  " hello
 
 
+NORME :c
+
+test signals
+test and verify all malocs
+verify forbidden functions
+
+
 Not mandatory ig? # Empty export isn't set on `env` but is set on `export`
 export hello
 env | grep hello
 export | grep hello
 
-test signals
 
-test and verify all malocs
-
-
-parse eof sans parse les variables
 potential ft_exit that doesnt unlink tmp here_doc files
+parse eof sans parse les variables
