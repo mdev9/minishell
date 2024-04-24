@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:17:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:14:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -48,6 +48,25 @@ void	signal_handler_here_doc(int signum)
 		close(msh->in_fd);
 		ft_exit(msh, 1);
 	}
+}
+
+int	set_echoctl(int value)
+{
+	struct termios	t_p;
+
+	if (!isatty(1))
+		return (0);
+	if (tcgetattr(1, &t_p))
+		return (1);
+	if (((t_p.c_lflag & ECHOCTL) != 0) == value)
+		return (0);
+	if (value)
+		t_p.c_lflag = t_p.c_lflag | ECHOCTL;
+	else
+		t_p.c_lflag = t_p.c_lflag & (~ECHOCTL);
+	if (tcsetattr(1, TCSANOW, &t_p))
+		return (1);
+	return (0);
 }
 
 void	signal_handler_command(int signum)

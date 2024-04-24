@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:17:35 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:11:36 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,6 +71,7 @@ typedef struct s_msh
 	t_cmd_type		in_type;
 	t_cmd_type		out_type;
 	int				in_fd;
+	int				echoctl;
 	int				out_fd;
 	int				locked_return_code;
 	char			*here_doc_filename;
@@ -82,6 +83,7 @@ t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 void	*here_doc_variables(int write, void *data);
 int		add_var_to_str(char *res, char **command, t_env *env);
+int		set_echoctl(int value);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 t_token	*parse_cmds_to_token(t_cmd *command, t_env *env);

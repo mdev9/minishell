@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:17:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:14:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,6 +45,7 @@ int	exit_bt(t_msh *msh)
 	else
 	{
 		get_exit_bt_return_code(msh, &exit_code);
+		set_echoctl(msh->echoctl);
 		free_msh(msh);
 		exit(exit_code);
 	}

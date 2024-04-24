@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:22:06 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:10:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,8 +98,11 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->env = get_env(envp);
 	(*msh)->env = add_shlvl((*msh)->env);
 	tcgetattr(1, &t_p);
+	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
+	if (set_echoctl(0))
+		ft_exit(*msh, 1);
 	return (0);
 }
 
