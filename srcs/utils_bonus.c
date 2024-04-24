@@ -6,7 +6,7 @@
 /*   By: tomoron <tomoron@student.42angouleme.fr>   +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/27 17:19:27 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:49:00 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:59:26 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -16,7 +16,7 @@ t_token	*parsing_syntax_error(t_token *res)
 {
 	free_token(res);
 	ft_putstr_fd("minishell: syntax error\n", 2);
-	return (0);
+	return ((void *)1);
 }
 
 int	is_input_type(t_cmd *cmd)

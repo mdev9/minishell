@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 13:32:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:08:42 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -31,7 +31,7 @@ int	add_home_to_str(char *res)
 	return (i);
 }
 
-char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
+char	*get_token(char **cmd, int *quotes[2], t_env *env, int *is_var)
 {
 	char	*res;
 	int		i;
@@ -40,17 +40,17 @@ char	*get_token(char **cmd, int *in_quote, int *in_dquote, t_env *env)
 	while (ft_isspace(**cmd))
 		(*cmd)++;
 	res = ft_calloc(get_token_len(*cmd, env) + 1, 1);
-	while (res && **cmd && (is_cmd_char(**cmd) || *in_quote || *in_dquote))
+	while (res && **cmd && (is_cmd_char(**cmd) || *(quotes[0]) || *(quotes[1])))
 	{
-		if (**cmd == '"' && !*in_quote)
-			*in_dquote = !*in_dquote;
-		if (**cmd == '\'' && !*in_dquote)
-			*in_quote = !*in_quote;
-		if (**cmd == '$' && !*in_quote)
-			i += add_var_to_str(res + i, cmd, env);
-		else if (**cmd == '~' && !*in_quote && !*in_dquote)
+		if (**cmd == '"' && !*(quotes[0]))
+			*(quotes[1]) = !*(quotes[1]);
+		if (**cmd == '\'' && !*(quotes[1]))
+			*(quotes[0]) = !*(quotes[0]);
+		if (**cmd == '$' && !*(quotes[0]))
+			i += add_var_to_str(res + i, cmd, env, is_var);
+		else if (**cmd == '~' && !*(quotes[0]) && !*(quotes[1]))
 			i += add_home_to_str(res + i);
-		else if (((**cmd == '\'' && *in_dquote) || (**cmd == '"' && *in_quote))
+		else if (((**cmd == '\'' && *(quotes[1])) || (**cmd == '"' && *(quotes[0])))
 			|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
@@ -64,16 +64,18 @@ t_token	*parse_tokens(char *command, t_env *env)
 	int		in_dquote;
 	t_token	*res;
 	char	*value;
+	int		is_var;
 
 	in_quote = 0;
 	in_dquote = 0;
 	res = 0;
+	is_var = 0;
 	while (command && *command)
 	{
-		value = get_token(&command, &in_quote, &in_dquote, env);
+		value = get_token(&command, (int *[2]){&in_quote, &in_dquote}, env, &is_var);
 		if (!value)
 			return (free_token(res));
-		res = expand_wildcards(res, value);
+		res = expand_wildcards(res, value, is_var);
 		while (ft_isspace(*command))
 			command++;
 	}

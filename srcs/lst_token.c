@@ -6,18 +6,18 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:36:12 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:04:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_token	*token_add_back(t_token *token, char *value)
+t_token	*token_add_back(t_token *token, char *value, int is_var)
 {
 	t_token	*res;
 	t_token	*current;
 
-	if (/*value && !*value*/0)
+	if (value && !*value && is_var)
 	{
 		free(value);
 		return (token);

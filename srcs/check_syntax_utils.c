@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:54:53 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 14:55:56 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 18:57:48 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env)
 		return (0);
 	}
 	token = parse_cmds_to_token(cmd, env);
-	if (!token)
+	if (token == (void *)1)
 		return (0);
 	free_token(token);
 	return (1);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:15:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:18:07 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -117,7 +117,10 @@ void	exec_commands(t_msh *msh)
 	int	i;
 
 	if (!msh->tokens && !is_parenthesis(msh->cmds))
+	{
+		g_return_code = 0;
 		return ;
+	}
 	cmd_count = get_cmd_count(msh->cmds);
 	msh->fds = ft_calloc(cmd_count + 1, sizeof(int **));
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));

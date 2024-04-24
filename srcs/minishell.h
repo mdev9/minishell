@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:11:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 19:20:23 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,16 +82,16 @@ extern int	g_return_code;
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 void	*here_doc_variables(int write, void *data);
-int		add_var_to_str(char *res, char **command, t_env *env);
 int		set_echoctl(int value);
+int		add_var_to_str(char *res, char **command, t_env *env, int *is_var);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 t_token	*parse_cmds_to_token(t_cmd *command, t_env *env);
 void	exec_command_bonus(t_msh *msh, char *cmd_str);
 t_token	*add_token_back(t_token *res, t_token *next);
-t_token	*expand_wildcards(t_token *res, char *value);
+t_token	*expand_wildcards(t_token *res, char *value, int is_var);
 int		cmd_is_builtin(t_msh *msh, char *cmd_token);
-t_token	*token_add_back(t_token *res, char *token);
+t_token	*token_add_back(t_token *res, char *token, int is_var);
 void	child(t_msh *msh, char **cmd_args, int i);
 t_token	*parse_tokens(char *command, t_env *env);
 void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);

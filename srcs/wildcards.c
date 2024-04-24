@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:28:13 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 18:02:49 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -33,7 +33,7 @@ int	filename_corresponds(char *wildcard, char *value)
 	return (!*wildcard && !*value);
 }
 
-t_token	*get_all_files(DIR *dir, char *wildcard)
+t_token	*get_all_files(DIR *dir, char *wildcard, int is_var)
 {
 	struct dirent	*content;
 	t_token			*res;
@@ -43,7 +43,7 @@ t_token	*get_all_files(DIR *dir, char *wildcard)
 	while (content)
 	{
 		if (filename_corresponds(wildcard, content->d_name))
-			res = token_add_back(res, ft_strdup(content->d_name));
+			res = token_add_back(res, ft_strdup(content->d_name), is_var);
 		content = readdir(dir);
 	}
 	return (res);
@@ -62,25 +62,25 @@ t_token	*add_token_back(t_token *res, t_token *next)
 	return (start);
 }
 
-t_token	*expand_wildcards(t_token *res, char *value)
+t_token	*expand_wildcards(t_token *res, char *value, int is_var)
 {
 	DIR		*dir;
 	char	*cwd;
 	t_token	*new;
 
 	if (!ft_strchr(value, '*'))
-		return (token_add_back(res, value));
+		return (token_add_back(res, value, is_var));
 	cwd = getcwd(NULL, 100000);
 	if (!cwd)
-		return (token_add_back(res, value));
+		return (token_add_back(res, value, is_var));
 	dir = opendir(cwd);
 	free(cwd);
 	if (!dir)
-		return (token_add_back(res, value));
-	new = get_all_files(dir, value);
+		return (token_add_back(res, value, is_var));
+	new = get_all_files(dir, value, is_var);
 	closedir(dir);
 	if (!new)
-		return (token_add_back(res, value));
+		return (token_add_back(res, value, is_var));
 	free(value);
 	sort_wildcards_token(new);
 	res = add_token_back(res, new);

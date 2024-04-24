@@ -1,17 +1,3 @@
-cat <minishell.h <<HERE <missing <<DOC | echo oi
-
-#invalid command, followed by empty variable, should clear the exit code
-doesntexist
-$EMPTY
-echo $?
-
-# Should skip the empty argument, and print hello after spaces
-echo - "" "  " hello
-
-
-NORME :c
-
-
 To test:
 
 test signals
