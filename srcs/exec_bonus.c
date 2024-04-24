@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:18:07 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:13:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -119,6 +119,11 @@ void	exec_commands(t_msh *msh)
 	if (!msh->tokens && !is_parenthesis(msh->cmds))
 	{
 		g_return_code = 0;
+		get_redirections(msh, msh->cmds);
+		if(msh->in_fd > 2)
+			close(msh->in_fd);
+		if(msh->out_fd > 2)
+			close(msh->out_fd);
 		return ;
 	}
 	cmd_count = get_cmd_count(msh->cmds);
@@ -126,12 +131,11 @@ void	exec_commands(t_msh *msh)
 	msh->pids = ft_calloc(cmd_count, sizeof(int *));
 	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
-	i = 0;
-	while (i < cmd_count)
+	i = -1;
+	while (++i < cmd_count)
 	{
 		get_redirections(msh, msh->cmds);
 		exec_command(msh, i, cmd_count);
-		i++;
 	}
 	end_execution(msh, cmd_count);
 }

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 14:41:40 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:06:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,6 +33,13 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args)
 	}
 }
 
+void ambiguous_redirect(char *str, t_msh *msh)
+{
+	ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", str);
+	msh->in_fd = -2;
+	g_return_code = 1;
+}
+
 int	open_input_file(t_msh *msh, t_cmd **cur_token)
 {
 	t_token	*filename;
@@ -46,20 +53,20 @@ int	open_input_file(t_msh *msh, t_cmd **cur_token)
 		filename = parse_tokens((*cur_token)->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
-		msh->in_fd = open(filename->value, O_RDONLY);
-		free_token(filename);
+		if(filename->next)
+			ambiguous_redirect((*cur_token)->value, msh);
+		if(!filename->next)
+			msh->in_fd = open(filename->value, O_RDONLY);
 		if (msh->in_fd == -1)
 		{
-			filename = parse_tokens((*cur_token)->value, msh->env);
-			if (!filename)
-				ft_exit(msh, 1);
 			ft_printf_fd(2, "minishell: %s: ", filename->value);
 			perror("");
 			free_token(filename);
 			return (1);
 		}
+		free_token(filename);
 	}
-	return (0);
+	return (msh->in_fd == -2);
 }
 
 int	get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc)
