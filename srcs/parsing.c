@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 18:08:42 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 20:39:35 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -50,7 +50,8 @@ char	*get_token(char **cmd, int *quotes[2], t_env *env, int *is_var)
 			i += add_var_to_str(res + i, cmd, env, is_var);
 		else if (**cmd == '~' && !*(quotes[0]) && !*(quotes[1]))
 			i += add_home_to_str(res + i);
-		else if (((**cmd == '\'' && *(quotes[1])) || (**cmd == '"' && *(quotes[0])))
+		else if (((**cmd == '\'' && *(quotes[1]))
+				|| (**cmd == '"' && *(quotes[0])))
 			|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
@@ -72,7 +73,8 @@ t_token	*parse_tokens(char *command, t_env *env)
 	is_var = 0;
 	while (command && *command)
 	{
-		value = get_token(&command, (int *[2]){&in_quote, &in_dquote}, env, &is_var);
+		value = get_token(&command, (int *[2]){&in_quote, &in_dquote},
+				env, &is_var);
 		if (!value)
 			return (free_token(res));
 		res = expand_wildcards(res, value, is_var);
