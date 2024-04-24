@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 21:25:27 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:31:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -83,9 +83,9 @@ int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
 		filename = parse_tokens(cur_cmd->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
-		if(filename->next)
+		if (filename->next)
 			ambiguous_redirect(cur_cmd->value, msh);
-		if(!filename->next)
+		if (!filename->next)
 			ret = open_out_file(msh, &cur_cmd, filename->value);
 		free_token(filename);
 	}

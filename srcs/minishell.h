@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:20:23 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 21:30:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -170,6 +170,7 @@ int		echo(t_token *args);
 int		exit_bt(t_msh *msh);
 int		is_cmd_type(t_cmd *cmd);
 int		is_cmd_char(char c);
+void	ambiguous_redirect(char *str, t_msh *msh);
 int		cd(t_token *args, t_msh *msh);
 int		pwd(void);
 

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 21:06:43 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 21:30:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,7 +33,7 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args)
 	}
 }
 
-void ambiguous_redirect(char *str, t_msh *msh)
+void	ambiguous_redirect(char *str, t_msh *msh)
 {
 	ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", str);
 	msh->in_fd = -2;
@@ -53,9 +53,9 @@ int	open_input_file(t_msh *msh, t_cmd **cur_token)
 		filename = parse_tokens((*cur_token)->value, msh->env);
 		if (!filename)
 			ft_exit(msh, 1);
-		if(filename->next)
+		if (filename->next)
 			ambiguous_redirect((*cur_token)->value, msh);
-		if(!filename->next)
+		if (!filename->next)
 			msh->in_fd = open(filename->value, O_RDONLY);
 		if (msh->in_fd == -1)
 		{
