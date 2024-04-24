@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 12:49:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 10:42:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,31 +14,31 @@
 
 t_env	*dup_env(t_env *env)
 {
-	t_env *res;
+	t_env	*res;
 
 	res = 0;
-	while(env)
+	while (env)
 	{
 		res = env_add_back(res, env->name, env->value);
 		env = env->next;
 	}
-	return(res);
+	return (res);
 }
 
 void	sort_env(t_env *env)
 {
-	t_env *tmp;
-	t_env *start;
-	char *tmp_str;
+	t_env	*tmp;
+	t_env	*start;
+	char	*tmp_str;
 
 	tmp = env;
 	start = env;
-	while(tmp)
+	while (tmp)
 	{
 		env = start;
-		while(env)
+		while (env)
 		{
-			if(ft_strcmp(tmp->name, env->name) < 0)
+			if (ft_strcmp(tmp->name, env->name) < 0)
 			{
 				tmp_str = tmp->name;
 				tmp->name = env->name;
@@ -55,18 +55,19 @@ void	sort_env(t_env *env)
 
 void	print_env_declare(t_msh *msh, t_env *env_orig)
 {
-	t_env *env;
+	t_env	*env;
 
 	env = dup_env(env_orig);
 	sort_env(env);
-	if(!msh->out_fd)
+	if (!msh->out_fd)
 		msh->out_fd = 1;
 	while (env)
 	{
 		if (strcmp(env->name, "_"))
 		{
 			if (env->value && *(env->value))
-				ft_printf_fd(msh->out_fd, "declare -x %s=\"%s\"\n", env->name, env->value);
+				ft_printf_fd(msh->out_fd, "declare -x %s=\"%s\"\n", env->name,
+					env->value);
 			else
 				ft_printf_fd(msh->out_fd, "declare -x %s\n", env->name);
 		}

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/23 18:43:24 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 10:44:54 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,9 +95,9 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 	}
 	if (pid == 0)
 		child(msh, cmd_args, i);
-	if(pid != 0)
+	if (pid != 0)
 		msh->pids[i] = pid;
-	if(pid != 0)
+	if (pid != 0)
 		parent(msh, i, cmd_count, cmd_args);
 	return (0);
 }
