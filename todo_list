@@ -1,13 +1,6 @@
-#invalid command, followed by empty variable, should clear the exit code
-doesntexist
-$EMPTY
-echo $?
-
 To test:
 
 test signals
 test and verify all malocs
 verify forbidden functions
 check for any hidden or useless files
-
-return code 0 quand liste token est a 0
