@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 11:04:42 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 13:25:20 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -55,6 +55,16 @@ int	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 	return (0);
 }
 
+void	go_to_next_out_type(t_cmd **cur_cmd)
+{
+	while (*cur_cmd && (*cur_cmd)->next && (!is_cmd_type(*cur_cmd)
+			&& !is_output_type(*cur_cmd)))
+		*cur_cmd = (*cur_cmd)->next;
+	while (*cur_cmd && (*cur_cmd)->next && !is_output_type(*cur_cmd)
+		&& !is_operand_type(*cur_cmd) && (*cur_cmd)->cmd_type != PIPE)
+		*cur_cmd = (*cur_cmd)->next;
+}
+
 int	get_out_type(t_msh *msh, t_cmd *cmds)
 {
 	t_cmd	*cur_cmd;
@@ -65,12 +75,7 @@ int	get_out_type(t_msh *msh, t_cmd *cmds)
 	msh->out_fd = 0;
 	ret = 0;
 	cur_cmd = cmds;
-	while (cur_cmd && cur_cmd->next && (!is_cmd_type(cur_cmd)
-			&& !is_output_type(cur_cmd)))
-		cur_cmd = cur_cmd->next;
-	while (cur_cmd && cur_cmd->next && !is_output_type(cur_cmd)
-		&& !is_operand_type(cur_cmd) && cur_cmd->cmd_type != PIPE)
-		cur_cmd = cur_cmd->next;
+	go_to_next_out_type(&cur_cmd);
 	if (cur_cmd && (cur_cmd->cmd_type == CMD || cur_cmd->cmd_type == PAREN))
 		msh->out_type = 0;
 	else if (cur_cmd && is_output_type(cur_cmd) && !is_operand_type(cur_cmd)
