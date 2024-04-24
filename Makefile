@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/24 11:00:09 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/24 14:58:52 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -42,6 +42,9 @@ SRCS_RAW =	main.c\
 			parsing_bonus.c\
 			exec_bonus.c\
 			exec_utils.c\
+			get_len_bonus.c\
+			check_syntax.c\
+			check_syntax_utils.c\
 			free.c
 
 OBJS_DIR = objs/

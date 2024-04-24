@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 14:03:39 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:05:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -154,6 +154,11 @@ int		is_output_type(t_cmd *cmd);
 int		print_env(t_env *env);
 t_cmd	*free_cmd(t_cmd *cmd);
 int		ft_export(t_msh *msh, t_token *cmd, t_env *env);
+int		get_parenthesis_cmd_len(char *cmd);
+int		get_normal_cmd_len(char *cmd);
+int		get_next_arg_len(char *cmd);
+int		check_str_syntax(char *cmd);
+int		check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env);
 int		is_parenthesis(t_cmd *cmd);
 int		is_input_type(t_cmd *cmd);
 void	free_env(t_env *env);
