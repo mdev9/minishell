@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 17:07:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 10:40:41 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,6 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 	char	*line;
 
 	line = NULL;
-	//TODO: parse eof sans parse les variables
 	while (1)
 	{
 		free(line);
@@ -68,6 +67,12 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	int		pid;
 
 	here_doc_file = get_tmp_file_name(msh);
+	if (msh->here_doc_filename)
+	{
+		close(msh->in_fd);
+		unlink(msh->here_doc_filename);
+		free(msh->here_doc_filename);
+	}
 	msh->here_doc_filename = here_doc_file;
 	msh->in_fd = open(here_doc_file, O_CREAT | O_RDWR, 0644);
 	if (msh->in_fd == -1)

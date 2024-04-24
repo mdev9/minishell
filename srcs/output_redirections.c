@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/22 19:42:05 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 11:04:42 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -38,7 +38,7 @@ int	open_out_file(t_msh *msh, t_cmd **cur_cmd, char *filename)
 	if (msh->out_type == RED_O)
 		msh->out_fd = open(filename, O_CREAT | O_WRONLY | O_TRUNC, 0644);
 	if (msh->out_type == RED_O_APP)
-		msh->out_fd = open(filename, O_CREAT | O_RDWR | O_APPEND, 0644);
+		msh->out_fd = open(filename, O_CREAT | O_WRONLY | O_APPEND, 0644);
 	if (msh->out_fd == -1)
 	{
 		ft_putstr_fd("minishell: ", 2);

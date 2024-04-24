@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 18:51:29 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 10:42:16 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,14 +29,14 @@ void	close_pipe_fds(t_msh *msh, int i)
 
 void	handle_parenthesis(t_msh *msh)
 {
-	char *command;
-	
+	char	*command;
+
 	command = 0;
-	if(msh->cmds->cmd_type == PAREN)
+	if (msh->cmds->cmd_type == PAREN)
 		command = ft_strdup(msh->cmds->value);
-	else if(msh->cmds->cmd_type == PIPE)
+	else if (msh->cmds->cmd_type == PIPE)
 		command = ft_strdup(msh->cmds->next->value);
-	if(!command)
+	if (!command)
 	{
 		ft_printf_fd(2, "an error occured");
 		ft_exit(msh, 1);
@@ -57,7 +57,7 @@ void	handle_parenthesis(t_msh *msh)
 void	execute_command(t_msh *msh, char **cmd_args)
 {
 	char	**env;
-	
+
 	if (is_parenthesis(msh->cmds))
 	{
 		free(cmd_args);

@@ -1,6 +1,31 @@
 unset HOME
 cd | lolcat
-double here_doc and manual here_doc tests
-$OLDPWD and $PWD (manual tests)
+$SHLVL
+
+
+cat <minishell.h <<HERE <missing <<DOC | echo oi
+
+#invalid command, followed by empty variable, should clear the exit code
+doesntexist
+$EMPTY
+echo $?
+
+# Should skip the empty argument, and print hello after spaces
+echo - "" "  " hello
+
+
+NORME :c
+
+test signals
+test and verify all malocs
+verify forbidden functions
+
+
+Not mandatory ig? # Empty export isn't set on `env` but is set on `export`
+export hello
+env | grep hello
+export | grep hello
+
+
 potential ft_exit that doesnt unlink tmp here_doc files
-$EMPTY (manual tests)
+parse eof sans parse les variables

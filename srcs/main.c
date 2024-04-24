@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 13:05:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 13:07:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,46 +99,12 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->env = add_shlvl((*msh)->env);
 	tcgetattr(1, &t_p);
 	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
-	signal(SIGINT, signal_handler_interactive); //enables ctrl-C
+	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	if (set_echoctl(0))
 		ft_exit(*msh, 1);
 	return (0);
 }
-/* 
-mandatory
-int	main(int argc, char **argv, char **envp)
-{
-	char	*commands;
-	char	*prompt;
-	t_msh	*msh;
-	char	*commands;
-	char	*prompt;
-	t_msh	*msh;
-
-	commands = (char *)1;
-	init_minishell(&msh, argc, argv, envp);
-	while (commands)
-	{
-		prompt = get_prompt(msh->env);
-		if (!prompt)
-			exit(1);
-		commands = readline(prompt);
-		free(prompt);
-		add_history(commands);
-		msh->tokens = parse_command(commands, msh->env);
-		print_parsed_cmd(msh->tokens);
-		free(commands);
-		exec_commands(msh);
-		free_token(msh->tokens);
-		
-	}
-	rl_clear_history();
-	set_echoctl(msh->echoctl);
-	free_msh(msh);
-	ft_printf("exit\n");
-	return (g_return_code);
-}*/
 
 int	main(int argc, char **argv, char **envp)
 {
