@@ -17,3 +17,4 @@ To test:
 test signals
 test and verify all malocs
 verify forbidden functions
+check for any hidden or useless files
