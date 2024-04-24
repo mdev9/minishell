@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:56 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:36:12 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_token	*token_add_back(t_token *token, char *value)
 	t_token	*res;
 	t_token	*current;
 
-	if (value && !*value)
+	if (/*value && !*value*/0)
 	{
 		free(value);
 		return (token);

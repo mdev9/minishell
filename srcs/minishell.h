@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 15:05:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/24 15:17:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,7 +73,6 @@ typedef struct s_msh
 	int				in_fd;
 	int				out_fd;
 	int				locked_return_code;
-	int				echoctl;
 	char			*here_doc_filename;
 }	t_msh;
 
@@ -149,7 +148,6 @@ char	*get_var_name(char *str);
 int		exec_builtin(t_msh *msh);
 void	get_cmd_path(t_msh *msh);
 int		is_operand_type(t_cmd *cmd);
-int		set_echoctl(int value);
 int		is_output_type(t_cmd *cmd);
 int		print_env(t_env *env);
 t_cmd	*free_cmd(t_cmd *cmd);

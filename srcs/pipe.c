@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 10:42:16 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/24 15:17:58 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -70,7 +70,6 @@ void	execute_command(t_msh *msh, char **cmd_args)
 	}
 	if (msh->tokens->value)
 	{
-		set_echoctl(msh->echoctl);
 		env = env_to_char_tab(msh->env);
 		if (env)
 		{
