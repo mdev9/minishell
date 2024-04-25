@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 14:41:01 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:19:39 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,32 +61,46 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 	return (set_env(env, name, value, append));
 }
 
-int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
+int	export_var(t_token *cmd, t_env *env)
 {
 	char	*arg;
 	char	*name;
 	char	*value;
 	int		len;
 	int		append;
+	len = 0;
+
+	arg = cmd->value;
+	while (arg[len] && arg[len] != '=' && arg[len] != '+')
+		len++;
+	name = ft_substr(arg, 0, len);
+	append = arg[len] == '+';
+	if (arg[len] == '=' || (arg[len] == '+' && arg[len + 1] == '='))
+		len += 1 + (arg[len] == '+');
+	if (!name || !check_var_name(name) || arg[len] == '+')
+		return (export_invalid_identifier(arg, name));
+	value = ft_strdup(arg + len);
+	env = export_set_env(env, name, value, append);
+	return (0);
+}
+
+int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
+{
+	int error;
 
 	if (cmd && !cmd->next)
 		print_env_declare(msh, env);
-	if (cmd && cmd->next && !cmd->next->next)
+	cmd = cmd->next;
+	while (cmd->next)
+	//if (cmd && cmd->next && !cmd->next->next)
 	{
-		arg = cmd->next->value;
-		len = 0;
-		while (arg[len] && arg[len] != '=' && arg[len] != '+')
-			len++;
-		name = ft_substr(arg, 0, len);
-		append = arg[len] == '+';
-		if (arg[len] == '=' || (arg[len] == '+' && arg[len + 1] == '='))
-			len += 1 + (arg[len] == '+');
-		if (!name || !check_var_name(name) || arg[len] == '+')
-			return (export_invalid_identifier(arg, name));
-		value = ft_strdup(arg + len);
-		env = export_set_env(env, name, value, append);
+		if (export_var(cmd, env))
+			error = 1;
+		cmd = cmd->next;
 	}
-	return (0);
+	if (export_var(cmd, env))
+		error = 1;
+	return (error);
 }
 
 int	ft_unset(t_msh *msh)
