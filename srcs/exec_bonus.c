@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 21:31:10 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:44:26 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -108,7 +108,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	free(msh->fds);
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	set_echoctl(0);
+	//set_echoctl(0);
 }
 
 void	exec_commands(t_msh *msh)

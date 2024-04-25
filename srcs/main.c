@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:10:38 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:40:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ t_env	*add_shlvl(t_env *env)
 	else
 		nb = ft_atoi(tmp);
 	nb++;
+	if(nb < 0)
+		nb = 0;
 	env = export_set_env(env, ft_strdup("SHLVL"), ft_itoa(nb), 0);
 	return (env);
 }
@@ -98,11 +100,12 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(*msh)->env = get_env(envp);
 	(*msh)->env = add_shlvl((*msh)->env);
 	tcgetattr(1, &t_p);
-	(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
+	//(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
+	rl_catch_signals = 0;
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	if (set_echoctl(0))
-		ft_exit(*msh, 1);
+	//if (set_echoctl(0))
+	//	ft_exit(*msh, 1);
 	return (0);
 }
 

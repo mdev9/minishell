@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:58:36 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 10:59:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 13:49:47 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -56,9 +56,11 @@ void	sort_env(t_env *env)
 void	print_env_declare(t_msh *msh, t_env *env_orig)
 {
 	t_env	*env;
+	t_env	*start;
 
 	env = dup_env(env_orig);
 	sort_env(env);
+	start = env;
 	if (!msh->out_fd)
 		msh->out_fd = 1;
 	while (env)
