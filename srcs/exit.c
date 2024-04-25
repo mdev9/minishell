@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 19:14:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:10:36 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -25,7 +25,7 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 	t_token	*cur_cmd;
 
 	cur_cmd = msh->tokens->next;
-	if (cur_cmd && !ft_strisnbr(cur_cmd->value))
+	if (cur_cmd && (!ft_strisnbr(cur_cmd->value) || ft_strlen(cur_cmd->value) > 18))
 		numeric_arg_err(cur_cmd->value, exit_code);
 	else if (cur_cmd)
 		*exit_code = (unsigned char)ft_atoi(cur_cmd->value);
