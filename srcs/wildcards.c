@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 20:37:10 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:35:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -19,14 +19,13 @@ int	filename_corresponds(char *wildcard, char *value)
 	{
 		if (*wildcard == '*')
 		{
+			while(*wildcard == '*' && wildcard[1] == '*')
+				wildcard++;
 			if (!wildcard[1])
 				return (1);
 			while (*value)
-			{
-				if (filename_corresponds(wildcard + 1, value))
+				if (filename_corresponds(wildcard + 1, value++))
 					return (1);
-				value++;
-			}
 			return (0);
 		}
 		else if (*wildcard == *value)

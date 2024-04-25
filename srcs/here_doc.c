@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 10:40:41 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 10:16:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 		if (!line)
 		{
 			ft_printf_fd(2, "\nminishell: warning: here-document delimited by");
-			ft_printf_fd(2, " end-of-file, (wanted `%s')", eof);
+			ft_printf_fd(2, " end-of-file, (wanted `%s')\n", eof);
 			break ;
 		}
 		if (line && !ft_strncmp(line, eof, ft_strlen(eof)))
