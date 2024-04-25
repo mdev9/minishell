@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:51:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:08:21 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -20,12 +20,21 @@ void	numeric_arg_err(char *arg, int *exit_code)
 	*exit_code = 2;
 }
 
+int	is_too_big(char *num_str)
+{
+	if ((strlen(num_str) == 19 && strcmp(num_str, "9223372036854775807") > 0)
+		|| (strlen(num_str) == 20 && num_str[0] == '-'
+		&& strcmp(num_str, "-9223372036854775808") > 0) || strlen(num_str) > 20)
+        return 1;
+	return (0);
+}
+
 void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 {
 	t_token	*cur_cmd;
 
 	cur_cmd = msh->tokens->next;
-	if (cur_cmd && (!ft_strisnbr(cur_cmd->value) || ft_strlen(cur_cmd->value) > 18))
+	if (cur_cmd && (!ft_strisnbr(cur_cmd->value) || is_too_big(cur_cmd->value)))
 		numeric_arg_err(cur_cmd->value, exit_code);
 	else if (cur_cmd)
 		*exit_code = (unsigned char)ft_atoi(cur_cmd->value);
