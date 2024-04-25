@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/25 18:19:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:59:15 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -89,10 +89,12 @@ int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
 	int error;
 
 	if (cmd && !cmd->next)
+	{
 		print_env_declare(msh, env);
+		return (0);
+	}
 	cmd = cmd->next;
 	while (cmd->next)
-	//if (cmd && cmd->next && !cmd->next->next)
 	{
 		if (export_var(cmd, env))
 			error = 1;

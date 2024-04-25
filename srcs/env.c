@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:58:36 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/25 13:49:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:55:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -75,6 +75,7 @@ void	print_env_declare(t_msh *msh, t_env *env_orig)
 		}
 		env = env->next;
 	}
+	free_env_cpy(env);
 }
 
 void	delete_from_env(t_msh *msh, char *name)
