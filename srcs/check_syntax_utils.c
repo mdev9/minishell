@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:54:53 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:15:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:51:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ int	check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env)
 	{
 		g_return_code = 2;
 		ft_putstr_fd("minishell : syntax error\n", 2);
+		g_return_code = 2;
 		return (0);
 	}
 	token = parse_cmds_to_token(cmd, env);

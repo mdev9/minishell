@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:50:15 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:15:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 13:50:46 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -113,8 +113,8 @@ int	check_str_syntax(char *cmd)
 	}
 	if (in_quote || in_dquote || parenthesis)
 	{
-		g_return_code = 2;
 		ft_putstr_fd("minishell: syntax error\n", 2);
+		g_return_code = 2;
 	}
 	return (!(in_quote || in_dquote || parenthesis));
 }
