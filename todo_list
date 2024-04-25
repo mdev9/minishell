@@ -1,25 +1,14 @@
-exit with positive and negative 18/19 digits
-check error codes
-Export multiple variables
-./tester os_specific
 
-
-
-Open file descriptor with cat << eof | ls open fd and infinte loop
-Cat makefile | (echo yes && rev) leaks
-echo yes && echo yes && car dhdgdgjsk || echo no leaks
+Cat makefile | (echo yes && rev)                       leaks
+echo yes && echo yes && cat dhdgdgjsk || echo a                leaks
 echo abc && echo def | cat | rev && echo yes
 (), ((())), (())
-export leaks
+export leaks AAAAAAAAAAAAAAAAAAAAAA
 
-fix broken tests from tester
 
 
 To test:
-
-
-ctrl backslash in middle of line
-ctrl c on character we are ln with cursor, not end of line
+Open file descriptor with cat << eof | ls open fd and infinte loop
 
 test signals
 test and verify all malocs
