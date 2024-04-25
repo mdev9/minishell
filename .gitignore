@@ -4,6 +4,7 @@
 
 
 minishell
+minishell_bonus
 .minishellrc
 objs/
 .tmp*
