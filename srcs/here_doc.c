@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/25 10:16:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:38:34 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,6 +37,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 
 void	here_doc_child(t_msh *msh, char *eof)
 {
+	rl_catch_signals = 1;
 	here_doc_variables(1, msh);
 	signal(SIGINT, signal_handler_here_doc);
 	get_here_doc_input(msh, eof);
@@ -55,7 +56,12 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 	signal(SIGQUIT, signal_handler_interactive);
 	close(msh->in_fd);
 	if (WIFEXITED(status) && WEXITSTATUS(status))
+	{
 		unlink(here_doc_file);
+		msh->in_fd = -1;
+		g_return_code = 130;
+		return ;
+	}
 	msh->in_fd = open(here_doc_file, O_RDWR, 0644);
 	if (msh->in_fd == -1 && !(WIFEXITED(status) && WEXITSTATUS(status)))
 		perror("open");

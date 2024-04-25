@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:40:02 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:38:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -90,8 +90,6 @@ t_env	*add_shlvl(t_env *env)
 
 int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 {
-	struct termios	t_p;
-
 	*msh = ft_calloc(1, sizeof(t_msh));
 	if (!*msh)
 		exit(1);
@@ -99,13 +97,9 @@ int	init_minishell(t_msh **msh, int argc, char **argv, char **envp)
 	(void)argv;
 	(*msh)->env = get_env(envp);
 	(*msh)->env = add_shlvl((*msh)->env);
-	tcgetattr(1, &t_p);
-	//(*msh)->echoctl = t_p.c_lflag & ECHOCTL;
 	rl_catch_signals = 0;
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	//if (set_echoctl(0))
-	//	ft_exit(*msh, 1);
 	return (0);
 }
 
