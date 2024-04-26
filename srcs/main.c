@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 10:24:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 10:53:31 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,7 +82,7 @@ t_env	*add_shlvl(t_env *env)
 	else
 		nb = ft_atoi(tmp);
 	nb++;
-	if(nb < 0)
+	if (nb < 0)
 		nb = 0;
 	env = export_set_env(env, ft_strdup("SHLVL"), ft_itoa(nb), 0);
 	return (env);

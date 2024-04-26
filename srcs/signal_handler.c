@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:39:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 10:54:13 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	*here_doc_variables(int write, void *data)
 
 void	signal_handler_here_doc(int signum)
 {
-	t_msh			*msh;
+	t_msh	*msh;
 
 	if (signum == SIGINT)
 	{
 		msh = here_doc_variables(0, 0);
 		rl_on_new_line();
 		printf("\n");
-		if(msh->in_fd > 2)
+		if (msh->in_fd > 2)
 			close(msh->in_fd);
 		ft_exit(msh, 1);
 	}
@@ -52,11 +52,11 @@ void	signal_handler_here_doc(int signum)
 
 int	set_echoctl(int value)
 {
-	printf("nope");
-(void)value;
-/*
 	struct termios	t_p;
 
+	printf("nope");
+	(void)value;
+	/*
 	if (!isatty(1))
 		return (0);
 	if (tcgetattr(1, &t_p))
@@ -71,7 +71,7 @@ int	set_echoctl(int value)
 		return (1);
 	return (0);
 */
-	return(0);
+	return (0);
 }
 
 void	signal_handler_command(int signum)

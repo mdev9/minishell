@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:08:21 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 10:49:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,9 +23,9 @@ void	numeric_arg_err(char *arg, int *exit_code)
 int	is_too_big(char *num_str)
 {
 	if ((strlen(num_str) == 19 && strcmp(num_str, "9223372036854775807") > 0)
-		|| (strlen(num_str) == 20 && num_str[0] == '-'
-		&& strcmp(num_str, "-9223372036854775808") > 0) || strlen(num_str) > 20)
-        return 1;
+		|| (strlen(num_str) == 20 && num_str[0] == '-' && strcmp(num_str,
+				"-9223372036854775808") > 0) || strlen(num_str) > 20)
+		return (1);
 	return (0);
 }
 
@@ -54,7 +54,6 @@ int	exit_bt(t_msh *msh)
 	else
 	{
 		get_exit_bt_return_code(msh, &exit_code);
-		//set_echoctl(msh->echoctl);
 		free_msh(msh);
 		exit(exit_code);
 	}

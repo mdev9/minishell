@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 10:29:05 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 10:52:17 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -68,8 +68,8 @@ int	export_var(t_token *cmd, t_env *env)
 	char	*value;
 	int		len;
 	int		append;
-	len = 0;
 
+	len = 0;
 	arg = cmd->value;
 	while (arg[len] && arg[len] != '=' && arg[len] != '+')
 		len++;
@@ -86,7 +86,7 @@ int	export_var(t_token *cmd, t_env *env)
 
 int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
 {
-	int error;
+	int	error;
 
 	error = 0;
 	if (cmd && !cmd->next)
@@ -104,19 +104,4 @@ int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
 	if (export_var(cmd, env))
 		error = 1;
 	return (error);
-}
-
-int	ft_unset(t_msh *msh)
-{
-	t_token	*cmd;
-
-	cmd = msh->tokens;
-	if (cmd)
-		cmd = cmd->next;
-	while (cmd)
-	{
-		delete_from_env(msh, cmd->value);
-		cmd = cmd->next;
-	}
-	return (0);
 }
