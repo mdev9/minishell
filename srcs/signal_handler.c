@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 11:06:01 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:09:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -37,14 +37,14 @@ void	*here_doc_variables(int write, void *data)
 
 void	signal_handler_here_doc(int signum)
 {
-	t_msh			*msh;
+	t_msh	*msh;
 
 	if (signum == SIGINT)
 	{
 		msh = here_doc_variables(0, 0);
 		rl_on_new_line();
 		printf("^C\n");
-		if(msh->in_fd > 2)
+		if (msh->in_fd > 2)
 			close(msh->in_fd);
 		ft_exit(msh, 1);
 	}
