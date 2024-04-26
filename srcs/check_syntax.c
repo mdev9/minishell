@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:50:15 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:50:46 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 14:39:48 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,7 +32,7 @@ int	check_parens_syntax(t_cmd *cmd, t_cmd *last, t_env *env)
 	}
 	tmp = check_cmds_syntax(parsed_cmd, env);
 	if (tmp)
-		print_syntax_error_bonus(tmp);
+		print_syntax_error_bonus(tmp, 0);
 	free_cmd(parsed_cmd);
 	return (tmp == 0);
 }

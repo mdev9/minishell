@@ -6,14 +6,15 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:54:53 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 13:51:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 14:41:58 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-void	print_syntax_error_bonus(t_cmd *cmd)
+void	print_syntax_error_bonus(t_cmd *cmd,t_cmd *cmds)
 {
+	free_cmd(cmds);
 	if (cmd->cmd_type == CMD || cmd->cmd_type == PAREN)
 		return ;
 	ft_printf_fd(2, "minishell : syntax error near unexpected token `");

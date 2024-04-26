@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 10:49:45 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:43:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -50,7 +50,6 @@ void	handle_parenthesis(t_msh *msh)
 	msh->out_fd = 0;
 	msh->locked_return_code = 0;
 	exec_command_bonus(msh, command);
-	free(command);
 	ft_exit(msh, g_return_code);
 }
 

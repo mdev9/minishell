@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:54:09 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 14:41:02 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -103,7 +103,7 @@ void	handle_here_doc(t_msh *msh, char *eof);
 int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
 void	signal_handler_interactive(int signum);
 int		get_token_len(char *cmd, t_env *env);
-void	print_syntax_error_bonus(t_cmd *cmd);
+void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds);
 void	signal_handler_here_doc(int signum);
 t_token	*parsing_syntax_error(t_token *res);
 int		file_access(t_msh *msh, int *found);
@@ -125,14 +125,12 @@ void	ft_exit(t_msh *msh, int exit_code);
 char	**split_paths_from_env(t_env *env);
 int		add_return_code_to_str(char *res);
 void	parse_var(t_msh *msh, char *line);
-void	print_parsed_token(t_token *cmd);//debug
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);
 t_cmd	*check_cmds_syntax(t_cmd *cmds, t_env *env);
 char	*get_tmp_file_name(t_msh *msh);
 int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);
-void	print_parsed_cmd(t_cmd *cmd);//debug
 int		first_is_in_type(t_cmd *cmd);
 void	print_msh_struct(t_msh *msh);
 int		contains_newline(char *str);
