@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/26 10:52:53 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/26 14:49:33 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -89,6 +89,7 @@ clean:
 	fi
 
 bonus: all
+	@$(CC) $(FLAGS) $(OBJS) $(LIBFT) -lreadline -o $(NAME)_bonus
 
 install: $(NAME)
 	cp $(NAME) ~/.local/bin/msh
