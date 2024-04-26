@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:51:00 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 14:59:47 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:29:23 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -73,7 +73,7 @@ int	get_parenthesis_cmd_len(char *cmd)
 		if (cmd[len] == '"' && !in_quote)
 			in_dquote = !in_dquote;
 		if ((cmd[len] == '(' || cmd[len] == ')') && !in_quote && !in_dquote)
-			parenthesis += 1 * (-(cmd[len] == ')'));
+			parenthesis += 1 - ((cmd[len] == ')') * 2);
 		len++;
 	}
 	return (len - 1);

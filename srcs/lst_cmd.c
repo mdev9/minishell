@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:55 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 13:45:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,7 +17,7 @@ t_cmd	*cmd_add_back(t_cmd *cmd, char *value, t_cmd_type type)
 	t_cmd	*res;
 	t_cmd	*current;
 
-	if (value && !*value)
+	if (value && !*value && type != PAREN)
 	{
 		free(value);
 		return (cmd);
