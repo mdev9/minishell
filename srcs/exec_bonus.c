@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 19:20:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 10:34:15 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -72,7 +72,8 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
-	if(msh->out_fd != -1 || msh->in_fd != -1)
+	g_return_code = 0;
+	if(msh->out_fd != -1 && msh->in_fd != -1)
 	{
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
@@ -82,7 +83,6 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		if ((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds))
 			exec(msh, get_cmd_args(msh), i, cmd_count);
 	}
-	g_return_code = 0;
 	remove_command_from_msh(msh);
 }
 
