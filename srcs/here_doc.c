@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 11:06:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:15:24 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 	if (WIFEXITED(status) && WEXITSTATUS(status))
 	{
 		unlink(here_doc_file);
-		msh->in_fd = -1;
+		msh->in_fd = -2;
 		g_return_code = 130;
 		return ;
 	}

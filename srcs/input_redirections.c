@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/25 18:39:48 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:25:15 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -57,7 +57,7 @@ int	open_input_file(t_msh *msh, t_cmd **cur_token)
 			ambiguous_redirect((*cur_token)->value, msh);
 		if (!filename->next)
 			msh->in_fd = open(filename->value, O_RDONLY);
-		if (msh->in_fd == -1)
+		if (msh->in_fd == -1 && !filename->next)
 		{
 			ft_printf_fd(2, "minishell: %s: ", filename->value);
 			perror("");
