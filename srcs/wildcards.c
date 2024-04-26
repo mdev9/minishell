@@ -6,42 +6,24 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 15:31:27 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:44:12 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
 
-int filename_corresponds(char *wildcard, char *value)
+int	filename_corresponds(char *wildcard, char *value);
+
+int	recursive_filename_check(char *wildcard, char **value)
 {
-    if (*value == '.' && *wildcard != '.')
-        return (0);
-    while (*wildcard && *value)
-    {
-        if (*wildcard == '*')
-        {
-            while (*wildcard == '*' && wildcard[1] == '*')
-                wildcard++;
-            if (!wildcard[1])
-                return (1);
-            while (*value)
-            {
-                if (filename_corresponds(wildcard + 1, value))
-                    return (1);
-                value++;
-            }
-            return (0);
-        }
-        else if (*wildcard == *value || *wildcard == '?')
-        {
-            wildcard++;
-            value++;
-        }
-        else
-            return (0);
-    }
-    return (!*wildcard && !*value);
+	while (**value)
+	{
+		if (filename_corresponds(wildcard + 1, *value))
+			return (1);
+		(*value)++;
+	}
+	return (0);
 }
-/*
+
 int	filename_corresponds(char *wildcard, char *value)
 {
 	if (*value == '.' && *wildcard != '.')
@@ -54,9 +36,7 @@ int	filename_corresponds(char *wildcard, char *value)
 				wildcard++;
 			if (!wildcard[1])
 				return (1);
-			while (*value)
-				if (filename_corresponds(wildcard + 1, value++))
-					return (1);
+			recursive_filename_check(wildcard, &value);
 			return (0);
 		}
 		else if (*wildcard == *value)
@@ -68,7 +48,7 @@ int	filename_corresponds(char *wildcard, char *value)
 			return (0);
 	}
 	return (!*wildcard && !*value);
-}*/
+}
 
 t_token	*get_all_files(DIR *dir, char *wildcard, int is_var)
 {
