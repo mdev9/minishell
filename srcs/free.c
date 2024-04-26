@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:51:13 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 21:11:53 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 19:01:49 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,4 +42,23 @@ void	free_msh(t_msh *msh)
 		free_token(msh->tokens);
 		free(msh);
 	}
+}
+
+void	free_env_cpy(t_env *env)
+{
+	if (env && env->next)
+		free_env_cpy(env->next);
+	free(env);
+}
+
+void	free_env(t_env *env)
+{
+	if (env && env->next)
+		free_env(env->next);
+	if (env)
+	{
+		free(env->name);
+		free(env->value);
+	}
+	free(env);
 }

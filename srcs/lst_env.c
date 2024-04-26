@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:55 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/25 18:53:51 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -29,18 +29,6 @@ t_env	*env_add_back(t_env *env, char *name, char *value)
 		current = current->next;
 	current->next = res;
 	return (env);
-}
-
-void	free_env(t_env *env)
-{
-	if (env && env->next)
-		free_env(env->next);
-	if (env)
-	{
-		free(env->name);
-		free(env->value);
-	}
-	free(env);
 }
 
 int	print_env(t_env *env)

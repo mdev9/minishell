@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 21:30:28 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/25 18:54:09 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -107,6 +107,7 @@ void	print_syntax_error_bonus(t_cmd *cmd);
 void	signal_handler_here_doc(int signum);
 t_token	*parsing_syntax_error(t_token *res);
 int		file_access(t_msh *msh, int *found);
+void	free_env_cpy(t_env *env);
 void	remove_command_from_msh(t_msh *msh);
 void	get_redirections(t_msh *msh, t_cmd *cmds);
 t_cmd	*get_next_command(t_cmd *cmd);
