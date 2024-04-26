@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 10:52:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 16:06:09 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -21,7 +21,7 @@ int	export_invalid_identifier(char *arg, char *name)
 	return (1);
 }
 
-t_env	*set_env(t_env *env, char *name, char *value, int append)
+t_env	*set_env(t_env *env, char *name, char *value, int flags)
 {
 	t_env	*tmp;
 
@@ -31,12 +31,12 @@ t_env	*set_env(t_env *env, char *name, char *value, int append)
 		if (!ft_strcmp(name, tmp->name))
 		{
 			free(name);
-			if (!*value)
+			if (!*value && !(flags & 0b10))
 			{
 				free(value);
 				return (env);
 			}
-			if (append)
+			if (flags & 0b1)
 				value = ft_strjoin_free(tmp->value, value, 2);
 			if (!value)
 				return (env);
@@ -49,7 +49,7 @@ t_env	*set_env(t_env *env, char *name, char *value, int append)
 	return (env_add_back(env, name, value));
 }
 
-t_env	*export_set_env(t_env *env, char *name, char *value, int append)
+t_env	*export_set_env(t_env *env, char *name, char *value, int flags)
 {
 	if (!value || !name)
 	{
@@ -58,7 +58,7 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int append)
 		ft_printf_fd(2, "minishell: malloc failed");
 		return (env);
 	}
-	return (set_env(env, name, value, append));
+	return (set_env(env, name, value, flags));
 }
 
 int	export_var(t_token *cmd, t_env *env)
@@ -67,20 +67,25 @@ int	export_var(t_token *cmd, t_env *env)
 	char	*name;
 	char	*value;
 	int		len;
-	int		append;
+	int		flags;
 
 	len = 0;
 	arg = cmd->value;
 	while (arg[len] && arg[len] != '=' && arg[len] != '+')
 		len++;
 	name = ft_substr(arg, 0, len);
-	append = arg[len] == '+';
-	if (arg[len] == '=' || (arg[len] == '+' && arg[len + 1] == '='))
-		len += 1 + (arg[len] == '+');
+	flags = arg[len] == '+';
+	if (arg[len] == '+' && arg[len + 1] == '=')
+		len++;
+	if (arg[len] == '=')
+	{
+		flags += 0b10;
+		len++;
+	}
 	if (!name || !check_var_name(name) || arg[len] == '+')
 		return (export_invalid_identifier(arg, name));
 	value = ft_strdup(arg + len);
-	env = export_set_env(env, name, value, append);
+	env = export_set_env(env, name, value, flags);
 	return (0);
 }
 
