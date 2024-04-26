@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 11:08:13 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 13:14:42 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -73,9 +73,9 @@ int	exec(t_msh *msh, char **cmd_args, int i, int cmd_count)
 void	exec_command(t_msh *msh, int i, int cmd_count)
 {
 	get_redirections(msh, msh->cmds);
-	g_return_code = 0;
-	if (msh->out_fd != -1 && msh->in_fd != -1)
+	if (msh->in_fd != -2)
 	{
+		g_return_code = 0;
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
@@ -135,7 +135,7 @@ void	exec_commands(t_msh *msh)
 	if (!msh->pids || !msh->fds)
 		ft_exit(msh, 1);
 	i = -1;
-	while (++i < cmd_count && msh->in_fd >= 0 && msh->out_fd >= 0)
+	while (++i < cmd_count && msh->in_fd != -2)
 		exec_command(msh, i, cmd_count);
 	free_token(msh->tokens);
 	end_execution(msh, cmd_count);

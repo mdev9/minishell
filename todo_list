@@ -1,14 +1,8 @@
-
 Cat makefile | (echo yes && rev)                       leaks
-echo yes && echo yes && cat dhdgdgjsk || echo a                leaks
-echo abc && echo def | cat | rev && echo yes
 (), ((())), (())
-export leaks AAAAAAAAAAAAAAAAAAAAAA
-
 
 
 To test:
-Open file descriptor with cat << eof | ls open fd and infinte loop
 
 test signals
 test and verify all malocs
