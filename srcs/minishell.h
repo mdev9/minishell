@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 15:06:06 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 15:47:28 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -86,6 +86,7 @@ void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);
 t_token	*expand_wildcards(t_token *res, char *value, int is_var);
 int		check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env);
 t_token	*token_add_back(t_token *res, char *token, int is_var);
+int		recursive_filename_check(char *wildcard, char **value);
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	redirect_output(t_msh *msh, int i, char **cmd_args);

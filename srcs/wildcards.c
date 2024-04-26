@@ -6,12 +6,10 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 15:44:12 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 15:46:39 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
-int	filename_corresponds(char *wildcard, char *value);
 
 int	recursive_filename_check(char *wildcard, char **value)
 {
