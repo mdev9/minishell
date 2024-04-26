@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/25 18:38:34 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:06:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,9 @@ void	here_doc_child(t_msh *msh, char *eof)
 {
 	rl_catch_signals = 1;
 	here_doc_variables(1, msh);
+	set_echoctl(0);
 	signal(SIGINT, signal_handler_here_doc);
+	signal(SIGQUIT, SIG_IGN);
 	get_here_doc_input(msh, eof);
 	close(msh->in_fd);
 	ft_exit(msh, 0);
@@ -52,6 +54,7 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 	signal(SIGINT, signal_handler_command);
 	signal(SIGQUIT, signal_handler_here_doc);
 	waitpid(child_pid, &status, 0);
+	set_echoctl(msh->echoctl);
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
 	close(msh->in_fd);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/22 14:31:13 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:39:18 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/26 11:06:01 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -43,7 +43,7 @@ void	signal_handler_here_doc(int signum)
 	{
 		msh = here_doc_variables(0, 0);
 		rl_on_new_line();
-		printf("\n");
+		printf("^C\n");
 		if(msh->in_fd > 2)
 			close(msh->in_fd);
 		ft_exit(msh, 1);
@@ -52,9 +52,6 @@ void	signal_handler_here_doc(int signum)
 
 int	set_echoctl(int value)
 {
-	printf("nope");
-(void)value;
-/*
 	struct termios	t_p;
 
 	if (!isatty(1))
@@ -70,8 +67,6 @@ int	set_echoctl(int value)
 	if (tcsetattr(1, TCSANOW, &t_p))
 		return (1);
 	return (0);
-*/
-	return(0);
 }
 
 void	signal_handler_command(int signum)
