@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/26 14:49:33 by marde-vr         ###   ########.fr        #
+#    Updated: 2024/04/26 16:08:22 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -96,7 +96,7 @@ install: $(NAME)
 	cp $(NAME) ~/.local/bin/minishell
 
 fclean: clean
-	rm -f $(NAME)
+	rm -f $(NAME) $(NAME)_bonus
 
 re: fclean all
 
