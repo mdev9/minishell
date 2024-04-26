@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 15:46:39 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/26 17:40:00 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -34,7 +34,8 @@ int	filename_corresponds(char *wildcard, char *value)
 				wildcard++;
 			if (!wildcard[1])
 				return (1);
-			recursive_filename_check(wildcard, &value);
+			if (recursive_filename_check(wildcard, &value))
+				return (1);
 			return (0);
 		}
 		else if (*wildcard == *value)
