@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:39:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/28 14:52:53 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -91,5 +91,5 @@ int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
 	}
 	else if (cur_cmd && cur_cmd->cmd_type == PIPE)
 		msh->out_type = PIPE;
-	return (ret || msh->in_fd == -1);
+	return (ret || msh->in_fd == -2);
 }
