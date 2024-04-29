@@ -3,3 +3,16 @@
 - cat < Makefile | rev | cat -e | rev | cat
 
 CPT
+
+
+
+
+
+
+probably repaired:
+
+- echo -nnn -n -nnnnnn aaa -nn # (invalid write/read)
+- echo -nnn -n -a -nnnnnn aaa -nn # (pas de print de flag apres le -a) (mais ca marche sur echo -nnn -n -nigga -nnnnnn aaa -nn ????????????????)
+- cat filenotfound -> exit # (exit avec le status 0 et pas 1)
+- < filenotfound # (status code pas a 1)
+- export aaa -> env # (variable aaa qui s'affiche)
