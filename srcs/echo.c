@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 14:52:21 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:42:38 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -34,15 +34,15 @@ int	echo(t_token *args)
 	int	i;
 
 	put_nl = 1;
-	i = 1;
 	while (args && args->value && args->value[0] == '-')
 	{
+		i = 1;
 		while (args->value[i] == 'n')
 			i++;
 		if (!args->value[i] && i > 1)
 			put_nl = 0;
 		else
-			ft_printf("%s ", args->value);
+			break;
 		args = args->next;
 	}
 	put_args(args);
