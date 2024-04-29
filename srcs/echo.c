@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 15:30:37 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 21:42:38 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/29 22:11:06 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -42,7 +42,7 @@ int	echo(t_token *args)
 		if (!args->value[i] && i > 1)
 			put_nl = 0;
 		else
-			break;
+			break ;
 		args = args->next;
 	}
 	put_args(args);

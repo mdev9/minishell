@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:20:21 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/23 19:56:00 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/29 21:47:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,10 +14,10 @@
 
 int	cmd_is_forkable_builtin(char *cmd_token)
 {
-	if (!ft_strcmp(cmd_token, "echo") || !ft_strcmp(cmd_token, "ret")
-		|| !ft_strcmp(cmd_token, "env") || !ft_strcmp(cmd_token, "exit")
-		|| !ft_strcmp(cmd_token, "pwd") || !ft_strcmp(cmd_token, "cd")
-		|| !ft_strcmp(cmd_token, "export") || !ft_strcmp(cmd_token, "unset"))
+	if (!ft_strcmp(cmd_token, "echo") || !ft_strcmp(cmd_token, "env")
+		|| !ft_strcmp(cmd_token, "exit") || !ft_strcmp(cmd_token, "pwd")
+		|| !ft_strcmp(cmd_token, "cd") || !ft_strcmp(cmd_token, "export")
+		|| !ft_strcmp(cmd_token, "unset"))
 		return (1);
 	return (0);
 }
@@ -48,8 +48,6 @@ int	exec_builtin(t_msh *msh)
 		return (0);
 	if (!ft_strcmp(msh->tokens->value, "echo"))
 		g_return_code = echo(msh->tokens->next);
-	else if (!ft_strcmp(msh->tokens->value, "ret"))
-		g_return_code = ft_atoi(msh->tokens->next->value);
 	else if (!ft_strcmp(msh->tokens->value, "env"))
 		g_return_code = print_env(msh->env);
 	else if (!ft_strcmp(msh->tokens->value, "exit"))

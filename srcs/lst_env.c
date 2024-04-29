@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/25 18:53:51 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/29 22:11:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -35,7 +35,8 @@ int	print_env(t_env *env)
 {
 	while (env)
 	{
-		ft_printf("%s=%s\n", env->name, env->value);
+		if (*env->value)
+			ft_printf("%s=%s\n", env->name, env->value);
 		env = env->next;
 	}
 	return (0);

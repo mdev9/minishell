@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 10:49:17 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/29 21:54:57 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -39,7 +39,7 @@ void	get_exit_bt_return_code(t_msh *msh, int *exit_code)
 	else if (cur_cmd)
 		*exit_code = (unsigned char)ft_atoi(cur_cmd->value);
 	else
-		*exit_code = g_return_code;
+		*exit_code = msh->last_return_code;
 }
 
 int	exit_bt(t_msh *msh)
