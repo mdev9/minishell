@@ -6,7 +6,7 @@
 #    By: tomoron <marvin@42.fr>                     +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/02 16:02:33 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/29 11:13:55 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -52,7 +52,8 @@ SRCS =			ft_atoi.c\
 				ft_split_set.c\
 				ft_free_str_arr.c\
 				ft_set_color.c\
-				ft_isspace.c
+				ft_isspace.c\
+				ft_str_is_only_char.c\
 
 SRCS_BONUS =	ft_lstnew.c\
 				ft_lstadd_front.c\

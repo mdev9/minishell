@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2023/10/30 16:55:48 by tomoron           #+#    #+#             */
-/*   Updated: 2024/02/11 17:41:32 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/29 11:12:16 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -46,6 +46,7 @@ void	ft_lstadd_front(t_list **lst, t_list *new);
 char	**ft_split(char const *str, char charset);
 void	ft_lstadd_back(t_list **lst, t_list *new);
 char	**ft_split_set(char *str, char *charset);
+int		ft_str_is_only_char(char *str, char c);
 void	*ft_memset(void *s, int c, size_t n);
 char	*ft_get_color(int r, int g, int b);
 void	*ft_calloc(size_t nb, size_t size);

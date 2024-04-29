@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/15 12:53:29 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 17:40:00 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/29 11:12:40 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -42,6 +42,8 @@ int	filename_corresponds(char *wildcard, char *value)
 		{
 			wildcard++;
 			value++;
+			if (ft_str_is_only_char(wildcard, '*') && !*value)
+				return (1);
 		}
 		else
 			return (0);

@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/04/26 16:08:22 by tomoron          ###   ########.fr        #
+#    Updated: 2024/04/29 10:28:55 by marde-vr         ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -22,7 +22,6 @@ SRCS_RAW =	main.c\
 			pwd.c\
 			env.c\
 			parsing.c\
-			debug.c\
 			env_utils.c\
 			parsing_var.c\
 			path.c\
