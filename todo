@@ -1,9 +1,9 @@
-- cat < Makefile | rev | cat -e | rev | cat
-
+(()) leaks when exit
 
 
 probably repaired:
 
+- cat < Makefile | rev | cat -e | rev | cat
 - cat Makefile | commandnotfound | cat
 - .. # (pas de command not found)
 - echo -nnn -n -nnnnnn aaa -nn # (invalid write/read)
