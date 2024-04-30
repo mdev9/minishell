@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 21:50:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/30 14:00:33 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -95,6 +95,7 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args);
 t_env	*env_add_back(t_env *env, char *name, char *value);
 void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds);
 int		filename_corresponds(char *wildcard, char *value);
+void	close_all_pipes(t_msh *msh, int cmd_count, int i);
 t_token	*parse_cmds_to_token(t_cmd *command, t_env *env);
 int		ft_export(t_msh *msh, t_token *cmd, t_env *env);
 void	print_env_declare(t_msh *msh, t_env *env_orig);
@@ -126,6 +127,7 @@ void	ft_exit(t_msh *msh, int exit_code);
 int		get_parenthesis_cmd_len(char *cmd);
 char	**split_paths_from_env(t_env *env);
 int		add_return_code_to_str(char *res);
+void	close_pipe_fds(t_msh *msh, int i);
 void	parse_var(t_msh *msh, char *line);
 int		get_var_name_len(char *command);
 void	handle_minishellrc(t_msh *msh);

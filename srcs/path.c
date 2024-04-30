@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 20:37:41 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/04/30 14:02:25 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -60,7 +60,8 @@ void	get_path(t_msh *msh, int *found)
 	char	**paths;
 
 	paths = split_paths_from_env(msh->env);
-	if (!paths || !*(msh->tokens->value))
+	if (!paths || !*(msh->tokens->value)
+		|| ft_str_is_only_char(msh->tokens->value, '.'))
 	{
 		free_paths(paths);
 		return ;

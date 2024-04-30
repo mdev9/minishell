@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 14:43:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/30 13:56:03 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -14,17 +14,20 @@
 
 void	close_pipe_fds(t_msh *msh, int i)
 {
-	if (i != 0)
+	if (msh->fds)
 	{
-		if (msh->fds[i - 1][0] > 2)
-			close(msh->fds[i - 1][0]);
-		if (msh->fds[i - 1][1] > 2)
-			close(msh->fds[i - 1][1]);
+		if (i != 0)
+		{
+			if (msh->fds[i - 1][0] > 2)
+				close(msh->fds[i - 1][0]);
+			if (msh->fds[i - 1][1] > 2)
+				close(msh->fds[i - 1][1]);
+		}
+		if (msh->fds[i] && msh->fds[i][0] > 2)
+			close(msh->fds[i][0]);
+		if (msh->fds[i] && msh->fds[i][1] > 2)
+			close(msh->fds[i][1]);
 	}
-	if (msh->fds[i][0] > 2)
-		close(msh->fds[i][0]);
-	if (msh->fds[i][1] > 2)
-		close(msh->fds[i][1]);
 }
 
 void	handle_parenthesis(t_msh *msh)

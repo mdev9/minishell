@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 22:06:15 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/04/30 14:00:36 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -97,6 +97,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	status = 0;
 	while (i < cmd_count)
 		waitpid(msh->pids[i++], &status, 0);
+	close_all_pipes(msh, cmd_count, i);
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
