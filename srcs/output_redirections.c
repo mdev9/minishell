@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/28 14:52:53 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:07:43 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -65,9 +65,25 @@ void	go_to_next_out_type(t_cmd **cur_cmd)
 		*cur_cmd = (*cur_cmd)->next;
 }
 
-int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
+void	get_out_file(t_msh *msh, t_cmd *cur_cmd, int *ret)
 {
 	t_token	*filename;
+
+	msh->out_type = cur_cmd->cmd_type;
+	if (ft_strchr(cur_cmd->value, '$'))
+		ambiguous_redirect(cur_cmd->value, msh);
+	filename = parse_tokens(cur_cmd->value, msh->env);
+	if (!filename)
+		ft_exit(msh, 1);
+	if (filename->next)
+		ambiguous_redirect(cur_cmd->value, msh);
+	if (!filename->next)
+		*ret = open_out_file(msh, &cur_cmd, filename->value);
+	free_token(filename);
+}
+
+int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
+{
 	int		ret;
 
 	msh->out_type = CMD;
@@ -78,17 +94,7 @@ int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
 		msh->out_type = 0;
 	else if (cur_cmd && is_output_type(cur_cmd) && !is_operand_type(cur_cmd)
 		&& cur_cmd->cmd_type != PIPE)
-	{
-		msh->out_type = cur_cmd->cmd_type;
-		filename = parse_tokens(cur_cmd->value, msh->env);
-		if (!filename)
-			ft_exit(msh, 1);
-		if (filename->next)
-			ambiguous_redirect(cur_cmd->value, msh);
-		if (!filename->next)
-			ret = open_out_file(msh, &cur_cmd, filename->value);
-		free_token(filename);
-	}
+		get_out_file(msh, cur_cmd, &ret);
 	else if (cur_cmd && cur_cmd->cmd_type == PIPE)
 		msh->out_type = PIPE;
 	return (ret || msh->in_fd == -2);

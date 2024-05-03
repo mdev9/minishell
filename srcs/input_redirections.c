@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/28 14:52:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:11:52 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -33,39 +33,38 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args)
 	}
 }
 
-void	ambiguous_redirect(char *str, t_msh *msh)
+int	open_input_redirection_file(t_msh *msh, t_cmd **cur_token)
 {
-	ft_printf_fd(2, "minishell: %s: ambiguous redirect\n", str);
-	msh->in_fd = -2;
-	g_return_code = 1;
+	t_token	*filename;
+
+	if (msh->in_fd != 0)
+		close(msh->in_fd);
+	if (ft_strchr((*cur_token)->value, '$'))
+		ambiguous_redirect((*cur_token)->value, msh);
+	filename = parse_tokens((*cur_token)->value, msh->env);
+	if (!filename)
+		ft_exit(msh, 1);
+	if (filename->next)
+		ambiguous_redirect((*cur_token)->value, msh);
+	if (!filename->next)
+		msh->in_fd = open(filename->value, O_RDONLY);
+	if (msh->in_fd == -1 && !filename->next)
+	{
+		ft_printf_fd(2, "minishell: %s: ", filename->value);
+		perror("");
+		free_token(filename);
+		return (1);
+	}
+	free_token(filename);
+	return (msh->in_fd == -2);
 }
 
 int	open_input_file(t_msh *msh, t_cmd **cur_token)
 {
-	t_token	*filename;
-
 	if ((*cur_token)->cmd_type == HERE_DOC)
 		handle_here_doc(msh, (*cur_token)->value);
 	if ((*cur_token)->cmd_type == RED_I)
-	{
-		if (msh->in_fd != 0)
-			close(msh->in_fd);
-		filename = parse_tokens((*cur_token)->value, msh->env);
-		if (!filename)
-			ft_exit(msh, 1);
-		if (filename->next)
-			ambiguous_redirect((*cur_token)->value, msh);
-		if (!filename->next)
-			msh->in_fd = open(filename->value, O_RDONLY);
-		if (msh->in_fd == -1 && !filename->next)
-		{
-			ft_printf_fd(2, "minishell: %s: ", filename->value);
-			perror("");
-			free_token(filename);
-			return (1);
-		}
-		free_token(filename);
-	}
+		return (open_input_redirection_file(msh, cur_token));
 	return (msh->in_fd == -2);
 }
 
@@ -89,22 +88,11 @@ int	get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc)
 		if (open_input_file(msh, &cur_token))
 			return (1);
 	}
-	if (cur_token && cur_token->next && !is_operand_type(cur_token->next)
+	if (cur_token && cur_token->next
+		&& !is_operand_type(cur_token) && !is_operand_type(cur_token->next)
 		&& cur_token->cmd_type != PIPE && cur_token->next->cmd_type != PIPE)
 		return (get_in_type(msh, t_strt, cur_token->next, here_doc));
 	if (here_doc)
 		return (get_in_type(msh, t_strt, t_strt, 0));
-	return (0);
-}
-
-int	first_is_in_type(t_cmd *cmd)
-{
-	t_cmd	*cur_token;
-
-	cur_token = cmd;
-	while (cur_token && cur_token->cmd_type == CMD && cur_token->next)
-		cur_token = cur_token->next;
-	if (is_input_type(cur_token) || cur_token->cmd_type == PIPE)
-		return (1);
 	return (0);
 }
