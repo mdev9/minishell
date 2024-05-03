@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/03 14:29:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:50:57 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -61,7 +61,7 @@ t_env	*export_set_env(t_env *env, char *name, char *value, int flags)
 	return (set_env(env, name, value, flags));
 }
 
-int	export_var(t_token *cmd, t_env *env)
+int	export_var(t_token *cmd, t_env **env)
 {
 	char	*arg;
 	char	*name;
@@ -85,7 +85,7 @@ int	export_var(t_token *cmd, t_env *env)
 	if (!name || !check_var_name(name) || arg[len] == '+')
 		return (export_invalid_identifier(arg, name));
 	value = ft_strdup(arg + len);
-	env = export_set_env(env, name, value, flags);
+	*env = export_set_env(*env, name, value, flags);
 	return (0);
 }
 
@@ -102,11 +102,12 @@ int	ft_export(t_msh *msh, t_token *cmd, t_env *env)
 	cmd = cmd->next;
 	while (cmd->next)
 	{
-		if (export_var(cmd, env))
+		if (export_var(cmd, &env))
 			error = 1;
 		cmd = cmd->next;
 	}
-	if (export_var(cmd, env))
+	if (export_var(cmd, &env))
 		error = 1;
+	msh->env = env;
 	return (error);
 }
