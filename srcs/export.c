@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/18 18:29:20 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 16:06:09 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:29:08 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -36,7 +36,7 @@ t_env	*set_env(t_env *env, char *name, char *value, int flags)
 				free(value);
 				return (env);
 			}
-			if (flags & 0b1)
+			if ((flags & 0b1) && tmp->value)
 				value = ft_strjoin_free(tmp->value, value, 2);
 			if (!value)
 				return (env);
@@ -46,7 +46,7 @@ t_env	*set_env(t_env *env, char *name, char *value, int flags)
 		}
 		tmp = tmp->next;
 	}
-	return (env_add_back(env, name, value));
+	return (env_add_back(env, name, value, !(flags & 0b10)));
 }
 
 t_env	*export_set_env(t_env *env, char *name, char *value, int flags)

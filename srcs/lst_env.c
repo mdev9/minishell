@@ -6,22 +6,25 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 22:11:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:20:04 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
 #include "minishell.h"
 
-t_env	*env_add_back(t_env *env, char *name, char *value)
+t_env	*env_add_back(t_env *env, char *name, char *value, int empty)
 {
 	t_env	*res;
 	t_env	*current;
 
+	if(empty)
+		free(value);
 	res = ft_calloc(1, sizeof(t_env));
 	if (!res)
 		return (env);
 	res->name = name;
-	res->value = value;
+	if(!empty)
+		res->value = value;
 	if (!env)
 		return (res);
 	current = env;
@@ -35,7 +38,7 @@ int	print_env(t_env *env)
 {
 	while (env)
 	{
-		if (*env->value)
+		if (env->value)
 			ft_printf("%s=%s\n", env->name, env->value);
 		env = env->next;
 	}

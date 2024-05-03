@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:58:36 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/26 10:26:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 14:25:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,7 +19,7 @@ t_env	*dup_env(t_env *env)
 	res = 0;
 	while (env)
 	{
-		res = env_add_back(res, env->name, env->value);
+		res = env_add_back(res, env->name, env->value, 0);
 		env = env->next;
 	}
 	return (res);
@@ -67,7 +67,7 @@ void	print_env_declare(t_msh *msh, t_env *env_orig)
 	{
 		if (strcmp(env->name, "_"))
 		{
-			if (env->value && *(env->value))
+			if (env->value)
 				ft_printf_fd(msh->out_fd, "declare -x %s=\"%s\"\n", env->name,
 					env->value);
 			else

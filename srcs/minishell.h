@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/30 14:00:33 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/03 14:16:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -92,7 +92,7 @@ t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	redirect_output(t_msh *msh, int i, char **cmd_args);
 void	redirect_input(t_msh *msh, int i, char **cmd_args);
-t_env	*env_add_back(t_env *env, char *name, char *value);
+t_env	*env_add_back(t_env *env, char *name, char *value, int empty);
 void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds);
 int		filename_corresponds(char *wildcard, char *value);
 void	close_all_pipes(t_msh *msh, int cmd_count, int i);
