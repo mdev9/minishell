@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/16 21:02:54 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/24 10:43:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/03 08:39:33 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -23,14 +23,13 @@ void	cd_update_pwd(t_msh *msh)
 	pwd = ft_get_env(msh->env, "PWD");
 	pwd = ft_strdup(pwd);
 	if (!pwd)
-		ft_strdup("");
+		pwd = ft_strdup("");
 	if (!pwd)
 		free(new);
 	if (!pwd)
 		return ;
 	msh->env = export_set_env(msh->env, ft_strdup("OLDPWD"), pwd, 0);
-	if (ft_get_env(msh->env, "PWD"))
-		msh->env = export_set_env(msh->env, ft_strdup("PWD"), new, 0);
+	msh->env = export_set_env(msh->env, ft_strdup("PWD"), new, 0);
 }
 
 char	*get_new_wd(t_token *arg, t_msh *msh)
