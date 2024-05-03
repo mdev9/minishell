@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:54:53 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 13:20:35 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/03 08:13:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -15,7 +15,10 @@
 void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds)
 {
 	if (cmd->cmd_type == CMD || cmd->cmd_type == PAREN)
+	{
+		free_cmd(cmds);
 		return ;
+	}
 	ft_printf_fd(2, "minishell : syntax error near unexpected token `");
 	g_return_code = 2;
 	if (cmd->cmd_type == AND)
