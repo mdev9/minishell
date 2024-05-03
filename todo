@@ -1,0 +1,13 @@
+- Leak lors des redirection out
+- Ctrl + c => here doc not 130
+- echo $""a
+- export c=
+- export a="export b="export""
+- ./aa = permission denied != Is a directory
+- env -i ./minishell => unset ALL => export a (nes pas export)
+- export a=b && cat <<A
+> A
+> A
+- lolcat && cat <<A = > n affiche pas le heredoc
+- export a="Makefile out"
+- marde-vr@2A7:/tmp/bberkrou$ cat < $a
