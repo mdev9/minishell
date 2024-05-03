@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/30 14:02:25 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/03 08:34:53 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -102,5 +102,6 @@ void	get_cmd_path(t_msh *msh)
 		free(msh->tokens->value);
 		msh->tokens->value = 0;
 		g_return_code = 127;
+		msh->in_fd = -2;
 	}
 }
