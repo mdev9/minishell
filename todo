@@ -1,6 +1,4 @@
 - Leak lors des redirection out
-- Ctrl + c => here doc not 130
-- echo $""a
 - export c=
 - export a="export b="export""
 - ./aa = permission denied != Is a directory
@@ -11,3 +9,10 @@
 - lolcat && cat <<A = > n affiche pas le heredoc
 - export a="Makefile out"
 - marde-vr@2A7:/tmp/bberkrou$ cat < $a
+
+
+
+
+fixed : 
+- echo $""a
+- Ctrl + c => here doc not 130
