@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/04 14:30:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/04 18:31:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -81,10 +81,9 @@ int	get_variable_expantion_len(char *command , t_env *env)
 	return(i);
 }
 
-char	*expand_variables(char *command, t_env *env)
+char	*expand_variables(char *command, t_env *env, int *is_var)
 {
 	char *res;
-	char *start;
 	int i;
 	int in_dquote;
 	int in_quote;
@@ -92,9 +91,9 @@ char	*expand_variables(char *command, t_env *env)
 	if(!command)
 		return(0);
 	res = ft_calloc(get_variable_expantion_len(command, env) + 1, 1);
-	start = command;
 	in_quote = 0;
 	in_dquote = 0;
+	*is_var = 1;
 	i = 0;
 	while(res && *command)
 	{
@@ -123,7 +122,7 @@ t_token	*parse_tokens(char *command, t_env *env)
 	quotes[1] = 0;
 	res = 0;
 	is_var = 0;
-	command = expand_variables(command, env);
+	command = expand_variables(command, env, &is_var);
 	tmp = command;
 	while (command && *command)
 	{
