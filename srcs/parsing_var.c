@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/03 12:52:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/04 14:11:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -45,7 +45,7 @@ int	get_var_len(char **command, t_env *env)
 	return (ft_strlen(env_var));
 }
 
-int	get_token_len(char *command, t_env *env)
+int	get_token_len(char *command)
 {
 	int	in_quote;
 	int	in_dquote;
@@ -60,8 +60,6 @@ int	get_token_len(char *command, t_env *env)
 			in_dquote = !in_dquote;
 		if (*command == '\'' && !in_dquote)
 			in_quote = !in_quote;
-		if (*command == '$' && !in_quote)
-			res += get_var_len(&command, env);
 		else if (*command == '~' && !in_quote && !in_dquote)
 			res += ft_strlen(getenv("HOME"));
 		else if (*command != '\'' && *command != '"')
@@ -81,7 +79,7 @@ int	invalid_variable_char(char *res, char c)
 	return (2);
 }
 
-int	add_var_to_str(char *res, char **command, t_env *env, int *is_var)
+int	add_var_to_str(char *res, char **command, t_env *env)
 {
 	char	*var_name;
 	char	*var;
@@ -89,7 +87,6 @@ int	add_var_to_str(char *res, char **command, t_env *env, int *is_var)
 
 	i = 0;
 	(*command)++;
-	*is_var = 1;
 	if (**command == '\'' || **command == '"' || !**command)
 	{
 		if (**command != '\'' && **command != '"')

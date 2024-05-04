@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/24 20:39:35 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/04 14:30:22 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -31,7 +31,7 @@ int	add_home_to_str(char *res)
 	return (i);
 }
 
-char	*get_token(char **cmd, int *quotes[2], t_env *env, int *is_var)
+char	*get_token(char **cmd, int quotes[2])
 {
 	char	*res;
 	int		i;
@@ -39,19 +39,17 @@ char	*get_token(char **cmd, int *quotes[2], t_env *env, int *is_var)
 	i = 0;
 	while (ft_isspace(**cmd))
 		(*cmd)++;
-	res = ft_calloc(get_token_len(*cmd, env) + 1, 1);
-	while (res && **cmd && (is_cmd_char(**cmd) || *(quotes[0]) || *(quotes[1])))
+	res = ft_calloc(get_token_len(*cmd) + 1, 1);
+	while (res && **cmd && (is_cmd_char(**cmd) || quotes[0] || quotes[1]))
 	{
-		if (**cmd == '"' && !*(quotes[0]))
-			*(quotes[1]) = !*(quotes[1]);
-		if (**cmd == '\'' && !*(quotes[1]))
-			*(quotes[0]) = !*(quotes[0]);
-		if (**cmd == '$' && !*(quotes[0]))
-			i += add_var_to_str(res + i, cmd, env, is_var);
-		else if (**cmd == '~' && !*(quotes[0]) && !*(quotes[1]))
+		if (**cmd == '"' && !quotes[0])
+			quotes[1] = !quotes[1];
+		if (**cmd == '\'' && !quotes[1])
+			quotes[0] = !quotes[0];
+		else if (**cmd == '~' && !quotes[0] && !quotes[1])
 			i += add_home_to_str(res + i);
-		else if (((**cmd == '\'' && *(quotes[1]))
-				|| (**cmd == '"' && *(quotes[0])))
+		else if (((**cmd == '\'' && quotes[1])
+				|| (**cmd == '"' && quotes[0]))
 			|| (**cmd != '\'' && **cmd != '"'))
 			res[i++] = **cmd;
 		(*cmd)++;
@@ -59,29 +57,85 @@ char	*get_token(char **cmd, int *quotes[2], t_env *env, int *is_var)
 	return (res);
 }
 
+int	get_variable_expantion_len(char *command , t_env *env)
+{
+	int in_quote;
+	int	in_dquote;
+	int i;
+
+	i = 0;
+	in_dquote = 0;
+	in_quote = 0;
+	while(*command)
+	{
+		if(*command == '\'' && !in_dquote)
+			in_quote = !in_quote;
+		if(*command == '"' && !in_quote)
+			in_dquote = !in_dquote;
+		if(*command == '$' && !in_quote)
+			i+= get_var_len(&command, env);
+		else
+			i++;
+		command++;
+	}
+	return(i);
+}
+
+char	*expand_variables(char *command, t_env *env)
+{
+	char *res;
+	char *start;
+	int i;
+	int in_dquote;
+	int in_quote;
+
+	if(!command)
+		return(0);
+	res = ft_calloc(get_variable_expantion_len(command, env) + 1, 1);
+	start = command;
+	in_quote = 0;
+	in_dquote = 0;
+	i = 0;
+	while(res && *command)
+	{
+		if(*command == '\'' && !in_dquote)
+			in_quote = !in_quote;
+		if(*command == '"' && !in_quote)
+			in_dquote = !in_dquote;
+		if(*command == '$' && !in_quote)
+			i+= add_var_to_str(res + i, &command ,env);
+		else
+			res[i++] = *command;
+		command++;
+	}
+	return(res);
+}
+
 t_token	*parse_tokens(char *command, t_env *env)
 {
-	int		in_quote;
-	int		in_dquote;
+	int		quotes[2];
+	char	*tmp;
 	t_token	*res;
 	char	*value;
 	int		is_var;
 
-	in_quote = 0;
-	in_dquote = 0;
+	quotes[0] = 0;
+	quotes[1] = 0;
 	res = 0;
 	is_var = 0;
+	command = expand_variables(command, env);
+	tmp = command;
 	while (command && *command)
 	{
-		value = get_token(&command, (int *[2]){&in_quote, &in_dquote},
-				env, &is_var);
+		value = get_token(&command, quotes);
 		if (!value)
 			return (free_token(res));
 		res = expand_wildcards(res, value, is_var);
 		while (ft_isspace(*command))
 			command++;
 	}
-	if (command && (in_quote || in_dquote))
+	free(tmp);
+	if (tmp && (quotes[0] || quotes[1]))
 		return (parsing_syntax_error(res));
 	return (res);
 }
