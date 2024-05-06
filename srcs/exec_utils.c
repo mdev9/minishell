@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 10:46:28 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/06 10:13:22 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:56:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -53,14 +53,6 @@ int	get_cmd_count(t_cmd *cmds)
 	nb = 1;
 	while (cmds && !is_operand_type(cmds))
 	{
-		/*while (cmds && (is_output_type(cmds) || is_input_type(cmds)))
-			cmds = cmds->next;
-		if (cmds && is_cmd_type(cmds))
-			nb++;
-		while (cmds && (is_output_type(cmds) || is_input_type(cmds)
-				|| is_cmd_type(cmds)))
-			cmds = cmds->next;
-		*/
 		if (cmds && cmds->cmd_type == PIPE)
 		{
 			nb++;

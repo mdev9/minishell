@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/06 20:46:19 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/03 14:20:04 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:56:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -17,13 +17,13 @@ t_env	*env_add_back(t_env *env, char *name, char *value, int empty)
 	t_env	*res;
 	t_env	*current;
 
-	if(empty)
+	if (empty)
 		free(value);
 	res = ft_calloc(1, sizeof(t_env));
 	if (!res)
 		return (env);
 	res->name = name;
-	if(!empty)
+	if (!empty)
 		res->value = value;
 	if (!env)
 		return (res);

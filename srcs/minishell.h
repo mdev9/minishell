@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 10:54:21 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:57:52 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,6 +82,8 @@ extern int	g_return_code;
 
 int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
 int		add_var_to_str(char *res, char **command, t_env *env, int dquote);
+int	get_variable_expantion_len(char *command, t_env *env);
+char	*expand_variables(char *command, t_env *env, int *is_var);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);
 t_token	*expand_wildcards(t_token *res, char *value, int is_var);
