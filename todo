@@ -1,11 +1,3 @@
-- export c=
-- export a="export b="export""
-- env -i ./minishell => unset ALL => export a (nes pas export)
-- export a="Makefile out"
-
-
-
-
-fixed : 
-- echo $""a
-- Ctrl + c => here doc not 130
+fsjdf | cat | cat >out |jsgdfjhsd
+echo uoi | << 1 << 2 <out cat
+ls <noperm | grep e
