@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 09:58:11 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:28:56 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -71,7 +71,10 @@ void	get_out_file(t_msh *msh, t_cmd *cur_cmd, int *ret)
 
 	msh->out_type = cur_cmd->cmd_type;
 	if (ft_strchr(cur_cmd->value, '$'))
+	{
 		ambiguous_redirect(cur_cmd->value, msh);
+		return ;
+	}
 	filename = parse_tokens(cur_cmd->value, msh->env);
 	if (!filename)
 		ft_exit(msh, 1);

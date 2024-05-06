@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/03 14:11:52 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/05 20:10:03 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -40,7 +40,10 @@ int	open_input_redirection_file(t_msh *msh, t_cmd **cur_token)
 	if (msh->in_fd != 0)
 		close(msh->in_fd);
 	if (ft_strchr((*cur_token)->value, '$'))
+	{
 		ambiguous_redirect((*cur_token)->value, msh);
+		return (1);
+	}
 	filename = parse_tokens((*cur_token)->value, msh->env);
 	if (!filename)
 		ft_exit(msh, 1);
