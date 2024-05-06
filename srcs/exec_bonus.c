@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 16:17:36 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:35:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -135,7 +135,7 @@ void	exec_commands(t_msh *msh)
 	if (!msh->tokens && !is_parenthesis(msh->cmds))
 	{
 		get_redirections(msh, msh->cmds);
-		g_return_code = (msh->in_fd == -1 || msh->out_fd == -1);
+		g_return_code = (msh->in_fd < 0 || msh->out_fd < 0);
 		if (msh->in_fd > 2)
 			close(msh->in_fd);
 		if (msh->out_fd > 2)
