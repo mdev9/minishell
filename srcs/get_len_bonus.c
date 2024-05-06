@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/24 14:51:00 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/26 13:29:23 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 11:14:51 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -43,7 +43,8 @@ int	get_next_arg_len(char *cmd)
 	in_quote = 0;
 	in_dquote = 0;
 	while (cmd[len] && ((!ft_isspace(cmd[len]) && cmd[len] != '&'
-				&& cmd[len] != '|' && cmd[len] != '<' && cmd[len] != '>')
+				&& cmd[len] != '|' && cmd[len] != '<' && cmd[len] != '>'
+				&& cmd[len] != '(' && cmd[len] != ')')
 			|| in_quote || in_dquote))
 	{
 		if (cmd[len] == '\'' && !in_dquote)
