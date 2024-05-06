@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:19:26 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/06 15:17:37 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:17:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,7 +76,7 @@ int	file_access(t_msh *msh, int *found)
 
 void	close_all_pipes(t_msh *msh)
 {
-	int i; 
+	int	i;
 
 	i = 0;
 	while (msh->fds[i])
