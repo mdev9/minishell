@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:15:27 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/05 20:10:03 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 14:14:21 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -19,6 +19,7 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args)
 		if (dup2(msh->in_fd, 0) < 0)
 		{
 			free(cmd_args);
+			close_pipe_fds(msh, i);
 			ft_exit(msh, 1);
 		}
 		close(msh->in_fd);
@@ -28,6 +29,7 @@ void	redirect_input(t_msh *msh, int i, char **cmd_args)
 		if (dup2(msh->fds[i - 1][0], 0) < 0)
 		{
 			free(cmd_args);
+			close_pipe_fds(msh, i);
 			ft_exit(msh, 1);
 		}
 	}
@@ -37,7 +39,7 @@ int	open_input_redirection_file(t_msh *msh, t_cmd **cur_token)
 {
 	t_token	*filename;
 
-	if (msh->in_fd != 0)
+	if (msh->in_fd != 0 && msh->in_type != PIPE)
 		close(msh->in_fd);
 	if (ft_strchr((*cur_token)->value, '$'))
 	{
