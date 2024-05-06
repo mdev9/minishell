@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/04 18:31:41 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:36:45 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -73,7 +73,7 @@ int	get_variable_expantion_len(char *command , t_env *env)
 		if(*command == '"' && !in_quote)
 			in_dquote = !in_dquote;
 		if(*command == '$' && !in_quote)
-			i+= get_var_len(&command, env);
+			i+= get_var_len(&command, env, in_dquote);
 		else
 			i++;
 		command++;
@@ -102,7 +102,7 @@ char	*expand_variables(char *command, t_env *env, int *is_var)
 		if(*command == '"' && !in_quote)
 			in_dquote = !in_dquote;
 		if(*command == '$' && !in_quote)
-			i+= add_var_to_str(res + i, &command ,env);
+			i+= add_var_to_str(res + i, &command ,env, in_dquote);
 		else
 			res[i++] = *command;
 		command++;

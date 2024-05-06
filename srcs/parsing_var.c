@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/05 20:36:59 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 10:52:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -22,18 +22,18 @@ char	*get_var_name(char *command)
 	return (res);
 }
 
-int	get_var_len(char **command, t_env *env)
+int	get_var_len(char **command, t_env *env, int in_dquote)
 {
 	char	*var_name;
 	char	*env_var;
 
 	(*command)++;
-	if (**command == '\'' || **command == '"')
+	if ((**command == '\'' || **command == '"') && !in_dquote)
 	{
 		(*command)--;
 		return (0);
 	}
-	if (!**command)
+	if (!**command || (**command == '"' && in_dquote))
 	{
 		(*command)--;
 		return (1);
@@ -85,7 +85,7 @@ int	invalid_variable_char(char *res, char c)
 	return (2);
 }
 
-int	add_var_to_str(char *res, char **command, t_env *env)
+int	add_var_to_str(char *res, char **command, t_env *env, int dquote)
 {
 	char	*var_name;
 	char	*var;
@@ -95,10 +95,10 @@ int	add_var_to_str(char *res, char **command, t_env *env)
 	(*command)++;
 	if (**command == '\'' || **command == '"' || !**command)
 	{
-		if (**command != '\'' && **command != '"')
+		if ((**command != '\'' && **command != '"') || dquote)
 			*res = '$';
 		(*command)--;
-		return (*(*command + 1) != '\'' && *(*command + 1) != '"');
+		return ((*(*command + 1) != '\'' && *(*command + 1) != '"') || dquote);
 	}
 	if (!ft_isalnum(**command) && **command != '_' && **command != '?')
 		return (invalid_variable_char(res, **command));
