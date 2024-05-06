@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/21 21:47:15 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/03 12:51:56 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:37:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -99,9 +99,8 @@ void	get_cmd_path(t_msh *msh)
 			ft_printf_fd(2, "'': command not found\n");
 		else
 			ft_printf_fd(2, "%s: command not found\n", msh->tokens->value);
-		free(msh->tokens->value);
-		msh->tokens->value = 0;
+		//free(msh->tokens->value);
+		//msh->tokens->value = 0;
 		g_return_code = 127;
-		msh->in_fd = -2;
 	}
 }

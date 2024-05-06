@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/05 18:17:25 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/03 13:13:36 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/06 13:41:24 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -18,9 +18,9 @@ void	close_pipe_fds(t_msh *msh, int i)
 	{
 		if (i != 0)
 		{
-			if (msh->fds[i - 1][0] > 2)
+			if (msh->fds[i - 1] && msh->fds[i - 1][0] > 2)
 				close(msh->fds[i - 1][0]);
-			if (msh->fds[i - 1][1] > 2)
+			if (msh->fds[i - 1] && msh->fds[i - 1][1] > 2)
 				close(msh->fds[i - 1][1]);
 		}
 		if (msh->fds[i] && msh->fds[i][0] > 2)
@@ -74,10 +74,7 @@ void	execute_command(t_msh *msh, char **cmd_args)
 	{
 		env = env_to_char_tab(msh->env);
 		if (env)
-		{
-			if (execve(msh->tokens->value, cmd_args, env))
-				perror("execve");
-		}
+			execve(msh->tokens->value, cmd_args, env);
 		ft_free_str_arr(env);
 	}
 }

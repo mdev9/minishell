@@ -1,3 +1,2 @@
-fsjdf | cat | cat >out |jsgdfjhsd
 echo uoi | << 1 << 2 <out cat
 ls <noperm | grep e
