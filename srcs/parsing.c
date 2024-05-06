@@ -6,15 +6,10 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 10:58:08 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 16:26:35 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
-
-int	is_cmd_char(char c)
-{
-	return (!ft_isspace(c) && c != '|' && c != '&' && c != '<' && c != '>');
-}
 
 int	add_home_to_str(char *res)
 {
@@ -40,7 +35,7 @@ char	*get_token(char **cmd, int quotes[2])
 	while (ft_isspace(**cmd))
 		(*cmd)++;
 	res = ft_calloc(get_token_len(*cmd) + 1, 1);
-	while (res && **cmd && (is_cmd_char(**cmd) || quotes[0] || quotes[1]))
+	while (res && **cmd && (!ft_isspace(**cmd) || quotes[0] || quotes[1]))
 	{
 		if (**cmd == '"' && !quotes[0])
 			quotes[1] = !quotes[1];
