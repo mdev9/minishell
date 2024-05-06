@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/02 21:59:20 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 13:14:50 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 14:25:27 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -32,12 +32,12 @@ char	*get_prompt(t_env *env)
 	res = ft_strjoin_free(res, "\033[1m\002", 1);
 	cwd = getcwd(cwd_buffer, 99);
 	if (cwd && ft_get_env(env, "HOME") && !ft_strncmp(cwd_buffer,
-	ft_get_env(env,"HOME"), ft_strlen(ft_get_env(env, "HOME"))))
+			ft_get_env(env, "HOME"), ft_strlen(ft_get_env(env, "HOME"))))
 	{
 		cwd += ft_strlen(getenv("HOME")) - 1;
 		cwd[0] = '~';
 	}
-	if(cwd)
+	if (cwd)
 		res = ft_strjoin_free(res, cwd, 1);
 	res = ft_strjoin_free(res, "\001\033[0m\002$ ", 1);
 	return (res);

@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 10:57:52 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 14:27:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -82,19 +82,20 @@ extern int	g_return_code;
 
 int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
 int		add_var_to_str(char *res, char **command, t_env *env, int dquote);
-int	get_variable_expantion_len(char *command, t_env *env);
-char	*expand_variables(char *command, t_env *env, int *is_var);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
+t_env	*env_add_back(t_env *env, char *name, char *value, int empty);
 void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);
+char	*expand_variables(char *command, t_env *env, int *is_var);
 t_token	*expand_wildcards(t_token *res, char *value, int is_var);
 int		check_tokens_syntax(t_cmd *cmd, t_cmd *last, t_env *env);
 t_token	*token_add_back(t_token *res, char *token, int is_var);
 int		recursive_filename_check(char *wildcard, char **value);
+int		get_variable_expantion_len(char *command, t_env *env);
 t_cmd	*cmd_add_back(t_cmd *res, char *cmd, t_cmd_type type);
+int		get_var_len(char **command, t_env *env, int dquote);
 void	find_cmd_path(t_msh *msh, char **paths, int *found);
 void	redirect_output(t_msh *msh, int i, char **cmd_args);
 void	redirect_input(t_msh *msh, int i, char **cmd_args);
-t_env	*env_add_back(t_env *env, char *name, char *value, int empty);
 void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds);
 int		filename_corresponds(char *wildcard, char *value);
 void	close_all_pipes(t_msh *msh, int cmd_count, int i);
@@ -117,8 +118,6 @@ char	*ft_get_env(t_env *env, char *var_name);
 int		get_out_type(t_msh *msh, t_cmd *cmds);
 void	handle_here_doc(t_msh *msh, char *eof);
 void	signal_handler_interactive(int signum);
-int		get_token_len(char *cmd);
-int		get_var_len(char **command, t_env *env, int dquote);
 void	signal_handler_here_doc(int signum);
 t_token	*parsing_syntax_error(t_token *res);
 int		file_access(t_msh *msh, int *found);
@@ -157,8 +156,6 @@ void	print_signaled(int status);
 int		is_input_type(t_cmd *cmd);
 char	*remove_path(char *token);
 t_cmd	*parsing_bonus(char *cmd);
-t_token	*free_token(t_token *cmd);
-void	exec_commands(t_msh *msh);
 void	free_env_cpy(t_env *env);
 char	*get_var_name(char *str);
 int		exec_builtin(t_msh *msh);
