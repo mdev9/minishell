@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/04/19 14:09:44 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/03 14:07:43 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/06 09:58:11 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -87,6 +87,8 @@ int	get_out_type(t_msh *msh, t_cmd *cur_cmd)
 	int		ret;
 
 	msh->out_type = CMD;
+	if (msh->out_fd > 2)
+		close(msh->out_fd);
 	msh->out_fd = 0;
 	ret = 0;
 	go_to_next_out_type(&cur_cmd);
