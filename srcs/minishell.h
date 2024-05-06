@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 14:27:14 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 15:17:14 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -98,7 +98,6 @@ void	redirect_output(t_msh *msh, int i, char **cmd_args);
 void	redirect_input(t_msh *msh, int i, char **cmd_args);
 void	print_syntax_error_bonus(t_cmd *cmd, t_cmd *cmds);
 int		filename_corresponds(char *wildcard, char *value);
-void	close_all_pipes(t_msh *msh, int cmd_count, int i);
 t_token	*parse_cmds_to_token(t_cmd *command, t_env *env);
 int		ft_export(t_msh *msh, t_token *cmd, t_env *env);
 void	print_env_declare(t_msh *msh, t_env *env_orig);
@@ -139,12 +138,15 @@ int		get_normal_cmd_len(char *cmd);
 t_cmd	*get_next_command(t_cmd *cmd);
 int		get_args_count(t_token *cmds);
 char	**env_to_char_tab(t_env *env);
+int		get_token_len(char *command);
 int		first_is_in_type(t_cmd *cmd);
 void	print_msh_struct(t_msh *msh);
 int		get_next_arg_len(char *cmd);
 int		check_str_syntax(char *cmd);
+void	close_all_pipes(t_msh *msh);
 int		is_operand_type(t_cmd *cmd);
 int		contains_newline(char *str);
+t_token	*free_token(t_token *token);
 int		get_cmd_count(t_cmd *cmds);
 int		check_var_name(char *name);
 char	**get_cmd_args(t_msh *msh);
@@ -153,6 +155,7 @@ int		is_parenthesis(t_cmd *cmd);
 int		is_output_type(t_cmd *cmd);
 int		is_parenthesis(t_cmd *cmd);
 void	print_signaled(int status);
+void	exec_commands(t_msh *msh);
 int		is_input_type(t_cmd *cmd);
 char	*remove_path(char *token);
 t_cmd	*parsing_bonus(char *cmd);

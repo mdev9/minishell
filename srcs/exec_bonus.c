@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 14:25:19 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/06 15:18:28 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,9 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
-		if (msh->tokens && !cmd_is_builtin(msh, msh->tokens->value)
-			&& msh->in_fd != -1)
+		if (msh->tokens && !cmd_is_builtin(msh, msh->tokens->value) && msh->in_fd != -1)
 			get_cmd_path(msh);
-		if (((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds))
-			&& msh->in_fd != -1)
+		if (((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds)) && msh->in_fd != -1)
 			exec(msh, get_cmd_args(msh), i, cmd_count);
 		else
 		{
@@ -92,6 +90,8 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 				close(msh->in_fd);
 			if (msh->out_fd > 2)
 				close(msh->out_fd);
+			if(!g_return_code)
+				g_return_code = 1;
 		}
 	}
 	remove_command_from_msh(msh);
@@ -106,7 +106,7 @@ void	end_execution(t_msh *msh, int cmd_count)
 	status = 0;
 	while (i < cmd_count)
 		waitpid(msh->pids[i++], &status, 0);
-	close_all_pipes(msh, cmd_count, i);
+	close_all_pipes(msh);
 	if (!g_return_code && WIFEXITED(status))
 		g_return_code = WEXITSTATUS(status);
 	if (WIFSIGNALED(status))
