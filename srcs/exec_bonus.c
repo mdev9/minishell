@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/28 13:50:14 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 16:35:37 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/07 12:36:41 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -80,11 +80,11 @@ void	exec_command(t_msh *msh, int i, int cmd_count)
 		msh->fds[i] = ft_calloc(2, sizeof(int *));
 		if (!msh->fds[i])
 			ft_exit(msh, 1);
-		if (msh->tokens && !cmd_is_builtin(msh, msh->tokens->value)
-			&& msh->in_fd != -1)
+		if (msh->tokens && !cmd_is_builtin(msh, msh->tokens->value))
+//			&& msh->in_fd != -1)
 			get_cmd_path(msh);
-		if (((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds))
-			&& msh->in_fd != -1)
+		if (((msh->tokens && msh->tokens->value) || is_parenthesis(msh->cmds)))
+//			&& msh->in_fd != -1)
 			exec(msh, get_cmd_args(msh), i, cmd_count);
 		else
 		{
