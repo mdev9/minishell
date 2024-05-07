@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 09:06:51 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/04/18 20:48:54 by marde-vr         ###   ########.fr       */
+/*   Updated: 2024/05/07 17:26:43 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -76,5 +76,15 @@ void	parse_var(t_msh *msh, char *line)
 		else
 			write(msh->in_fd, line, 1);
 		line++;
+	}
+}
+
+void	remove_here_doc_file(t_msh *msh)
+{
+	if(msh->here_doc_filename)
+	{
+		unlink(msh->here_doc_filename);
+		free(msh->here_doc_filename);
+		msh->here_doc_filename = 0;
 	}
 }
