@@ -6,7 +6,7 @@
 /*   By: tomoron <marvin@42.fr>                     +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/05/06 10:57:33 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/08 11:54:17 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:29:17 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -54,8 +54,8 @@ char	*expand_variables(char *command, t_env *env, int *is_var)
 			in_quote = !in_quote;
 		if (*command == '"' && !in_quote)
 			in_dquote = !in_dquote;
-		if (*command == '$' && !in_quote)
-			i += add_var_to_str(res + i, &command, env, in_dquote, is_var);
+		if (*command == '$' && !in_quote && ++(*is_var))
+			i += add_var_to_str(res + i, &command, env, in_dquote);
 		else
 			res[i++] = *command;
 		command++;

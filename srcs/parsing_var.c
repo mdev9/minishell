@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/08 11:55:37 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/08 11:59:25 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -85,7 +85,7 @@ int	invalid_variable_char(char *res, char c)
 	return (2);
 }
 
-int	add_var_to_str(char *res, char **command, t_env *env, int dquote, int *i_v)
+int	add_var_to_str(char *res, char **command, t_env *env, int dquote)
 {
 	char	*var_name;
 	char	*var;
@@ -93,7 +93,6 @@ int	add_var_to_str(char *res, char **command, t_env *env, int dquote, int *i_v)
 
 	i = 0;
 	(*command)++;
-	*i_v = 1;
 	if (**command == '\'' || **command == '"' || !**command)
 	{
 		if ((**command != '\'' && **command != '"') || dquote)

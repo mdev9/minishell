@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/26 09:06:51 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/07 17:26:43 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/08 12:31:54 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ void	parse_var(t_msh *msh, char *line)
 
 void	remove_here_doc_file(t_msh *msh)
 {
-	if(msh->here_doc_filename)
+	if (msh->here_doc_filename)
 	{
 		unlink(msh->here_doc_filename);
 		free(msh->here_doc_filename);
