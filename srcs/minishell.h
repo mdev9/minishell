@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/07 17:34:59 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/08 11:56:37 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,7 +81,7 @@ typedef struct s_msh
 extern int	g_return_code;
 
 int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
-int		add_var_to_str(char *res, char **command, t_env *env, int dquote);
+int		add_var_to_str(char *res, char **cmd, t_env *env, int quote, int *i_v);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 t_env	*env_add_back(t_env *env, char *name, char *value, int empty);
 void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);
