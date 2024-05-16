@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/04 17:31:38 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/08 11:58:45 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/16 13:21:32 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -81,9 +81,9 @@ typedef struct s_msh
 extern int	g_return_code;
 
 int		get_in_type(t_msh *msh, t_cmd *t_strt, t_cmd *tokens, int here_doc);
-int		add_var_to_str(char *res, char **cmd, t_env *env, int quote);
 t_env	*export_set_env(t_env *env, char *name, char *value, int append);
 t_env	*env_add_back(t_env *env, char *name, char *value, int empty);
+int		add_var_to_str(char *res, char **cmd, t_env *env, int quote);
 void	parent(t_msh *msh, int i, int cmd_count, char **cmd_args);
 char	*expand_variables(char *command, t_env *env, int *is_var);
 t_token	*expand_wildcards(t_token *res, char *value, int is_var);
@@ -114,9 +114,9 @@ int		cmd_is_forkable_builtin(char *cmd_token);
 t_token	*parse_tokens(char *command, t_env *env);
 void	delete_from_env(t_msh *msh, char *name);
 char	*ft_get_env(t_env *env, char *var_name);
-int		get_out_type(t_msh *msh, t_cmd *cmds);
 void	handle_here_doc(t_msh *msh, char *eof);
 void	signal_handler_interactive(int signum);
+int		get_out_type(t_msh *msh, t_cmd *cmds);
 void	signal_handler_here_doc(int signum);
 t_token	*parsing_syntax_error(t_token *res);
 int		file_access(t_msh *msh, int *found);
