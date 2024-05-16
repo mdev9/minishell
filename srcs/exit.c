@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/07 16:04:11 by tomoron           #+#    #+#             */
-/*   Updated: 2024/04/29 21:54:57 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/16 12:49:41 by marde-vr         ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -24,7 +24,7 @@ int	is_too_big(char *num_str)
 {
 	if ((strlen(num_str) == 19 && strcmp(num_str, "9223372036854775807") > 0)
 		|| (strlen(num_str) == 20 && num_str[0] == '-' && strcmp(num_str,
-				"-9223372036854775808") > 0) || strlen(num_str) > 20)
+				"-9223372036854775808") > 0) || strlen(num_str) >= 20)
 		return (1);
 	return (0);
 }
