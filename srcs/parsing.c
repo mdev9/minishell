@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:26:01 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/06 16:26:35 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/22 13:52:40 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 #include "minishell.h"
@@ -18,10 +18,15 @@ int	add_home_to_str(char *res)
 
 	i = 0;
 	str = getenv("HOME");
-	while (str[i])
+	while (str && str[i])
 	{
 		res[i] = str[i];
 		i++;
+	}
+	if (!str)
+	{
+		res[i] = '~';
+		return (1);
 	}
 	return (i);
 }

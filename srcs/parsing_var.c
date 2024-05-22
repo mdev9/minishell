@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/02/09 15:24:36 by tomoron           #+#    #+#             */
-/*   Updated: 2024/05/08 11:59:25 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/22 13:52:29 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -67,7 +67,7 @@ int	get_token_len(char *command)
 		if (*command == '\'' && !in_dquote)
 			in_quote = !in_quote;
 		else if (*command == '~' && !in_quote && !in_dquote)
-			res += ft_strlen(getenv("HOME"));
+			res += get_home_var_len();
 		else if (*command != '\'' && *command != '"')
 			res++;
 		else if ((*command == '\'' && in_dquote) || (*command == '"'

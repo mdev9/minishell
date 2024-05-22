@@ -6,7 +6,7 @@
 #    By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+         #
 #                                                 +#+#+#+#+#+   +#+            #
 #    Created: 2023/07/28 00:35:01 by tomoron           #+#    #+#              #
-#    Updated: 2024/05/06 11:00:33 by tomoron          ###   ########.fr        #
+#    Updated: 2024/05/22 13:50:22 by tomoron          ###   ########.fr        #
 #                                                                              #
 # **************************************************************************** #
 
@@ -46,6 +46,7 @@ SRCS_RAW =	main.c\
 			get_len_bonus.c\
 			check_syntax.c\
 			check_syntax_utils.c\
+			parsing_utils.c\
 			unset.c\
 			free.c
 

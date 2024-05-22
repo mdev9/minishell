@@ -6,7 +6,7 @@
 /*   By: marde-vr <marde-vr@42angouleme.fr>         +#+  +:+       +#+        */
 /*                                                +#+#+#+#+#+   +#+           */
 /*   Created: 2024/03/24 17:44:32 by marde-vr          #+#    #+#             */
-/*   Updated: 2024/05/06 15:09:44 by tomoron          ###   ########.fr       */
+/*   Updated: 2024/05/22 13:48:39 by tomoron          ###   ########.fr       */
 /*                                                                            */
 /* ************************************************************************** */
 
@@ -27,7 +27,7 @@ void	get_here_doc_input(t_msh *msh, char *eof)
 			ft_printf_fd(2, " end-of-file, (wanted `%s')\n", eof);
 			break ;
 		}
-		if (line && !ft_strncmp(line, eof, ft_strlen(eof)))
+		if (line && !ft_strcmp(line, eof))
 			break ;
 		parse_var(msh, line);
 		write(msh->in_fd, "\n", 1);
@@ -58,7 +58,8 @@ void	here_doc_signal(t_msh *msh, int child_pid, char *here_doc_file)
 	set_echoctl(msh->echoctl);
 	signal(SIGINT, signal_handler_interactive);
 	signal(SIGQUIT, signal_handler_interactive);
-	close(msh->in_fd);
+	if (msh->in_fd > 2)
+		close(msh->in_fd);
 	if (WIFEXITED(status) && WEXITSTATUS(status))
 	{
 		unlink(here_doc_file);
@@ -79,7 +80,8 @@ void	handle_here_doc(t_msh *msh, char *eof)
 	here_doc_file = get_tmp_file_name(msh);
 	if (msh->here_doc_filename)
 	{
-		close(msh->in_fd);
+		if (msh->in_fd)
+			close(msh->in_fd);
 		unlink(msh->here_doc_filename);
 		free(msh->here_doc_filename);
 	}
