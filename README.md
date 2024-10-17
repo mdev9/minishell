@@ -19,7 +19,7 @@ To get started, follow these steps to set up and run the project:
 
 1. **Clone the repository**:
    ```bash
-   git clone https://github.com/your-username/minishell.git
+   git clone https://github.com/mdev9/minishell.git
    cd minishell
    make
    ```
